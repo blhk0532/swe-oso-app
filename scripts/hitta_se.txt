@@ -1,0 +1,61 @@
+let's begin with creating a database table hitta_se
+
+id (int) (primary) (auto increment),
+personnamn [name] (string/text) (default NULL)
+alder [age] (string/text) (default NULL),
+kon [sex] (string/text) (default NULL),
+gatuadress [address] (string/text) (default NULL) ,
+postnummer [zip] (string/text) (default NULL),
+postort [city] (string/text) (default NULL),
+telefon [phone] (string/text) (default NULL),
+karta [map] (string/text) (default NULL),
+link [link] (string/text) (default NULL),
+
+and then create python script hitta_se.py - takes {[query]} argument 
+
+similar to ratsit_se.py - the script must do thw following
+
+step 1
+
+visit url: https://www.hitta.se/s%C3%B6k?vad={[query]}&typ=prv
+
+step 1:
+
+find all taget data for each person/row in serch results
+
+ul .search-result-row
+
+li .itemListElement
+
+step 3:
+
+and save all rows in csv file with name hitta_se_{[query]}_alla_{[total]} scripts/data folder - csv including complete result and without header titles
+
+(example target HTML: <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem" data-test="person-item" class="style_searchResult__ozGeI style_searchResult__KcJ6E"><a href="/joris+frederik+dekkers/j%C3%A4rna/person/dRPZZ___w5" data-test="search-list-link" class="style_searchResultLink__2i2BY"><span></span></a><div class="style_searchContent__DRJg0"><h2 data-test="search-result-title" class="text-headline-md-bold">Joris Frederik Dekkers <span class="style_age__ZgTHo">58</span></h2><p class="text-body-long-sm-regular spacing--xs"><span class="style_gender__hKSL0">Man</span><br>Kyrkvägen 2<br>153 32 Järna</p><p class="style_ageString__9Pkjv text-control-sm-regular spacing--md"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIiBmaWxsPSIjOTg5ODk4Ij48cGF0aCBkPSJNOC4xLjQyNWMtLjAzNC0uMDktLjE2Ni0uMDktLjIgMC0uMi41MzctLjM5My44ODgtLjU1IDEuMTcxLS4yMDguMzc3LS4zNS42MzQtLjM1IDEuMDQ2YTEgMSAwIDAgMCAyIDBjMC0uNDEyLS4xNDItLjY2OS0uMzUtMS4wNDZBNy45NTQgNy45NTQgMCAwIDEgOC4xLjQyNloiLz48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE1LjI4NyAxMC4zNDJhMi41MDcgMi41MDcgMCAwIDEtLjc4Ny42OTN2LjY4OGMwIC41MzQgMCAuOTgtLjAzIDEuMzQ0LS4wMy4zOC0uMDk4LjczNi0uMjcgMS4wNzRhMi43NSAyLjc1IDAgMCAxLTEuMiAxLjIwMWMtLjMzOC4xNzItLjY5NC4yNC0xLjA3NC4yNy0uMzY1LjAzLS44MS4wMy0xLjM0NS4wM0g1LjQyYy0uNTM1IDAtLjk4IDAtMS4zNDUtLjAzLS4zOC0uMDMtLjczNi0uMDk4LTEuMDczLS4yN0EyLjc1IDIuNzUgMCAwIDEgMS44IDE0LjE0MWMtLjE3Mi0uMzM4LS4yNC0uNjk0LS4yNy0xLjA3NC0uMDMtLjM2NC0uMDMtLjgxLS4wMy0xLjM0NHYtLjY4OGEyLjUwNiAyLjUwNiAwIDAgMS0uNzg4LS42OTNDLjE5NyA5LjY1NSAwIDguNzEzIDAgNy42NDJoLjc1SDB2LS4wMmExLjQxNCAxLjQxNCAwIDAgMSAuMDA4LS4xMjRBMi41NzUgMi41NzUgMCAwIDEgLjQgNi4zNjFDLjgzMiA1LjY5IDEuNjQ0IDUuMTQzIDMgNS4xNDNoMTBjMS4zNTUgMCAyLjE2OC41NDcgMi42IDEuMjJhMi41NzYgMi41NzYgMCAwIDEgLjQgMS4yNnYuMDE3YzAgMS4wNzItLjE5NyAyLjAxNC0uNzEzIDIuNzAxWk0xLjUgNy42NTJjLjAwMS45MjIuMTc5IDEuNDc4LjQxMyAxLjc5LjIwNC4yNzMuNTIuNDUgMS4wODcuNDUuNDYgMCAuNzgtLjIxNiAxLjA5NS0uNTMuMDgtLjA4LjE1NS0uMTYzLjIzNS0uMjVsLjAyLS4wMjFjLjA3LS4wNzguMTUtLjE2Ni4yMjktLjI0NS4wODQtLjA4NC4xOTYtLjE4Ny4zMjktLjI3Mi4xMzUtLjA4Ni4zMzctLjE4Mi41OTItLjE4Mi4yNTUgMCAuNDU3LjA5Ni41OTIuMTgyLjEzMy4wODUuMjQ1LjE4OC4zMjkuMjcyLjA3OC4wNzkuMTU5LjE2Ny4yMy4yNDRsLjAxOS4wMjJjLjA4LjA4Ny4xNTUuMTcuMjM1LjI1LjMxNS4zMTQuNjM0LjUzIDEuMDk1LjUzLjQ2IDAgLjc4LS4yMTYgMS4wOTUtLjUzLjA4LS4wOC4xNTUtLjE2My4yMzUtLjI1bC4wMi0uMDIxYy4wNy0uMDc4LjE1LS4xNjYuMjI5LS4yNDUuMDg0LS4wODQuMTk2LS4xODcuMzI5LS4yNzJhMS4xIDEuMSAwIDAgMSAuNTkyLS4xODIgMS4xIDEuMSAwIDAgMSAuNTkyLjE4MmMuMTMzLjA4NS4yNDUuMTg4LjMyOS4yNzIuMDc4LjA3OS4xNTkuMTY3LjIzLjI0NGwuMDE5LjAyMmMuMDguMDg3LjE1NS4xNy4yMzUuMjUuMzE1LjMxNC42MzQuNTMgMS4wOTUuNTMuNTY3IDAgLjg4My0uMTc3IDEuMDg4LS40NS4yMzMtLjMxMi40MS0uODY4LjQxMi0xLjc5di0uMDA3bC0uMDAxLS4wMWExLjA3NyAxLjA3NyAwIDAgMC0uMTYtLjQ2M2MtLjEzMi0uMjAyLS40NDQtLjUzLTEuMzM5LS41M0gzYy0uODk1IDAtMS4yMDguMzI4LTEuMzM4LjUzYTEuMDc2IDEuMDc2IDAgMCAwLS4xNjIuNDhabTEzLjc1LS4wMUgxNmgtLjc1Wm0tNC40MDUgMi43OGMuNDM1LjQzNiAxLjExNi45NyAyLjE1NS45N3YuM2MwIC41NzMgMCAuOTU3LS4wMjUgMS4yNTMtLjAyMy4yODctLjA2NS40MjQtLjExMS41MTVhMS4yNSAxLjI1IDAgMCAxLS41NDYuNTQ2Yy0uMDkxLjA0Ni0uMjI4LjA4OC0uNTE1LjExMS0uMjk2LjAyNS0uNjguMDI1LTEuMjUzLjAyNWgtNS4xYy0uNTcyIDAtLjk1NyAwLTEuMjUzLS4wMjUtLjI4Ny0uMDIzLS40MjQtLjA2NS0uNTE0LS4xMTFhMS4yNSAxLjI1IDAgMCAxLS41NDctLjU0NmMtLjA0Ni0uMDktLjA4OC0uMjI4LS4xMTEtLjUxNUMzIDEyLjY0OSAzIDEyLjI2NSAzIDExLjY5MnYtLjNjMS4wNCAwIDEuNzItLjUzNCAyLjE1NS0uOTcuMTA4LS4xMDcuMjA0LS4yMTIuMjg0LS4zbC4wNjEtLjA2Ny4wNi4wNjdjLjA4MS4wODguMTc3LjE5My4yODUuMy40MzUuNDM2IDEuMTE2Ljk3IDIuMTU1Ljk3IDEuMDQgMCAxLjcyLS41MzQgMi4xNTUtLjk3LjEwOC0uMTA3LjIwNC0uMjEyLjI4NC0uM2wuMDYxLS4wNjcuMDYuMDY3Yy4wODEuMDg4LjE3Ny4xOTMuMjg1LjNaIi8+PHBhdGggZD0iTTQuNC40MjVjLjAzNC0uMDkuMTY2LS4wOS4yIDAgLjIuNTM3LjM5My44ODguNTUgMS4xNzEuMjA4LjM3Ny4zNS42MzQuMzUgMS4wNDZhMSAxIDAgMCAxLTIgMGMwLS40MTIuMTQyLS42NjkuMzUtMS4wNDYuMTU3LS4yODMuMzUtLjYzNC41NS0xLjE3Wm03LjIgMGMtLjAzNC0uMDktLjE2Ni0uMDktLjIgMC0uMi41MzctLjM5My44ODgtLjU1IDEuMTcxLS4yMDguMzc3LS4zNS42MzQtLjM1IDEuMDQ2YTEgMSAwIDEgMCAyIDBjMC0uNDEyLS4xNDItLjY2OS0uMzUtMS4wNDZhNy45NTYgNy45NTYgMCAwIDEtLjU1LTEuMTdaIi8+PC9nPjxkZWZzPjxjbGlwUGF0aCBpZD0iYSI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTAgMGgxNnYxNkgweiIvPjwvY2xpcFBhdGg+PC9kZWZzPjwvc3ZnPg==" alt="" class="spacing__right"><span data-test="days-to-birthday">Fyller <span class="text-control-sm-bold text--black ">59 år</span> på en torsdag om <span class="text-control-sm-bold text--black ">175 dagar</span></span></p><div class="style_buttonWrapper__cG6mE"><button ui-align="center" ui-size="md" ui-style="primary" ui-state="default" ui-width="wide" ui-text-color="" ui-radius="lg" data-test="phone-link" class="style_button__pqvvx style_phone__QvhRv"><span class="style_content__nx640"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTciIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE1LjMyMiAxNC40NTJjLjk1OC0uOTU5LjczNi0yLjAyLjMzNi0yLjI1Ni0uMjgtLjE2NS0zLjk1Ny0yLjIzNy0zLjk1Ny0yLjIzN2EuNTQ3LjU0NyAwIDAgMC0uNzQ0LjExOWwtLjAwNC0uMDA0LTEuMzU1IDEuMzU0YS41NjIuNTYyIDAgMCAxLS42ODcuMDg0IDExLjcxMyAxMS43MTMgMCAwIDEtMi4xOTMtMS43M0ExMS43MTIgMTEuNzEyIDAgMCAxIDQuOTkgNy41OWEuNTYyLjU2MiAwIDAgMSAuMDgzLS42ODZsMS4zNTItMS4zNTUtLjAwMy0uMDA1YS41NS41NSAwIDAgMCAuMTItLjc0NFM0LjQ2OSAxLjEyMyA0LjMwNC44NDJjLS4yMzYtLjM5OC0xLjI5Ny0uNjItMi4yNTYuMzM3LTIuMTM4IDIuMTQtLjkgNi44NCAyLjc2NyAxMC41MDcgMy42NjQgMy42NjYgOC4zNjYgNC45MDYgMTAuNTA2IDIuNzY3WiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==" alt="" width="16" height="16" class="spacing__right--sm">070-977 19  Visa</span></button><a ui-align="center" ui-size="md" ui-style="secondary" ui-state="default" ui-width="wide" ui-text-color="" ui-radius="lg" data-test="show-on-map-button" href="/kartan?search=Joris%20Frederik%20Dekkers%20Kyrkv%C3%A4gen%202%20J%C3%A4rna&amp;st=single&amp;sst=prv&amp;sids=dRPZZ___w5&amp;srb=0" class="style_button__pqvvx style_direction__H7nXY"><span class="style_content__nx640"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTciIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik04LjUgMS43OTVjLTIuOTkxIDAtNSAyLjU1LTUgNS4xMjggMCAxLjQ4MS42NzIgMi45MTQgMS42MTcgNC4xODQuOTQgMS4yNjMgMi4wODkgMi4yODUgMi44OTggMi45MjVhLjc2NS43NjUgMCAwIDAgLjk3IDBjLjgxLS42NCAxLjk1OC0xLjY2MiAyLjg5OC0yLjkyNS45NDUtMS4yNyAxLjYxNy0yLjcwMyAxLjYxNy00LjE4NCAwLTIuNTc3LTIuMDA5LTUuMTI4LTUtNS4xMjhaTTEuNzUgNi45MjNDMS43NSAzLjQ3NSA0LjQzIDAgOC41IDBzNi43NSAzLjQ3NSA2Ljc1IDYuOTIzYzAgMi4wMzMtLjkxNCAzLjg0NS0xLjk3NiA1LjI3My0xLjA2OCAxLjQzNS0yLjM0NyAyLjU2Ni0zLjIyIDMuMjU3YTIuNDggMi40OCAwIDAgMS0zLjEwOCAwYy0uODczLS42OS0yLjE1Mi0xLjgyMi0zLjIyLTMuMjU3LTEuMDYyLTEuNDI4LTEuOTc2LTMuMjQtMS45NzYtNS4yNzNaIiBmaWxsPSIjMDAwIi8+PHBhdGggZD0iTTYuNDQ5IDYuNjIxYTIuMDUxIDIuMDUxIDAgMSAxIDQuMTAyIDAgMi4wNTEgMi4wNTEgMCAwIDEtNC4xMDIgMFoiIGZpbGw9IiMwMDAiLz48L3N2Zz4=" alt="" width="16" height="16" class="spacing__right--sm">Visa på karta</span></a><a ui-align="center" ui-size="md" ui-style="secondary" ui-state="default" ui-text-color="" ui-radius="lg" data-test="hemnet-button-person-search" href="https://www.hemnet.se/vardera?utm_source=hitta&amp;utm_medium=affiliate&amp;utm_campaign=hitta-v1&amp;utm_content=personsokresultat" target="_blank" rel="sponsored" data-ga4="Integrations" data-ga4-impression="" data-ga4-customer="hemnet" data-ga4-placement="list_icon" class="style_button__pqvvx style_hemnetSearchResultsButton__qxLhy style_hemnet__dbm55"><span class="style_content__nx640"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200.6 200.6" class="style_hemnetLogo__nxBrk"><path fill="#0bb70b" d="M143.4 133V79.1c0-1-.5-2-1.3-2.6l-40.4-27.3a3.2 3.2 0 0 0-3.5 0L57.8 76.5c-.8.6-1.3 1.5-1.3 2.6V133c0 1.7 1.4 3.1 3.1 3.1h24.8c1.7 0 3.1-1.4 3.1-3.1v-25.8c0-1.7 1.4-3.1 3.1-3.1h18.8c1.7 0 3.1 1.4 3.1 3.1V133a3 3 0 0 0 3 3h24.9c1.7.1 3-1.2 3.1-2.9l-.1-.1z"></path><path fill="#0bb70b" d="M100.8 1.1a99.1 99.1 0 0 0-99.2 99.1v.1a97.5 97.5 0 0 0 18.2 57.1 3 3 0 0 1-.4 4L5.7 175A14.4 14.4 0 0 0 26 195.3l13.7-13.7a3 3 0 0 1 4-.3 99 99 0 0 0 60 18.1 100.5 100.5 0 0 0 96.2-101.5 99.2 99.2 0 0 0-99.1-96.8m0 173.2c-38.2 0-74-33.2-74-74a74 74 0 1 1 74 74"></path></svg><span>Värdera din bostad</span></span></a><a ui-align="center" ui-size="md" ui-style="secondary" ui-state="default" ui-text-color="" ui-radius="lg" data-test="integration-interflora" href="https://www.interflora.se/?utm_source=hitta.se&amp;utm_medium=link&amp;utm_campaign=result_page_flower_icon" target="_blank" rel="sponsored" data-ga4="Integrations" data-ga4-impression="" data-ga4-customer="interflora" data-ga4-placement="list_icon" class="style_button__pqvvx style_interflora__5cJCl style_interflora__lGjJW"><span class="style_content__nx640"><img src="/_next/static/images/interflora-icon-e9d0d516ed71e6b4d4256756076b724f.svg" alt="Interflora"></span></a></div></div></li>)
+(data saved expected: 
+personnamn = Joris Frederik Dekkers
+alder = 58
+kon = Man
+gatuadress = Kyrkvägen 2
+postnummer = 153 32
+postort = Järna
+telefon = 070-977 19
+karta = hitta.se/kartan?search=Joris%20Frederik%20Dekkers%20Kyrkvägen%202%20Järna&st=single&sst=prv&sids=dRPZZ___w5&srb=0
+link = https://www.hitta.se/joris+frederik+dekkers/j%C3%A4rna/person/dRPZZ___w5
+)
+
+sorry - save a separat csv file with name hitta_se_{[query]}_visa_{[total]} scripts/data folder - only with results where telefon != "Lägg till telefonnummer"
+
+and add columns to hitta_se
+
+is_active (boolean) (default TRUE),
+is_telefon (boolean) (default FALSE),
+is_ratsit (boolean) (default FALSE),
+created_at (date time) (default TIMESTAMP),
+updated_at (date time) (default TIMESTAMP),
+
+
+
+
+let's continue with hitta_se.py - when have a result where telefon != "Lägg till telefonnummer" we must use collected info to also run ratsit.py script with relevant arg in backbround 
+can we use Python multithreading and in background run python3 scripts/ratsit.py "{[personnamn]} {[gatuadress]} {[postort]}" for each result where telefon != "Lägg till telefonnummer"

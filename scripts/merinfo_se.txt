@@ -1,0 +1,66 @@
+create python script merinfo.py - takes {[query]} argument 
+
+similar to ratsit_se.py - the script must do thw following
+
+step 1
+
+visit url: https://www.merinfo.se/search?q={[query]}&page=1&d=p&ap=1
+
+step 2:
+
+find target data from all items in the serch results list
+
+div result-list
+
+save the data inside serch results div for all items
+
+div mi-text-sm mi-bg-white mi-shadow-dark-blue-20 mi-p-0 mi-mb-6 md:mi-rounded-lg
+
+step 3:
+
+find specific target data in following html elements and save data to database (direct or via the laravel server api)
+and save csv file with timestamp name in scripts/data folder - csv including complete result and without header titles
+
+data_private ps_personnamn
+HTML: a href="https://www.merinfo.se/person/
+SAVE: raw text value
+(example target HTML: <a href="https://www.merinfo.se/person/Sala/Per-Olof-Vester-1941/bk1jq-os0d" class="mi-text-primary hover:mi-underline">Per-Olof <span>Vester</span></a>)
+(data saved expected: Per-Olof Vester)
+
+data_private ps_personnummer
+HTML: <span>19410902-</span>
+SAVE: raw text data
+(example target HTML: <div class="mi-my-1"><p class="mi-flex mi-justify-start"><span>19410902-</span> <a href="https://www.merinfo.se/user/login?return=https%3A%2F%2Fwww.merinfo.se%2Fsearch%3Fq%3D733%252032%2520Sala%26page%3D1%26d%3Dp%26ap%3D1" data-toggle="tooltip" data-placement="top" data-umami-event="Search - Click - Personal number login" title="" data-original-title="Logga in för att se hela personnumret" class="mi-text-primary hover:mi-underline">XXXX</a></p></div>)
+(data saved expected: 19410902-XXXX)
+
+data_private bo_gatuadress
+HTML: <span>Odingatan 32</span>
+SAVE: raw text value
+(example target HTML: <address class="mi-not-italic mi-flex mi-flex-col"><span>Odingatan 32</span> <span>733 32 Sala</span></address>)
+(data saved expected: Odingatan 32)
+
+data_private bo_postnummer
+HTML: <span>733 32 Sala</span>
+SAVE: raw text value (first 6 chars, numbers)
+(example target HTML: <address class="mi-not-italic mi-flex mi-flex-col"><span>Odingatan 32</span> <span>733 32 Sala</span></address>)
+(data saved expected: 733 32)
+
+data_private bo_postort
+HTML: <span>733 32 Sala</span>
+SAVE: raw text value (all chars after 6 chats)
+(example target HTML: <address class="mi-not-italic mi-flex mi-flex-col"><span>Odingatan 32</span> <span>733 32 Sala</span></address>)
+(data saved expected: Sala)
+
+data_private 
+HTML: after <i class="fas fa-phone mi-text-base mi-mr-2"></i>
+SAVE: raw text value
+(example target HTML: <a href="tel:+46706221380" class="button md:button-lg button-primary-nd mi-font-semibold !mi-text-base"><i class="fas fa-phone mi-text-base mi-mr-2"></i>
+        070-622 13 80
+    </a>)
+(data saved expected: 070-622 13 80)
+
+# data_private
+# HTML: 
+# SAVE: 
+# (example target HTML: )
+# (data saved expected: )

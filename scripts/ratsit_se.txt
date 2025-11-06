@@ -1,0 +1,90 @@
+build python script - take {[query]} argument 
+
+step 1
+
+visit url: https://www.ratsit.se/sok/person?vem={[query]}
+
+step 2:
+
+click all items in serch results list
+
+ul.search-result-list
+
+li (href="https://www.ratsit.se/)
+
+step 3:
+
+find specific target data in following html elements and save data to database (direct or via the laravel server api)
+and save csv file with timestamp name in scripts/data folder - csv including complete result and without header titles
+
+data_private ps_personnummer:
+HTML: after <span class="color--gray5">Personnummer:</span>
+SAVE: raw text value + <strong>XXXX</strong> raw text value
+(example target HTML: <p class="mt-0"><span class="color--gray5">Personnummer:</span> 19601110- <a data-ga-event-action="Klick" data-ga-event-label="PersonUppgifter - Se personnummer loggain" data-ga-event-page="Personrapport" rel="nofollow" class="tooltip" href="/loggain?returnurl=%2F19601110-Staffan_Gezelius_Enskededalen%2F2ptDwSYu19v5wQbQ_3MKaV7YWlOVfJjt9C39oDZNZt8" style="text-decoration: underline;"><strong>XXXX</strong><span class="tooltip-text tooltip-text--small">Visas för medlemmar</span></a></p>)
+(data saved expected: 19601110-XXXX)
+
+data_private ps_alder
+HTML: after <span class="color--gray5">Ålder:</span>
+SAVE: raw text value
+(example target HTML:<p class="mt-0"><span class="color--gray5">Ålder:</span> 61 år</p>)
+(data saved expected:61 år)
+
+data_private ps_fodelsedag
+HTML: after <span class="color--gray5">Födelsedag:</span>
+SAVE: raw text value
+(example target HTML: <p class="mt-0"><span class="color--gray5">Födelsedag:</span> 24 april 1964</p>)
+(data saved expected: 24 april 1964)
+
+data_private ps_kon
+HTML: after <span class="color--gray5">Juridiskt kön:</span>
+SAVE: raw text value
+(example target HTML: <p class="mt-0"><span class="color--gray5">Juridiskt kön:</span> Man</p>)
+(data saved expected: Man)
+
+data_private ps_telefon
+HTML: after <span class="color--gray5">Telefon:</span>
+SAVE: a href text value after tel:
+(example target HTML: <p class="mt-0"><span class="color--gray5">Telefon:</span> <a href="tel:+4670-7132088" data-ga-event-action="Klick" data-ga-event-label="Personuppgifter - Ring" data-ga-event-page="Personrapport" style="text-decoration: none;">070-7132088</a></p>)
+(data saved expected: +4670-7132088)
+
+data_private ps_personnamn
+HTML: after <span class="color--gray5">Personnamn:</span>
+SAVE: raw text value
+(example target HTML: <p class="mt-1"><span class="color--gray5">Personnamn:</span> Knut Rolf Henrik Brandt</p>)
+(data saved expected: Knut Rolf Henrik Brandt)
+
+data_private ps_fornamn
+HTML: after <span class="color--gray5">Förnamn:</span>
+SAVE: raw text value
+(example target HTML: <p class="mt-0"><span class="color--gray5">Förnamn:</span> Knut Rolf Henrik</p>)
+(data saved expected: Knut Rolf Henrik)
+
+data_private ps_efternamn
+HTML: after <span class="color--gray5">Efternamn:</span>
+SAVE: raw text value
+(example target HTML: <p class="mt-0"><span class="color--gray5">Efternamn:</span> Brandt</p>)
+(data saved expected: Brandt)
+
+data_private bo_gatuadress:
+HTML: after <span class="color--gray5">Gatuadress:</span>
+SAVE: raw text value
+(example target HTML: <p class="mt-0"><span class="color--gray5">Gatuadress:</span> Åkervägen 96</p>)
+(expected saved data: Åkervägen 96)
+
+data_private bo_postnummer
+HTML: after <span class="color--gray5">Postnummer:</span>
+SAVE: raw text value
+(example target HTML: <p class="mt-0"><span class="color--gray5">Postnummer:</span> 121 33</p>)
+(data saved expected: 121 33)
+
+data_private bo_postort
+HTML: after <span class="color--gray5">Postort:</span>
+SAVE: raw text value
+(example target HTML: <p class="mt-0"><span class="color--gray5">Postort:</span> Sala</p>)
+(data saved expected: Sala)
+
+# data_private
+# HTML:
+# SAVE:
+# (example target HTML:)
+# (data saved expected:)
