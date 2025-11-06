@@ -47,22 +47,21 @@ class HittaSeScraper:
         self.results = []
         self.base_url = "https://www.hitta.se"
 
-    def scrape_search_results(self, query: str) -> List[Dict[str, str]]:
+    def scrape_search_results(self, query: str, save_per_page: bool = True) -> List[Dict[str, str]]:
         """
-        Scrape search results for a given query
+        Scrape search results for a given query with pagination support
 
         Args:
             query: Search query string
+            save_per_page: If True, save results to database after each page
 
         Returns:
             List of person data dictionaries
         """
         self.results = []
         encoded_query = quote(query)
-        search_url = f"{self.base_url}/s%C3%B6k?vad={encoded_query}&typ=prv"
         
-        print(f"Searching for: {query}")
-        print(f"URL: {search_url}")
+        print(f"Postort: {query}")
 
         # Setup Chrome options
         chrome_options = Options()
@@ -77,43 +76,109 @@ class HittaSeScraper:
         try:
             service = Service(ChromeDriverManager().install())
             driver = webdriver.Chrome(service=service, options=chrome_options)
-            driver.get(search_url)
             
-            # Wait for search results to load
-            try:
-                WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, 'li[data-test="person-item"]'))
-                )
-            except TimeoutException:
-                print("No results found or timeout waiting for results")
-                return []
-
-            # Try to dismiss cookie/consent overlays once at start
-            try:
-                self._dismiss_consent_overlay(driver)
-            except Exception:
-                pass
-
-            # Extract all person items
-            person_items = driver.find_elements(By.CSS_SELECTOR, 'li[data-test="person-item"]')
-            total = len(person_items)
-            print(f"Found {total} results")
-
-            for i in range(total):
-                # Re-query items each iteration to avoid stale references after navigation
+            current_page = 1
+            has_more_pages = True
+            total_pages = None
+            
+            while has_more_pages:
+                # Build URL with page parameter
+                search_url = f"{self.base_url}/s%C3%B6k?vad={encoded_query}&typ=prv"
+                if current_page > 1:
+                    search_url += f"&sida={current_page}"
+                
+                print(f"\n{'='*60}")
+                print(f"Page {current_page}: {search_url}")
+                print(f"{'='*60}")
+                
+                driver.get(search_url)
+                
+                # Wait for search results to load
                 try:
-                    current_items = driver.find_elements(By.CSS_SELECTOR, 'li[data-test="person-item"]')
-                    if i >= len(current_items):
-                        break
-                    item = current_items[i]
-                    idx = i + 1
-                    person_data = self.extract_person_data(item, driver)
-                    if person_data:
-                        self.results.append(person_data)
-                        print(f"Extracted {idx}/{total}: {person_data.get('personnamn', 'Unknown')}")
-                except Exception as e:
-                    print(f"Error extracting person {i + 1}: {e}")
-                    continue
+                    WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, 'li[data-test="person-item"]'))
+                    )
+                except TimeoutException:
+                    print("No results found or timeout waiting for results")
+                    break
+
+                # Try to dismiss cookie/consent overlays once at start
+                if current_page == 1:
+                    try:
+                        self._dismiss_consent_overlay(driver)
+                    except Exception:
+                        pass
+
+                # Get total results count on first page
+                if current_page == 1:
+                    try:
+                        count_element = driver.find_element(By.CSS_SELECTOR, 'span[data-test="search-results-count"]')
+                        total_results = count_element.text.strip()
+                        # Extract number from text like "100 resultat" or "100"
+                        total_count = int(re.search(r'\d+', total_results.replace(' ', '')).group())
+                        total_pages = (total_count + 24) // 25  # Round up, 25 results per page
+                        print(f"Total results: {total_count}")
+                        print(f"Total pages: {total_pages}")
+                    except (NoSuchElementException, AttributeError, ValueError) as e:
+                        print(f"Could not determine total results: {e}")
+
+                # Extract all person items on current page
+                person_items = driver.find_elements(By.CSS_SELECTOR, 'li[data-test="person-item"]')
+                page_total = len(person_items)
+                print(f"Found {page_total} results on page {current_page}")
+
+                page_results = []
+                for i in range(page_total):
+                    # Re-query items each iteration to avoid stale references after navigation
+                    try:
+                        current_items = driver.find_elements(By.CSS_SELECTOR, 'li[data-test="person-item"]')
+                        if i >= len(current_items):
+                            break
+                        item = current_items[i]
+                        idx = i + 1
+                        person_data = self.extract_person_data(item, driver)
+                        if person_data:
+                            page_results.append(person_data)
+                            self.results.append(person_data)
+                            print(f"[Page {current_page}] Extracted {idx}/{page_total}: {person_data.get('personnamn', 'Unknown')}")
+                    except Exception as e:
+                        print(f"Error extracting person {i + 1}: {e}")
+                        continue
+
+                # Save results from this page to database if requested
+                if save_per_page and page_results:
+                    print(f"\n--- Saving page {current_page} results to database ---")
+                    saved = self.save_page_to_database(page_results)
+                    print(f"✓ Page {current_page}: Saved {saved}/{len(page_results)} records")
+                    print(f"✓ Total collected so far: {len(self.results)} records")
+
+                # Check if there are more pages
+                # If we have no results on this page, stop
+                if page_total == 0:
+                    print("\n→ No results on this page, stopping")
+                    has_more_pages = False
+                # If we know the total pages and haven't reached it yet, continue
+                elif total_pages and current_page < total_pages:
+                    print(f"\n→ Moving to page {current_page + 1} of {total_pages}")
+                    current_page += 1
+                    time.sleep(1)  # Brief pause between pages
+                # If we don't know total pages, check for next button
+                elif not total_pages:
+                    try:
+                        next_button = driver.find_element(By.CSS_SELECTOR, 'button[data-ga4-action="next_page"]')
+                        if next_button and next_button.is_displayed() and next_button.is_enabled():
+                            print(f"\n→ Next page button found, moving to page {current_page + 1}")
+                            current_page += 1
+                            time.sleep(1)
+                        else:
+                            print("\n→ Next page button not available")
+                            has_more_pages = False
+                    except NoSuchElementException:
+                        print("\n→ No more pages (next button not found)")
+                        has_more_pages = False
+                else:
+                    print(f"\n→ Reached final page ({current_page} of {total_pages})")
+                    has_more_pages = False
 
         except Exception as e:
             print(f"Error during scraping: {e}")
@@ -144,6 +209,8 @@ class HittaSeScraper:
             'telefon': None,
             'karta': None,
             'link': None,
+            'bostadstyp': None,
+            'bostadspris': None,
         }
 
         try:
@@ -246,42 +313,14 @@ class HittaSeScraper:
 
                             numbers = []
                             try:
-                                # Wait for either show-number buttons or tel: links
                                 WebDriverWait(driver, 5).until(
-                                    EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'button[data-test="show-number"], a[href^="tel:"]'))
+                                    EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'button[data-test="show-number"] span'))
                                 )
-
-                                # Click all show-number buttons to reveal full numbers
-                                buttons = driver.find_elements(By.CSS_SELECTOR, 'button[data-test="show-number"]')
-                                for btn in buttons:
-                                    try:
-                                        if btn.is_displayed():
-                                            driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn)
-                                            time.sleep(0.1)
-                                            try:
-                                                btn.click()
-                                            except ElementClickInterceptedException:
-                                                driver.execute_script("arguments[0].click();", btn)
-                                            time.sleep(0.2)
-                                    except Exception:
-                                        continue
-
-                                # Collect from tel: links (most reliable)
-                                tel_links = driver.find_elements(By.CSS_SELECTOR, 'a[href^="tel:"]')
-                                for a in tel_links:
-                                    href = a.get_attribute('href') or ''
-                                    if href.lower().startswith('tel:'):
-                                        num = href[4:].strip()
-                                        if num:
-                                            numbers.append(num)
-
-                                # Fallback to any visible spans if no tel links found
-                                if not numbers:
-                                    spans = driver.find_elements(By.CSS_SELECTOR, 'button[data-test="show-number"] span')
-                                    for sp in spans:
-                                        txt = sp.text.strip()
-                                        if txt:
-                                            numbers.append(txt)
+                                spans = driver.find_elements(By.CSS_SELECTOR, 'button[data-test="show-number"] span')
+                                for sp in spans:
+                                    txt = sp.text.strip()
+                                    if txt:
+                                        numbers.append(txt)
                             except Exception:
                                 pass
 
@@ -301,6 +340,30 @@ class HittaSeScraper:
                             if deduped:
                                 print(f"  → Revealed phone(s): {', '.join(deduped)}")
 
+                            # Extract house type and price information from person-intro-section
+                            try:
+                                intro_span = driver.find_element(By.CSS_SELECTOR, 'span[data-test="person-intro-section"]')
+                                intro_text = intro_span.text
+                                
+                                # Check if "Huset" or "en villa" appears in the text
+                                if 'Huset' in intro_text or 'en villa' in intro_text:
+                                    data['bostadstyp'] = 'Hus'
+                                    
+                                    # Extract price range (format: "2 800 000 – 4 200 000 kr" or similar)
+                                    # Pattern matches numbers with spaces and range indicators
+                                    price_pattern = r'(\d[\d\s]*\d)\s*[–-]\s*(\d[\d\s]*\d)\s*kr'
+                                    price_match = re.search(price_pattern, intro_text)
+                                    if price_match:
+                                        # Get the matched price range and clean it up
+                                        min_price = price_match.group(1).replace(' ', ' ')  # Normalize spaces
+                                        max_price = price_match.group(2).replace(' ', ' ')
+                                        data['bostadspris'] = f"{min_price} – {max_price} kr"
+                                        print(f"  → House info: {data['bostadstyp']}, Price: {data['bostadspris']}")
+                            except NoSuchElementException:
+                                pass
+                            except Exception as e:
+                                print(f"  → Error extracting house info: {e}")
+
                             # Navigate back to search results
                             driver.back()
                             # Wait for results list to be available again (avoid stale)
@@ -309,35 +372,14 @@ class HittaSeScraper:
                             )
                             time.sleep(0.2)
                         else:
-                            # No redirect, try to extract inline by clicking and collecting tel: links
+                            # No redirect, try to extract from updated button text if number surfaced inline
                             try:
-                                driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", phone_button)
-                                try:
-                                    phone_button.click()
-                                except Exception:
-                                    try:
-                                        driver.execute_script("arguments[0].click();", phone_button)
-                                    except Exception:
-                                        pass
-                                time.sleep(0.5)
-                                tel_links = driver.find_elements(By.CSS_SELECTOR, 'a[href^="tel:"]')
-                                inline_numbers = []
-                                for a in tel_links:
-                                    href = a.get_attribute('href') or ''
-                                    if href.lower().startswith('tel:'):
-                                        inline_numbers.append(href[4:].strip())
-                                if inline_numbers:
-                                    data['telefon'] = inline_numbers
-                                else:
-                                    fresh_text = item.find_element(By.CSS_SELECTOR, 'button[data-test="phone-link"]').text
-                                    phone_matches = re.findall(r'(\+?\d[\d\s-]{7,})', fresh_text)
-                                    if phone_matches:
-                                        data['telefon'] = [m.strip() for m in phone_matches]
+                                fresh_text = item.find_element(By.CSS_SELECTOR, 'button[data-test="phone-link"]').text
                             except Exception:
                                 fresh_text = phone_text
-                                phone_matches = re.findall(r'(\+?\d[\d\s-]{7,})', fresh_text)
-                                if phone_matches:
-                                    data['telefon'] = [m.strip() for m in phone_matches]
+                            phone_matches = re.findall(r'(\+?\d[\d\s-]{7,})', fresh_text)
+                            if phone_matches:
+                                data['telefon'] = [m.strip() for m in phone_matches]
                     except Exception as e:
                         print(f"  → Error clicking phone button: {e}")
                         # Fallback to extracting from text
@@ -387,6 +429,64 @@ class HittaSeScraper:
             # Non-fatal; proceed regardless
             pass
 
+    def save_page_to_database(self, records: List[Dict[str, str]]) -> int:
+        """
+        Save a page of results to Laravel database via API
+        
+        Args:
+            records: List of person data dictionaries to save
+        
+        Returns:
+            Number of records saved
+        """
+        if not records:
+            return 0
+        
+        saved_count = 0
+        
+        for record in records:
+            try:
+                # Prepare data for database
+                db_data = {
+                    'personnamn': record.get('personnamn'),
+                    'alder': record.get('alder'),
+                    'kon': record.get('kon'),
+                    'gatuadress': record.get('gatuadress'),
+                    'postnummer': record.get('postnummer'),
+                    'postort': record.get('postort'),
+                    'telefon': record.get('telefon'),
+                    'karta': record.get('karta'),
+                    'link': record.get('link'),
+                    'bostadstyp': record.get('bostadstyp'),
+                    'bostadspris': record.get('bostadspris'),
+                    'is_active': True,
+                    'is_telefon': record.get('telefon') and record.get('telefon') != "Lägg till telefonnummer",
+                    'is_ratsit': False,
+                }
+                
+                # Send to API
+                headers = {'Content-Type': 'application/json'}
+                if self.api_token:
+                    headers['Authorization'] = f'Bearer {self.api_token}'
+                
+                response = requests.post(
+                    f"{self.api_url}/api/hitta-se",
+                    json=db_data,
+                    headers=headers,
+                    timeout=10
+                )
+                
+                if response.status_code in [200, 201]:
+                    saved_count += 1
+                else:
+                    print(f"  ⚠ Failed to save {record.get('personnamn')}: {response.status_code}")
+                    
+            except Exception as e:
+                print(f"  ⚠ Error saving {record.get('personnamn')}: {e}")
+                continue
+        
+        return saved_count
+
     def save_to_csv(self, query: str, include_phone_missing: bool = False):
         """
         Save results to CSV file(s)
@@ -431,15 +531,6 @@ class HittaSeScraper:
         
         for record in self.results:
             try:
-                # Handle phone numbers - convert to array or null
-                telefon = record.get('telefon')
-                if isinstance(telefon, list):
-                    # If list is empty or contains "Lägg till telefonnummer", set to null
-                    if not telefon or (len(telefon) == 1 and telefon[0] == "Lägg till telefonnummer"):
-                        telefon = None
-                elif telefon == "Lägg till telefonnummer" or not telefon:
-                    telefon = None
-                
                 # Prepare data for database
                 db_data = {
                     'personnamn': record.get('personnamn'),
@@ -448,11 +539,13 @@ class HittaSeScraper:
                     'gatuadress': record.get('gatuadress'),
                     'postnummer': record.get('postnummer'),
                     'postort': record.get('postort'),
-                    'telefon': telefon,
+                    'telefon': record.get('telefon'),
                     'karta': record.get('karta'),
                     'link': record.get('link'),
+                    'bostadstyp': record.get('bostadstyp'),
+                    'bostadspris': record.get('bostadspris'),
                     'is_active': True,
-                    'is_telefon': telefon is not None and len(telefon) > 0 if isinstance(telefon, list) else False,
+                    'is_telefon': record.get('telefon') and record.get('telefon') != "Lägg till telefonnummer",
                     'is_ratsit': False,
                 }
                 
@@ -489,7 +582,7 @@ class HittaSeScraper:
             data: List of person data dictionaries
         """
         fieldnames = ['personnamn', 'alder', 'kon', 'gatuadress', 'postnummer', 
-                      'postort', 'telefon', 'karta', 'link']
+                      'postort', 'telefon', 'karta', 'link', 'bostadstyp', 'bostadspris']
         
         with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -511,6 +604,8 @@ def main():
                         help='Do not create separate CSV for missing phone numbers')
     parser.add_argument('--no-db', action='store_true',
                         help='Do not save to database')
+    parser.add_argument('--save-per-page', action='store_true',
+                        help='Save to database after each page (default: True unless --no-db)')
     parser.add_argument('--api-url', type=str,
                         help='Laravel API URL (default: http://localhost:8000)')
     parser.add_argument('--api-token', type=str,
@@ -520,18 +615,24 @@ def main():
 
     scraper = HittaSeScraper(api_url=args.api_url, api_token=args.api_token)
     
-    # Scrape results
-    results = scraper.scrape_search_results(args.query)
+    # Determine if we should save per page (default is True unless --no-db is set)
+    save_per_page = not args.no_db
+    
+    # Scrape results with pagination
+    results = scraper.scrape_search_results(args.query, save_per_page=save_per_page)
     
     if results:
-        print(f"\nTotal results found: {len(results)}")
+        print(f"\n{'='*60}")
+        print(f"SCRAPING COMPLETE")
+        print(f"{'='*60}")
+        print(f"Total results collected: {len(results)}")
         
         # Save to CSV (include missing phone CSV by default)
         scraper.save_to_csv(args.query, include_phone_missing=not args.no_missing)
         
-        # Save to database unless --no-db flag is set
-        if not args.no_db:
-            print("\nSaving to database...")
+        # If not saving per page, save all at once at the end
+        if not args.no_db and not save_per_page:
+            print("\nSaving all results to database...")
             scraper.save_to_database()
     else:
         print("No results found")

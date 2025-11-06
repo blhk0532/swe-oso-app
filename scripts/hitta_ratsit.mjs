@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Hitta.se scraper script (JavaScript ES Module version)
- * Scrapes person data from hitta.se and saves to CSV and database
+ * Hitta.se + Ratsit.se combined scraper script
+ * Scrapes person data from hitta.se and runs ratsit.mjs for house owners
  */
 
 import { program } from 'commander';
@@ -10,8 +10,9 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { URL } from 'url';
 import { chromium } from 'playwright';
+import { spawn } from 'child_process';
 
-class HittaSeScraper {
+class HittaRatsitScraper {
   constructor(api_url, api_token) {
     this.api_url = api_url || process.env.LARAVEL_API_URL || 'http://localhost:8000';
     this.api_token = api_token || process.env.LARAVEL_API_TOKEN;
@@ -24,15 +25,18 @@ class HittaSeScraper {
     fs.mkdir(this.data_dir, { recursive: true }).catch(() => {});
   }
 
-  async scrapeSearchResults(query) {
+  async scrapeSearchResults(query, maxResults = 50) {
     this.results = [];
     const encodedQuery = encodeURIComponent(query);
     const searchUrl = `${this.base_url}/s%C3%B6k?vad=${encodedQuery}&typ=prv`;
     
-    console.log(`Searching for: ${query}`);
+    console.log(`Searching for: ${query} (max ${maxResults} results)`);
     console.log(`URL: ${searchUrl}`);
 
     let browser = null;
+    let currentPage = 1;
+    let totalPages = null;
+    let hasMorePages = true;
     
     try {
       // Launch browser
@@ -51,45 +55,113 @@ class HittaSeScraper {
       const context = await browser.newContext();
       const page = await context.newPage();
       
-      await page.goto(searchUrl);
-      
-      // Wait for search results to load
-      try {
-        await page.waitForSelector('li[data-test="person-item"]', { timeout: 10000 });
-      } catch (error) {
-        console.log('No results found or timeout waiting for results');
-        return [];
-      }
-
-      // Try to dismiss cookie/consent overlays
-      try {
-        await this.dismissConsentOverlay(page);
-      } catch (error) {
-        // Ignore consent overlay errors
-      }
-
-      // Extract all person items
-      const personItems = await page.$$('li[data-test="person-item"]');
-      const total = personItems.length;
-      console.log(`Found ${total} results`);
-
-      for (let i = 0; i < total; i++) {
+      while (hasMorePages) {
+        const pageUrl = currentPage === 1 ? searchUrl : `${searchUrl}&sida=${currentPage}`;
+        console.log(`\nPage ${currentPage}: ${pageUrl}`);
+        
+        await page.goto(pageUrl);
+        
+        // Wait for search results to load
         try {
-          // Re-query items each iteration to avoid stale references
-          const currentItems = await page.$$('li[data-test="person-item"]');
-          if (i >= currentItems.length) break;
-          
-          const item = currentItems[i];
-          const idx = i + 1;
-          const personData = await this.extractPersonData(item, page);
-          
-          if (personData) {
-            this.results.push(personData);
-            console.log(`Extracted ${idx}/${total}: ${personData.personnamn || 'Unknown'}`);
-          }
+          await page.waitForSelector('li[data-test="person-item"]', { timeout: 10000 });
         } catch (error) {
-          console.log(`Error extracting person ${i + 1}:`, error);
-          continue;
+          console.log('No results found or timeout waiting for results');
+          break;
+        }
+
+        // Try to dismiss cookie/consent overlays (only on first page)
+        if (currentPage === 1) {
+          try {
+            await this.dismissConsentOverlay(page);
+          } catch (error) {
+            // Ignore consent overlay errors
+          }
+        }
+
+        // Get total results count on first page
+        if (currentPage === 1) {
+          try {
+            const countElement = await page.$('span[data-test="search-results-count"]');
+            if (countElement) {
+              const countText = await countElement.textContent();
+              const totalMatch = countText.match(/\d+/);
+              if (totalMatch) {
+                const totalResults = parseInt(totalMatch[0]);
+                totalPages = Math.ceil(totalResults / 25); // 25 results per page
+                console.log(`Total results: ${totalResults}`);
+                console.log(`Total pages: ${totalPages}`);
+              }
+            }
+          } catch (error) {
+            console.log(`Could not determine total results: ${error}`);
+          }
+        }
+
+        // Extract all person items on current page
+        const personItems = await page.$$('li[data-test="person-item"]');
+        const pageTotal = personItems.length;
+        console.log(`Found ${pageTotal} results on page ${currentPage}`);
+
+        const pageResults = [];
+        for (let i = 0; i < pageTotal; i++) {
+          try {
+            // Re-query items each iteration to avoid stale references
+            const currentItems = await page.$$('li[data-test="person-item"]');
+            if (i >= currentItems.length) break;
+            
+            const item = currentItems[i];
+            const idx = i + 1;
+            const personData = await this.extractPersonData(item, page);
+            
+            if (personData) {
+              pageResults.push(personData);
+              this.results.push(personData);
+              console.log(`[Page ${currentPage}] Extracted ${idx}/${pageTotal}: ${personData.personnamn || 'Unknown'}`);
+              
+              // If this person has a house (bostadstyp = Hus), run ratsit
+              if (personData.bostadstyp === 'Hus') {
+                console.log(`  → 🏠 HOUSE DETECTED! Running ratsit for ${personData.personnamn}`);
+                await this.runRatsitForPerson(personData);
+              }
+            }
+          } catch (error) {
+            console.log(`Error extracting person ${i + 1}:`, error);
+            continue;
+          }
+        }
+
+        // Check if we've reached max results
+        if (this.results.length >= maxResults) {
+          console.log(`\n→ Reached max results limit (${maxResults})`);
+          hasMorePages = false;
+        }
+        // Check if there are more pages
+        else if (pageTotal === 0) {
+          console.log('\n→ No results on this page, stopping');
+          hasMorePages = false;
+        } else if (totalPages && currentPage < totalPages) {
+          console.log(`\n→ Moving to page ${currentPage + 1} of ${totalPages}`);
+          currentPage += 1;
+          await page.waitForTimeout(1000); // Brief pause between pages
+        } else if (!totalPages) {
+          // If we don't know total pages, check for next button
+          try {
+            const nextButton = await page.$('button[data-ga4-action="next_page"]');
+            if (nextButton && await nextButton.isVisible() && await nextButton.isEnabled()) {
+              console.log(`\n→ Next page button found, moving to page ${currentPage + 1}`);
+              currentPage += 1;
+              await page.waitForTimeout(1000);
+            } else {
+              console.log('\n→ No more pages (next button not available)');
+              hasMorePages = false;
+            }
+          } catch (error) {
+            console.log('\n→ No more pages (next button not found)');
+            hasMorePages = false;
+          }
+        } else {
+          console.log(`\n→ Reached final page (${currentPage} of ${totalPages})`);
+          hasMorePages = false;
         }
       }
 
@@ -352,6 +424,58 @@ class HittaSeScraper {
     return data;
   }
 
+  async runRatsitForPerson(personData) {
+    /** Run ratsit.mjs for a specific person */
+    try {
+      // Build search query for ratsit: "personnamn gatuadress postort"
+      const searchParts = [];
+      if (personData.personnamn) searchParts.push(personData.personnamn);
+      if (personData.gatuadress) searchParts.push(personData.gatuadress);
+      if (personData.postort) searchParts.push(personData.postort);
+      
+      if (searchParts.length === 0) {
+        console.log(`  → No search data available for ratsit`);
+        return;
+      }
+      
+      const ratsitQuery = searchParts.join(' ');
+      console.log(`  → Running ratsit search: "${ratsitQuery}"`);
+      
+      // Run ratsit.mjs as a subprocess
+      const ratsitScript = path.join(process.cwd(), 'scripts', 'ratsit.mjs');
+      const args = [ratsitQuery];
+      
+      // Add API options if available
+      if (this.api_url) args.push('--api-url', this.api_url);
+      if (this.api_token) args.push('--api-token', this.api_token);
+      
+      await new Promise((resolve, reject) => {
+        const ratsitProcess = spawn('node', [ratsitScript, ...args], {
+          stdio: 'inherit',
+          cwd: process.cwd()
+        });
+        
+        ratsitProcess.on('close', (code) => {
+          if (code === 0) {
+            console.log(`  → Ratsit completed successfully`);
+            resolve();
+          } else {
+            console.log(`  → Ratsit failed with code ${code}`);
+            resolve(); // Continue even if ratsit fails
+          }
+        });
+        
+        ratsitProcess.on('error', (error) => {
+          console.log(`  → Error running ratsit:`, error);
+          resolve(); // Continue even if ratsit fails
+        });
+      });
+      
+    } catch (error) {
+      console.log(`  → Error running ratsit for ${personData.personnamn}:`, error);
+    }
+  }
+
   async dismissConsentOverlay(page) {
     try {
       // Try to find and click consent buttons
@@ -403,7 +527,7 @@ class HittaSeScraper {
     const safeQuery = query.replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '_');
 
     // Save all results
-    const allFilename = path.join(this.data_dir, `hitta_se_${safeQuery}_alla_${total}.csv`);
+    const allFilename = path.join(this.data_dir, `hitta_ratsit_${safeQuery}_alla_${total}.csv`);
     await this.writeCsv(allFilename, this.results);
     console.log(`Saved all results to: ${allFilename}`);
 
@@ -415,7 +539,7 @@ class HittaSeScraper {
       
       if (withPhone.length > 0) {
         const withPhoneTotal = withPhone.length;
-        const withPhoneFilename = path.join(this.data_dir, `hitta_se_${safeQuery}_visa_${withPhoneTotal}.csv`);
+        const withPhoneFilename = path.join(this.data_dir, `hitta_ratsit_${safeQuery}_visa_${withPhoneTotal}.csv`);
         await this.writeCsv(withPhoneFilename, withPhone);
         console.log(`Saved ${withPhoneTotal} results with phone numbers to: ${withPhoneFilename}`);
       }
@@ -527,7 +651,7 @@ class HittaSeScraper {
 // Main function
 async function main() {
   program
-    .description('Scrape person data from hitta.se')
+    .description('Scrape person data from hitta.se and run ratsit for house owners')
     .argument('query', 'Search query')
     .option('--no-missing', 'Do not create separate CSV for missing phone numbers')
     .option('--no-db', 'Do not save to database')
@@ -538,10 +662,10 @@ async function main() {
   const options = program.opts();
   const query = program.args[0];
 
-  const scraper = new HittaSeScraper(options.apiUrl, options.apiToken);
+  const scraper = new HittaRatsitScraper(options.apiUrl, options.apiToken);
 
-  // Scrape results
-  const results = await scraper.scrapeSearchResults(query);
+  // Scrape results (limit to 10 for testing)
+  const results = await scraper.scrapeSearchResults(query, 10);
 
   if (results.length > 0) {
     console.log(`\nTotal results found: ${results.length}`);

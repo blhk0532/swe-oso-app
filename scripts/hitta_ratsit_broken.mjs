@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Hitta.se scraper script (JavaScript ES Module version)
- * Scrapes person data from hitta.se and saves to CSV and database
+ * Hitta.se + Ratsit.se combined scraper script
+ * Scrapes person data from hitta.se and runs ratsit.mjs for house owners
  */
 
 import { program } from 'commander';
@@ -10,8 +10,9 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { URL } from 'url';
 import { chromium } from 'playwright';
+import { spawn } from 'child_process';
 
-class HittaSeScraper {
+class HittaRatsitScraper {
   constructor(api_url, api_token) {
     this.api_url = api_url || process.env.LARAVEL_API_URL || 'http://localhost:8000';
     this.api_token = api_token || process.env.LARAVEL_API_TOKEN;
@@ -86,6 +87,12 @@ class HittaSeScraper {
           if (personData) {
             this.results.push(personData);
             console.log(`Extracted ${idx}/${total}: ${personData.personnamn || 'Unknown'}`);
+            
+            // If this person has a house (bostadstyp = Hus), run ratsit
+            if (personData.bostadstyp === 'Hus') {
+              console.log(`  → House detected! Running ratsit for ${personData.personnamn}`);
+              await this.runRatsitForPerson(personData);
+            }
           }
         } catch (error) {
           console.log(`Error extracting person ${i + 1}:`, error);
@@ -102,6 +109,58 @@ class HittaSeScraper {
     }
 
     return this.results;
+  }
+
+  async runRatsitForPerson(personData) {
+    /** Run ratsit.mjs for a specific person */
+    try {
+      // Build search query for ratsit: "personnamn gatuadress postort"
+      const searchParts = [];
+      if (personData.personnamn) searchParts.push(personData.personnamn);
+      if (personData.gatuadress) searchParts.push(personData.gatuadress);
+      if (personData.postort) searchParts.push(personData.postort);
+      
+      if (searchParts.length === 0) {
+        console.log(`  → No search data available for ratsit`);
+        return;
+      }
+      
+      const ratsitQuery = searchParts.join(' ');
+      console.log(`  → Running ratsit search: "${ratsitQuery}"`);
+      
+      // Run ratsit.mjs as a subprocess
+      const ratsitScript = path.join(process.cwd(), 'scripts', 'ratsit.mjs');
+      const args = [ratsitQuery];
+      
+      // Add API options if available
+      if (this.api_url) args.push('--api-url', this.api_url);
+      if (this.api_token) args.push('--api-token', this.api_token);
+      
+      await new Promise((resolve, reject) => {
+        const ratsitProcess = spawn('node', [ratsitScript, ...args], {
+          stdio: 'inherit',
+          cwd: process.cwd()
+        });
+        
+        ratsitProcess.on('close', (code) => {
+          if (code === 0) {
+            console.log(`  → Ratsit completed successfully`);
+            resolve();
+          } else {
+            console.log(`  → Ratsit failed with code ${code}`);
+            resolve(); // Continue even if ratsit fails
+          }
+        });
+        
+        ratsitProcess.on('error', (error) => {
+          console.log(`  → Error running ratsit:`, error);
+          resolve(); // Continue even if ratsit fails
+        });
+      });
+      
+    } catch (error) {
+      console.log(`  → Error running ratsit for ${personData.personnamn}:`, error);
+    }
   }
 
   async extractPersonData(item, page) {
@@ -184,6 +243,129 @@ class HittaSeScraper {
         }
       } catch {
         // Ignore errors
+      }
+
+      // Fallback: Extract address from map link if not found above
+      if (!data.gatuadress || !data.postort) {
+        try {
+          const mapLink = await item.$('a[data-test="show-on-map-button"]');
+          if (mapLink) {
+            const href = await mapLink.getAttribute('href');
+            if (href) {
+              // Parse address from map link URL
+              // Format: search=Name%20Street%20Number%20City
+              const searchMatch = href.match(/search=([^&]+)/);
+              if (searchMatch) {
+                const decodedSearch = decodeURIComponent(searchMatch[1]);
+                const addressParts = decodedSearch.split(' ');
+                // First part(s) are name, rest are address components
+                if (addressParts.length > 2) {
+                  // Assume format: First Last Street City
+                  data.gatuadress = addressParts.slice(2, -1).join(' ');
+                  data.postort = addressParts[addressParts.length - 1];
+                } else if (addressParts.length > 1) {
+                  // Assume format: First Street City
+                  data.gatuadress = addressParts.slice(1, -1).join(' ');
+                  data.postort = addressParts[addressParts.length - 1];
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.log(`  → Error extracting address from map link:`, error);
+        }
+      }
+                  }
+                  
+                  if (postalCodeIndex === -1) {
+                    // No postal code found - assume last part is city, rest is street
+                    cityIndex = addressParts.length - 1;
+                    // Street is everything between name and city
+                    if (cityIndex > 2) {
+                      // Skip first name part, assume second might be last name if present
+                      let streetStart = 2;
+                      if (addressParts.length > 3) {
+                        streetStart = 2; // Skip "First Last" parts
+                      } else {
+                        streetStart = 1; // Only "First" part, so skip it
+                      }
+                      data.gatuadress = addressParts.slice(streetStart, cityIndex).join(' ');
+                    } else if (cityIndex > 1) {
+                      data.gatuadress = addressParts.slice(1, cityIndex).join(' ');
+                    }
+                    data.postort = addressParts[cityIndex];
+                  } else {
+                    // Postal code found
+                    // Street is everything between name and postal code
+                    if (postalCodeIndex > 2) {
+                      // Skip "First Last" name parts
+                      data.gatuadress = addressParts.slice(2, postalCodeIndex).join(' ');
+                    } else if (postalCodeIndex > 1) {
+                      data.gatuadress = addressParts.slice(1, postalCodeIndex).join(' ');
+                    }
+                    
+                    // Extract postal code
+                    data.postnummer = addressParts[postalCodeIndex].replace(/(\d{3})\s?(\d{2})/, '$1 $2');
+                    
+                    // Extract city
+                    if (cityIndex > 0 && cityIndex < addressParts.length) {
+                      data.postort = addressParts[cityIndex];
+                    }
+                  }
+                  
+                  console.log(`  → Debug: Extracted - Street: ${data.gatuadress}, Postal: ${data.postnummer}, City: ${data.postort}`);
+                }
+                  }
+                  
+                  if (postalCodeIndex === -1) {
+                    // No postal code found - assume last part is city, rest is street
+                    cityIndex = addressParts.length - 1;
+                    if (cityIndex > 1) {
+                      // Remove name parts from street address
+                      // Skip first name part and any additional name parts
+                      let streetStartIndex = 1;
+                      // Look for common Swedish last names to skip
+                      const commonNames = ['Johansson', 'Anders', 'Ferm', 'Tommy', 'Leif', 'Ted', 'Lucas', 'Calle', 'Christer'];
+                      for (let i = 1; i < cityIndex; i++) {
+                        if (commonNames.includes(addressParts[i])) {
+                          streetStartIndex = i + 1;
+                        } else {
+                          break;
+                        }
+                      }
+                      }
+                      
+                      if (streetStartIndex < cityIndex) {
+                        data.gatuadress = addressParts.slice(streetStartIndex, cityIndex).join(' ');
+                      }
+                      data.postort = addressParts[cityIndex];
+                    }
+                  } else {
+                    // Postal code found
+                    // Extract street address (everything after name, before postal code)
+                    if (postalCodeIndex > 1) {
+                      data.gatuadress = addressParts.slice(1, postalCodeIndex).join(' ');
+                    }
+                    
+                    // Extract postal code
+                    if (postalCodeIndex > 0) {
+                      data.postnummer = addressParts[postalCodeIndex].replace(/(\d{3})\s?(\d{2})/, '$1 $2');
+                    }
+                    
+                    // Extract city
+                    if (cityIndex > 0 && cityIndex < addressParts.length) {
+                      data.postort = addressParts[cityIndex];
+                    }
+                  }
+                  
+                  console.log(`  → Debug: Extracted - Street: ${data.gatuadress}, Postal: ${data.postnummer}, City: ${data.postort}`);
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.log(`  → Error extracting address from map link:`, error);
+        }
       }
 
       // Extract map link
@@ -403,7 +585,7 @@ class HittaSeScraper {
     const safeQuery = query.replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '_');
 
     // Save all results
-    const allFilename = path.join(this.data_dir, `hitta_se_${safeQuery}_alla_${total}.csv`);
+    const allFilename = path.join(this.data_dir, `hitta_ratsit_${safeQuery}_alla_${total}.csv`);
     await this.writeCsv(allFilename, this.results);
     console.log(`Saved all results to: ${allFilename}`);
 
@@ -415,7 +597,7 @@ class HittaSeScraper {
       
       if (withPhone.length > 0) {
         const withPhoneTotal = withPhone.length;
-        const withPhoneFilename = path.join(this.data_dir, `hitta_se_${safeQuery}_visa_${withPhoneTotal}.csv`);
+        const withPhoneFilename = path.join(this.data_dir, `hitta_ratsit_${safeQuery}_visa_${withPhoneTotal}.csv`);
         await this.writeCsv(withPhoneFilename, withPhone);
         console.log(`Saved ${withPhoneTotal} results with phone numbers to: ${withPhoneFilename}`);
       }
@@ -527,7 +709,7 @@ class HittaSeScraper {
 // Main function
 async function main() {
   program
-    .description('Scrape person data from hitta.se')
+    .description('Scrape person data from hitta.se and run ratsit for house owners')
     .argument('query', 'Search query')
     .option('--no-missing', 'Do not create separate CSV for missing phone numbers')
     .option('--no-db', 'Do not save to database')
@@ -538,7 +720,7 @@ async function main() {
   const options = program.opts();
   const query = program.args[0];
 
-  const scraper = new HittaSeScraper(options.apiUrl, options.apiToken);
+  const scraper = new HittaRatsitScraper(options.apiUrl, options.apiToken);
 
   // Scrape results
   const results = await scraper.scrapeSearchResults(query);

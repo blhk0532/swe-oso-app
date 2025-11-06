@@ -52,111 +52,31 @@ class HittaSesTable
                     ->searchable()
                     ->sortable(),
 
-                // Phone (array/string) — show first number; ellipsis if it's 12+ chars
+                // Zip
+                TextColumn::make('postnummer')
+                    ->label('Zip')
+                    ->searchable()
+                    ->sortable(),
+
+                // City
+                TextColumn::make('postort')
+                    ->label('City')
+                    ->searchable()
+                    ->sortable(),
+
+                // Phone (array of numbers)
                 TextColumn::make('telefon')
                     ->label('Phone')
-                    ->formatStateUsing(function ($state) {
-                        // Coerce into an array from array | JSON string | delimited string
-                        $list = [];
-
-                        if (is_array($state)) {
-                            $list = $state;
-                        } elseif (is_string($state)) {
-                            $decoded = json_decode($state, true);
-                            if (is_array($decoded)) {
-                                $list = $decoded;
-                            } else {
-                                $parts = preg_split('/[\s,;\n]+/', $state) ?: [];
-                                $list = $parts;
-                            }
-                        }
-
-                        // Normalize, filter invalids, dedupe
-                        $numbers = array_values(array_unique(array_filter(array_map(function ($n) {
-                            if (! is_string($n)) {
-                                return '';
-                            }
-                            $n = trim($n);
-                            // Remove obvious noise like lone commas or empties
-                            if ($n === '' || $n === ',') {
-                                return '';
-                            }
-                            $digits = preg_replace('/[^0-9]/', '', $n);
-
-                            return strlen($digits) >= 8 ? $n : '';
-                        }, $list))));
-
-                        $first = $numbers[0] ?? '';
-                        if ($first === '') {
-                            return '';
-                        }
-
-                        // If the first number is long, show an ellipsis after 12 chars
-                        return strlen($first) >= 12 ? substr($first, 0, 12) . '…' : $first;
-                    })
+                    ->formatStateUsing(fn ($state) => is_array($state) ? implode(' | ', $state) : (string) $state)
                     ->searchable()
                     ->copyable()
                     ->copyMessage('Phone number(s) copied')
-                    ->copyableState(function ($record) {
-                        $state = $record->telefon;
-                        $list = [];
-
-                        if (is_array($state)) {
-                            $list = $state;
-                        } elseif (is_string($state)) {
-                            $decoded = json_decode($state, true);
-                            if (is_array($decoded)) {
-                                $list = $decoded;
-                            } else {
-                                $parts = preg_split('/[\s,;\n]+/', $state) ?: [];
-                                $list = $parts;
-                            }
-                        }
-
-                        $numbers = array_values(array_unique(array_filter(array_map(function ($n) {
-                            if (! is_string($n)) {
-                                return '';
-                            }
-                            $n = trim($n);
-                            if ($n === '' || $n === ',') {
-                                return '';
-                            }
-                            $digits = preg_replace('/[^0-9]/', '', $n);
-
-                            return strlen($digits) >= 8 ? $n : '';
-                        }, $list))));
-
-                        // Copy the full first number
-                        return $numbers[0] ?? '';
-                    })
                     ->color(function ($state): string {
-                        $list = [];
                         if (is_array($state)) {
-                            $list = $state;
-                        } elseif (is_string($state)) {
-                            $decoded = json_decode($state, true);
-                            if (is_array($decoded)) {
-                                $list = $decoded;
-                            } else {
-                                $parts = preg_split('/[\s,;\n]+/', $state) ?: [];
-                                $list = $parts;
-                            }
+                            return count($state) ? 'success' : 'gray';
                         }
 
-                        $numbers = array_values(array_unique(array_filter(array_map(function ($n) {
-                            if (! is_string($n)) {
-                                return '';
-                            }
-                            $n = trim($n);
-                            if ($n === '' || $n === ',') {
-                                return '';
-                            }
-                            $digits = preg_replace('/[^0-9]/', '', $n);
-
-                            return strlen($digits) >= 6 ? $n : '';
-                        }, $list))));
-
-                        return count($numbers) ? 'success' : 'gray';
+                        return ($state === 'Lägg till telefonnummer' || empty($state)) ? 'gray' : 'success';
                     }),
 
                 // Ratsit

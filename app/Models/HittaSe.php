@@ -18,6 +18,8 @@ class HittaSe extends Model
         'telefon',
         'karta',
         'link',
+        'bostadstyp',
+        'bostadspris',
         'is_active',
         'is_telefon',
         'is_ratsit',
@@ -28,9 +30,5 @@ class HittaSe extends Model
         'is_telefon' => 'boolean',
         'is_ratsit' => 'boolean',
         'telefon' => 'array',
-    ];
-
-    protected $attributes = [
-        'telefon' => '[]',
     ];
 }

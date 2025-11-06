@@ -21,31 +21,12 @@ class HittaSeController extends Controller
             'telefon.*' => 'nullable|string',
             'karta' => 'nullable|string',
             'link' => 'nullable|string',
+            'bostadstyp' => 'nullable|string',
+            'bostadspris' => 'nullable|string',
             'is_active' => 'boolean',
             'is_telefon' => 'boolean',
             'is_ratsit' => 'boolean',
         ]);
-
-        // Normalize and validate phone numbers (require at least 8 digits)
-        $phones = [];
-        if (isset($validated['telefon']) && $validated['telefon'] !== null) {
-            $incoming = is_array($validated['telefon']) ? $validated['telefon'] : [];
-            $phones = array_values(array_unique(array_filter(array_map(function ($n) {
-                if (! is_string($n)) {
-                    return '';
-                }
-                $n = trim($n);
-                if ($n === '' || $n === ',') {
-                    return '';
-                }
-                $digits = preg_replace('/[^0-9]/', '', $n);
-
-                return strlen($digits) >= 8 ? $n : '';
-            }, $incoming))));
-        }
-
-        $validated['telefon'] = $phones;
-        $validated['is_telefon'] = count($phones) > 0;
 
         // Check if record already exists by link (unique identifier)
         if ($validated['link']) {
