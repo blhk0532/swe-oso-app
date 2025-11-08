@@ -79,7 +79,7 @@ class RatsitScraper {
       // Pattern: "19601110- " + <a>...<strong>XXXX</strong>...
       const match = html.match(/Personnummer:\s*([0-9-]+)\s*.*?<strong>XXXX<\/strong>/i);
       if (match) {
-        return match[1].trim() + 'XXXX';
+        return match[1].trim() +'XXXX';
       }
       
       // Fallback: try to get just the text value
@@ -90,7 +90,7 @@ class RatsitScraper {
         // Check if XXXX is in the HTML
         if (html.toUpperCase().includes('XXXX')) {
           if (!cleanText.endsWith('XXXX') && !cleanText.endsWith('xxxx')) {
-            cleanText = cleanText.replace(/-$/, '') + 'XXXX';
+            cleanText = cleanText.replace(/-$/, '') +'XXXX';
           }
         }
         return cleanText;

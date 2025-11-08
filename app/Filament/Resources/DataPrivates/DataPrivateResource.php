@@ -21,15 +21,15 @@ class DataPrivateResource extends Resource
 {
     protected static ?string $model = DataPrivate::class;
 
-    protected static ?string $recordTitleAttribute = 'ps_personnamn';
+    //    protected static ?string $recordTitleAttribute = 'ps_personnamn';
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
+    //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
 
-    protected static ?string $navigationLabel = 'Private Data';
+    //    protected static ?string $navigationLabel = 'Private Data';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Data Management';
+    //    protected static string | UnitEnum | null $navigationGroup = 'Data Management';
 
-    protected static ?int $navigationSort = 1;
+    //    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {

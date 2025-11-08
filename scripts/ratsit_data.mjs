@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Hitta.se + Ratsit.se combined scraper script
- * Scrapes person data from hitta.se and runs ratsit.mjs for house owners
+ * Ratsit.se focused scraper script
+ * Scrapes person data from Ratsit directly (no Hitta integration) and upserts into SQLite (Laravel database/database.sqlite)
  */
 
 import { program } from 'commander';
@@ -18,13 +18,15 @@ class HittaRatsitScraper {
     this.api_url = api_url || process.env.LARAVEL_API_URL || 'http://localhost:8000';
     this.api_token = api_token || process.env.LARAVEL_API_TOKEN;
     
-    this.data_dir = path.join(process.cwd(), 'scripts', 'data');
+  // Store CSV outputs in scripts/data (when running from scripts/ ensure we don't duplicate path segment)
+  this.data_dir = path.join(process.cwd(), 'data');
     this.results = [];
     this.base_url = 'https://www.hitta.se';
     
     // SQLite database connection - go up one level from scripts/ to project root
     this.db = null;
-    this.dbPath = path.join(path.dirname(process.cwd()), 'database', 'database.sqlite');
+  this.dbPath = path.join(path.dirname(process.cwd()), 'database', 'database.sqlite');
+  this.columns = null; // cache of ratsit_data columns
     
     // Ensure data directory exists
     fs.mkdir(this.data_dir, { recursive: true }).catch(() => {});
@@ -50,95 +52,99 @@ class HittaRatsitScraper {
     return this.db;
   }
 
+  getTableColumns() {
+    /** Load and cache column names for ratsit_data table */
+    if (!this.db) {
+      this.getDbConnection();
+    }
+    if (this.columns) {
+      return this.columns;
+    }
+    try {
+      const cols = this.db.prepare("PRAGMA table_info('ratsit_data')").all();
+      this.columns = new Set(cols.map((c) => c.name));
+    } catch (e) {
+      this.columns = new Set();
+    }
+    return this.columns;
+  }
+
   saveRatsitToDatabase(ratsitData) {
-    /**
-     * Save Ratsit data directly to SQLite database without API call
-     * Uses INSERT or UPDATE based on existing record
-     */
+    // Persist to the NEW ratsit_data schema (no prefixed columns)
     try {
       const db = this.getDbConnection();
-      
-      // Prepare data for database insertion (matching Laravel's schema)
-      const dbData = {
-        bo_gatuadress: ratsitData.bo_gatuadress || null,
-        bo_postnummer: ratsitData.bo_postnummer || null,
-        bo_postort: ratsitData.bo_postort || null,
-        bo_forsamling: ratsitData.bo_forsamling || null,
-        bo_kommun: ratsitData.bo_kommun || null,
-        bo_lan: ratsitData.bo_lan || null,
-        ps_fodelsedag: ratsitData.ps_fodelsedag || null,
-        ps_personnummer: ratsitData.ps_personnummer || null,
-        ps_alder: ratsitData.ps_alder || null,
-        ps_kon: ratsitData.ps_kon || null,
-        ps_civilstand: ratsitData.ps_civilstand || null,
-        ps_fornamn: ratsitData.ps_fornamn || null,
-        ps_efternamn: ratsitData.ps_efternamn || null,
-        ps_personnamn: ratsitData.ps_personnamn || null,
-        ps_telefon: Array.isArray(ratsitData.ps_telefon) ? JSON.stringify(ratsitData.ps_telefon) : '[]',
-        ps_epost_adress: ratsitData.ps_epost_adress ? JSON.stringify(ratsitData.ps_epost_adress) : '[]',
-        ps_bolagsengagemang: ratsitData.ps_bolagsengagemang ? JSON.stringify(ratsitData.ps_bolagsengagemang) : '[]',
-        bo_personer: ratsitData.bo_personer ? JSON.stringify(ratsitData.bo_personer) : '[]',
-        bo_foretag: ratsitData.bo_foretag ? JSON.stringify(ratsitData.bo_foretag) : '[]',
-        bo_grannar: ratsitData.bo_grannar ? JSON.stringify(ratsitData.bo_grannar) : '[]',
-        bo_fordon: ratsitData.bo_fordon ? JSON.stringify(ratsitData.bo_fordon) : '[]',
-        bo_hundar: ratsitData.bo_hundar ? JSON.stringify(ratsitData.bo_hundar) : '[]',
-        bo_agandeform: ratsitData.bo_agandeform || null,
-        bo_bostadstyp: ratsitData.bo_bostadstyp || null,
-        bo_boarea: ratsitData.bo_boarea || null,
-        bo_byggar: ratsitData.bo_byggar || null,
-        bo_fastighet: ratsitData.bo_fastighet || null,
-        bo_longitude: ratsitData.bo_longitude || null,
-        bo_latitud: ratsitData.bo_latitud || null,
+      const cols = this.getTableColumns();
+      const json = (v) => JSON.stringify(v ?? []);
+
+      // Normalize base fields
+      const personnummer = ratsitData.ps_personnummer ?? ratsitData.personnummer ?? null;
+      const gatuadress = ratsitData.bo_gatuadress ?? ratsitData.gatuadress ?? null;
+      const postnummer = ratsitData.bo_postnummer ?? ratsitData.postnummer ?? null;
+      const postort = ratsitData.bo_postort ?? ratsitData.postort ?? null;
+
+      // Build clean record for new table
+      const record = {
+        gatuadress,
+        postnummer,
+        postort,
+        forsamling: ratsitData.bo_forsamling ?? ratsitData.forsamling ?? null,
+        kommun: ratsitData.bo_kommun ?? ratsitData.kommun ?? null,
+        lan: ratsitData.bo_lan ?? ratsitData.lan ?? null,
+        adressandring: ratsitData.adressandring ?? null,
+        telfonnummer: Array.isArray(ratsitData.telefonnummer) ? json(ratsitData.telefonnummer) : json([]),
+        stjarntacken: ratsitData.stjarntacken ?? ratsitData.stjarntecken ?? null,
+        fodelsedag: ratsitData.ps_fodelsedag ?? ratsitData.fodelsedag ?? null,
+        personnummer,
+        alder: ratsitData.ps_alder ?? ratsitData.alder ?? null,
+        kon: ratsitData.ps_kon ?? ratsitData.kon ?? null,
+        civilstand: ratsitData.ps_civilstand ?? ratsitData.civilstand ?? null,
+        fornamn: ratsitData.ps_fornamn ?? ratsitData.fornamn ?? null,
+        efternamn: ratsitData.ps_efternamn ?? ratsitData.efternamn ?? null,
+        personnamn: ratsitData.ps_personnamn ?? ratsitData.personnamn ?? null,
+        telefon: Array.isArray(ratsitData.ps_telefon) ? json(ratsitData.ps_telefon) : json([]),
+        agandeform: ratsitData.bo_agandeform ?? ratsitData.agandeform ?? null,
+        bostadstyp: ratsitData.bo_bostadstyp ?? ratsitData.bostadstyp ?? null,
+        boarea: ratsitData.bo_boarea ?? ratsitData.boarea ?? null,
+        byggar: ratsitData.bo_byggar ?? ratsitData.byggar ?? null,
+        personer: Array.isArray(ratsitData.bo_personer ?? ratsitData.personer) ? json(ratsitData.bo_personer ?? ratsitData.personer) : json([]),
+        foretag: Array.isArray(ratsitData.bo_foretag ?? ratsitData.foretag) ? json(ratsitData.bo_foretag ?? ratsitData.foretag) : json([]),
+        grannar: Array.isArray(ratsitData.bo_grannar ?? ratsitData.grannar) ? json(ratsitData.bo_grannar ?? ratsitData.grannar) : json([]),
+        fordon: Array.isArray(ratsitData.bo_fordon ?? ratsitData.fordon) ? json(ratsitData.bo_fordon ?? ratsitData.fordon) : json([]),
+        hundar: Array.isArray(ratsitData.bo_hundar ?? ratsitData.hundar) ? json(ratsitData.bo_hundar ?? ratsitData.hundar) : json([]),
+        bolagsengagemang: Array.isArray(ratsitData.ps_bolagsengagemang ?? ratsitData.bolagsengagemang) ? json(ratsitData.ps_bolagsengagemang ?? ratsitData.bolagsengagemang) : json([]),
+        longitude: ratsitData.longitude ?? null,
+        latitud: ratsitData.latitud ?? null,
+        google_maps: ratsitData.google_maps ?? null,
+        google_streetview: ratsitData.google_streetview ?? null,
+        ratsit_se: ratsitData.ratsit_se ?? ratsitData.link ?? null,
         is_active: 1,
       };
 
-      // Check if record already exists based on personnummer and address
-      const checkStmt = db.prepare(`
-        SELECT id FROM ratsit_data 
-        WHERE ps_personnummer = ? AND bo_gatuadress = ? AND bo_postnummer = ?
-      `);
-      const existing = checkStmt.get(
-        dbData.ps_personnummer,
-        dbData.bo_gatuadress,
-        dbData.bo_postnummer
-      );
+      // Filter to actual columns (defensive)
+      const filtered = Object.fromEntries(Object.entries(record).filter(([k,v]) => cols.has(k)));
 
-      let result;
+      // Upsert key
+      const identifierCols = ['personnummer','gatuadress','postnummer'].filter(c => cols.has(c));
+      let existing = null;
+      if (identifierCols.length === 3 && filtered.personnummer && filtered.gatuadress && filtered.postnummer) {
+        existing = db.prepare('SELECT id FROM ratsit_data WHERE personnummer = ? AND gatuadress = ? AND postnummer = ?').get(filtered.personnummer, filtered.gatuadress, filtered.postnummer);
+      }
+
       let action;
-
       if (existing) {
-        // Update existing record
-        const updateFields = Object.keys(dbData).map(f => `${f} = ?`).join(', ');
-        const updateStmt = db.prepare(`
-          UPDATE ratsit_data 
-          SET ${updateFields}, updated_at = datetime('now')
-          WHERE id = ?
-        `);
-        result = updateStmt.run(...Object.values(dbData), existing.id);
+        const setSql = Object.keys(filtered).map(k => `${k} = ?`).join(', ');
+        db.prepare(`UPDATE ratsit_data SET ${setSql}, updated_at = datetime('now') WHERE id = ?`).run(...Object.values(filtered), existing.id);
         action = 'updated';
       } else {
-        // Insert new record
-        const fields = Object.keys(dbData);
-        const placeholders = fields.map(() => '?').join(', ');
-        const insertStmt = db.prepare(`
-          INSERT INTO ratsit_data (${fields.join(', ')}, created_at, updated_at)
-          VALUES (${placeholders}, datetime('now'), datetime('now'))
-        `);
-        result = insertStmt.run(...Object.values(dbData));
+        const colsList = Object.keys(filtered);
+        const placeholders = colsList.map(() => '?').join(', ');
+        db.prepare(`INSERT INTO ratsit_data (${colsList.join(', ')}, created_at, updated_at) VALUES (${placeholders}, datetime('now'), datetime('now'))`).run(...Object.values(filtered));
         action = 'created';
       }
-      
-      if (result.changes > 0) {
-        console.log(`  ✓ Ratsit data saved to SQLite (${action})`);
-        return true;
-      } else {
-        console.log('  ⚠ No changes made to database');
-        return false;
-      }
-      
-    } catch (error) {
-      console.log('  ✗ Error saving Ratsit data to SQLite:', error.message);
-      console.log('  ✗ Stack:', error.stack);
+      console.log(`  ✓ Ratsit data saved (${action})`);
+      return true;
+    } catch (e) {
+      console.log('  ✗ Save failed:', e.message);
       return false;
     }
   }
@@ -222,7 +228,48 @@ class HittaRatsitScraper {
             bo_gatuadress: await this.extractRatsitTextAfterLabel(page, 'Gatuadress:'),
             bo_postnummer: await this.extractRatsitTextAfterLabel(page, 'Postnummer:'),
             bo_postort: await this.extractRatsitTextAfterLabel(page, 'Postort:'),
+            // Additional labels
+            bo_forsamling: await this.extractRatsitTextAfterLabel(page, 'Församling:'),
+            bo_kommun: await this.extractRatsitTextAfterLabel(page, 'Kommun:'),
+            bo_lan: await this.extractRatsitTextAfterLabel(page, 'Län:'),
+            ps_civilstand: await this.extractRatsitCivilstand(page),
+            adressandring: await this.extractRatsitTextAfterLabel(page, 'Adressändring:'),
+            stjarntacken: await this.extractRatsitTextAfterLabel(page, 'Stjärntecken:'),
           };
+          // Link for saving
+          personData.ratsit_se = link;
+
+          // Sections: telefonnummer (additional), personer, foretag, grannar, fordon, hundar, bolagsengagemang
+          personData.telefonnummer = await this.extractSectionTelefonnummer(page);
+          const personer = await this.extractSectionListStrong(page, 'Personer');
+          if (personer.length) personData.bo_personer = personer;
+          const foretag = await this.extractSectionForetag(page);
+          if (foretag.length) personData.bo_foretag = foretag;
+          const grannar = await this.extractSectionGrannar(page);
+          if (grannar.length) personData.bo_grannar = grannar;
+          const fordon = await this.extractSectionFordon(page);
+          if (fordon.length) personData.bo_fordon = fordon;
+          const hundar = await this.extractSectionHundar(page);
+          if (hundar.length) personData.bo_hundar = hundar;
+          const bolag = await this.extractSectionBolagsengagemang(page);
+          if (bolag.length) personData.ps_bolagsengagemang = bolag;
+
+          // Lat/Long & Streetview
+          const latLongText = await this.extractLatLongText(page);
+          if (latLongText) {
+            const m = latLongText.match(/Latitud:\s*([0-9.+-]+).*Longitud:\s*([0-9.+-]+)/i);
+            if (m) {
+              personData.latitud = m[1];
+              personData.longitude = m[2];
+            }
+          }
+          personData.google_streetview = await this.extractStreetViewLink(page);
+
+          // Google maps link from address
+          if (personData.bo_gatuadress && personData.bo_postnummer && personData.bo_postort) {
+            const addr = `${personData.bo_gatuadress}, ${personData.bo_postnummer} ${personData.bo_postort}`;
+            personData.google_maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}`;
+          }
           
           // Map gender value
           if (personData.ps_kon) {
@@ -230,12 +277,24 @@ class HittaRatsitScraper {
             personData.ps_kon = konMap[personData.ps_kon.toLowerCase()] || personData.ps_kon;
           }
           
-          // Clean up empty values
+          // Merge telefon arrays and clean null/empty
+          if (Array.isArray(personData.telefonnummer) && Array.isArray(personData.ps_telefon)) {
+            const seen = new Set();
+            const merged = [...personData.ps_telefon, ...personData.telefonnummer].filter((n) => {
+              const k = String(n).trim();
+              if (!k) return false;
+              if (seen.has(k)) return false;
+              seen.add(k); return true;
+            });
+            personData.ps_telefon = merged;
+          }
+
           const cleanData = {};
           for (const [key, value] of Object.entries(personData)) {
-            if (value !== null && value !== '') {
-              cleanData[key] = value;
-            }
+            if (value === null || value === undefined) continue;
+            if (Array.isArray(value) && value.length === 0) continue;
+            if (typeof value === 'string' && value.trim() === '') continue;
+            cleanData[key] = value;
           }
           
           if (Object.keys(cleanData).length > 0) {
@@ -315,6 +374,175 @@ class HittaRatsitScraper {
     } catch (e) {
       return [];
     }
+  }
+
+  async extractRatsitCivilstand(page) {
+    // Look for a section where heading contains Civilstånd and return nearby span text
+    try {
+      const heading = await page.$('h2:has-text("Civilstånd")');
+      if (heading) {
+        const parent = await heading.evaluateHandle((el) => el.parentElement);
+        if (parent) {
+          const text = await parent.evaluate((el) => {
+            const span = el.querySelector('span');
+            return span ? span.textContent?.trim() : null;
+          });
+          if (text) return text;
+        }
+      }
+      return null;
+    } catch { return null; }
+  }
+
+  async extractSectionTelefonnummer(page) {
+    try {
+      const section = await page.$('h3:has-text("Telefonnummer")');
+      if (!section) return [];
+      const container = await section.evaluateHandle((el) => {
+        let n = el.parentElement;
+        // Walk up to a container then find next sibling with numbers
+        return n ? n.parentElement : null;
+      });
+      const numbers = await page.evaluate((root) => {
+        if (!root) return [];
+        const res = [];
+        const spans = root.querySelectorAll('span');
+        spans.forEach((s) => {
+          const t = s.textContent?.trim() || '';
+          if (/\+?\d[\d\s-]{6,}/.test(t)) res.push(t);
+        });
+        return res;
+      }, container);
+      return Array.from(new Set(numbers));
+    } catch { return []; }
+  }
+
+  async extractSectionListStrong(page, headerText) {
+    try {
+      const header = await page.$(`h3:has-text("${headerText}")`);
+      if (!header) return [];
+      const container = await header.evaluateHandle((el) => el.parentElement?.parentElement);
+      const items = await page.evaluate((root) => {
+        if (!root) return [];
+        const arr = [];
+        root.querySelectorAll('strong').forEach((el) => {
+          const t = el.textContent?.trim(); if (t) arr.push(t);
+        });
+        return arr;
+      }, container);
+      return items;
+    } catch { return []; }
+  }
+
+  async extractSectionForetag(page) {
+    try {
+      const header = await page.$('h3:has-text("Företag")');
+      if (!header) return [];
+      const container = await header.evaluateHandle((el) => el.parentElement?.querySelector('table'));
+      const rows = await page.evaluate((tbl) => {
+        const out = [];
+        if (!tbl) return out;
+        tbl.querySelectorAll('tbody tr').forEach((tr) => {
+          const cells = Array.from(tr.querySelectorAll('td')).map((td) => td.innerText.trim());
+          if (cells.length) out.push(cells.join(' | '));
+        });
+        return out;
+      }, container);
+      return rows;
+    } catch { return []; }
+  }
+
+  async extractSectionGrannar(page) {
+    try {
+      const titles = await page.$$('button.accordion-neighbours__title');
+      const out = [];
+      for (const btn of titles) {
+        // Expand if possible (best effort)
+        try { await btn.click({ timeout: 500 }); } catch {}
+      }
+      const rows = await page.$$('div .accordion-neighbours__title ~ div table tbody tr');
+      for (const tr of rows) {
+        const text = await tr.evaluate((el) => el.innerText.replace(/\s+/g, ' ').trim());
+        if (text) out.push(text);
+      }
+      return out;
+    } catch { return []; }
+  }
+
+  async extractSectionFordon(page) {
+    try {
+      const header = await page.$('h3:has-text("Fordon")');
+      if (!header) return [];
+      const table = await header.evaluateHandle((el) => el.parentElement?.querySelector('table'));
+      const rows = await page.evaluate((tbl) => {
+        const out = [];
+        if (!tbl) return out;
+        tbl.querySelectorAll('tbody tr').forEach((tr) => {
+          const tds = tr.querySelectorAll('td');
+          if (tds.length) {
+            const brand = tds[0]?.innerText.trim();
+            const model = tds[1]?.innerText.trim();
+            const year = tds[2]?.innerText.trim();
+            const color = tds[3]?.innerText.trim();
+            const owner = tds[4]?.innerText.trim();
+            out.push([brand, model, year, color, owner].filter(Boolean).join(', '));
+          }
+        });
+        return out;
+      }, table);
+      return rows;
+    } catch { return []; }
+  }
+
+  async extractSectionHundar(page) {
+    try {
+      const header = await page.$('h3:has-text("Hundar")');
+      if (!header) return [];
+      const container = await header.evaluateHandle((el) => el.parentElement);
+      const lines = await page.evaluate((root) => {
+        const out = [];
+        if (!root) return out;
+        const text = root.innerText || '';
+        text.split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
+          if (/\d{4}-\d{2}-\d{2}/.test(l) || /år\)/.test(l)) out.push(l);
+        });
+        return out;
+      }, container);
+      return lines;
+    } catch { return []; }
+  }
+
+  async extractSectionBolagsengagemang(page) {
+    try {
+      const header = await page.$('h3:has-text("Bolagsengagemang")');
+      if (!header) return [];
+      const container = await header.evaluateHandle((el) => el.parentElement);
+      const items = await page.evaluate((root) => {
+        const out = [];
+        if (!root) return out;
+        root.querySelectorAll('table tbody tr').forEach((tr) => {
+          out.push(tr.innerText.replace(/\s+/g, ' ').trim());
+        });
+        return out;
+      }, container);
+      return items;
+    } catch { return []; }
+  }
+
+  async extractLatLongText(page) {
+    try {
+      const el = await page.$('div:has-text("Latitud:")');
+      if (!el) return null;
+      return await el.innerText();
+    } catch { return null; }
+  }
+
+  async extractStreetViewLink(page) {
+    try {
+      const linkEl = await page.$('a[href*="map_action=pano"][href*="viewpoint="]');
+      if (!linkEl) return null;
+      return await linkEl.getAttribute('href');
+    } catch { return null; }
   }
 
   async scrapeSearchResults(query, maxResults = 50) {
@@ -1041,36 +1269,45 @@ class HittaRatsitScraper {
 // Main function
 async function main() {
   program
-    .description('Scrape person data from hitta.se and run ratsit for house owners')
-    .argument('query', 'Search query')
-    .option('--no-missing', 'Do not create separate CSV for missing phone numbers')
-    .option('--no-db', 'Do not save to database')
-    .option('--api-url <url>', 'Laravel API URL (default: http://localhost:8000)')
-    .option('--api-token <token>', 'API authentication token')
+    .description('Scrape person data from Ratsit (Ratsit-only)')
+    .argument('query', 'Search query (e.g. "Firstname Lastname City" or address)')
     .parse();
 
-  const options = program.opts();
   const query = program.args[0];
+  if (!query) {
+    console.error('Missing required query argument.');
+    process.exit(1);
+  }
 
-  const scraper = new HittaRatsitScraper(options.apiUrl, options.apiToken);
+  const scraper = new HittaRatsitScraper();
 
   try {
-    // Scrape results (limit to 10 for testing)
-    const results = await scraper.scrapeSearchResults(query, 1000);
-
-    if (results.length > 0) {
-      console.log(`\nTotal results found: ${results.length}`);
-
-      // Save to CSV (include missing phone CSV by default)
-      await scraper.saveToCsv(query, !options.noMissing);
-
-      // Save to database unless --no-db flag is set
-      if (!options.noDb) {
-        console.log('\nSaving to database...');
-        await scraper.saveToDatabase();
+    const ratsitResults = await scraper.scrapeRatsitData(query);
+    console.log(`\nFound ${ratsitResults.length} Ratsit record(s) for query.`);
+    for (const record of ratsitResults) {
+      scraper.saveRatsitToDatabase(record);
+    }
+    // Write CSV without headers (complete data)
+    if (ratsitResults.length) {
+      const ts = Date.now();
+      const csvFile = path.join(scraper.data_dir, `rasit_${ts}.csv`);
+      await fs.mkdir(scraper.data_dir, { recursive: true }).catch(() => {});
+      const orderedKeys = [
+        'gatuadress','postnummer','postort','forsamling','kommun','lan','adressandring','telfonnummer','stjarntacken','fodelsedag','personnummer','alder','kon','civilstand','fornamn','efternamn','personnamn','telefon','agandeform','bostadstyp','boarea','byggar','personer','foretag','grannar','fordon','hundar','bolagsengagemang','longitude','latitud','google_maps','google_streetview','ratsit_se'
+      ];
+      let csv = '';
+      for (const r of ratsitResults) {
+        const lineVals = orderedKeys.map(k => {
+          let v = r[k];
+          if (Array.isArray(v)) v = v.join(' | ');
+          if (v === null || v === undefined) v = '';
+          const s = String(v);
+          return (/[,"\n]/.test(s)) ? '"'+s.replace(/"/g,'""')+'"' : s;
+        });
+        csv += lineVals.join(',')+'\n';
       }
-    } else {
-      console.log('No results found');
+      await fs.writeFile(csvFile, csv, 'utf-8');
+      console.log(`✓ CSV saved: ${csvFile}`);
     }
   } finally {
     // Always close database connection

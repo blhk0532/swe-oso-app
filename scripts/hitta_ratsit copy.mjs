@@ -11,7 +11,7 @@ import path from 'path';
 import { URL } from 'url';
 import { chromium } from 'playwright';
 import { spawn } from 'child_process';
-import Database from 'better-sqlite3';
+import mysql from 'mysql2/promise';
 
 class HittaRatsitScraper {
   constructor(api_url, api_token) {
@@ -22,114 +22,97 @@ class HittaRatsitScraper {
     this.results = [];
     this.base_url = 'https://www.hitta.se';
     
-    // SQLite database connection - go up one level from scripts/ to project root
-    this.db = null;
-    this.dbPath = path.join(path.dirname(process.cwd()), 'database', 'database.sqlite');
+    // Database connection pool (will be created when needed)
+    this.dbPool = null;
     
     // Ensure data directory exists
     fs.mkdir(this.data_dir, { recursive: true }).catch(() => {});
-    // Ensure database directory exists
-    fs.mkdir(path.dirname(this.dbPath), { recursive: true }).catch(() => {});
   }
 
-  getDbConnection() {
-    /** Get or create SQLite database connection */
-    if (this.db) {
-      return this.db;
+  async getDbConnection() {
+    /** Get or create database connection pool */
+    if (this.dbPool) {
+      return this.dbPool;
     }
 
-    // Create SQLite database connection
-    this.db = new Database(this.dbPath);
-    
-    // Enable foreign keys and WAL mode for better performance
-    this.db.pragma('journal_mode = WAL');
-    this.db.pragma('foreign_keys = ON');
-    
-    // Table already exists in Laravel's database.sqlite - no need to create
-    console.log(`✓ Connected to SQLite database: ${this.dbPath}`);
-    return this.db;
+    // Read database credentials from environment or use defaults
+    this.dbPool = await mysql.createPool({
+      host: process.env.DB_HOST || '127.0.0.1',
+      port: process.env.DB_PORT || 3306,
+      user: process.env.DB_USERNAME || 'root',
+      password: process.env.DB_PASSWORD || 'bkkbkk',
+      database: process.env.DB_DATABASE || 'laravel',
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0
+    });
+
+    return this.dbPool;
   }
 
-  saveRatsitToDatabase(ratsitData) {
+  async saveRatsitToDatabase(ratsitData) {
     /**
-     * Save Ratsit data directly to SQLite database without API call
-     * Uses INSERT or UPDATE based on existing record
+     * Save Ratsit data directly to database without API call
+     * This function handles the upsert logic for ratsit_data table
      */
     try {
-      const db = this.getDbConnection();
+      const pool = await this.getDbConnection();
       
-      // Prepare data for database insertion (matching Laravel's schema)
+      // Prepare data for database insertion
       const dbData = {
+        ps_personnummer: ratsitData.ps_personnummer || null,
+        ps_alder: ratsitData.ps_alder || null,
+        ps_fodelsedag: ratsitData.ps_fodelsedag || null,
+        ps_kon: ratsitData.ps_kon || null,
+        ps_civilstand: ratsitData.ps_civilstand || null,
+        ps_fornamn: ratsitData.ps_fornamn || null,
+        ps_efternamn: ratsitData.ps_efternamn || null,
+        ps_personnamn: ratsitData.ps_personnamn || null,
+        ps_telefon: Array.isArray(ratsitData.ps_telefon) ? JSON.stringify(ratsitData.ps_telefon) : null,
+        ps_epost_adress: ratsitData.ps_epost_adress ? JSON.stringify(ratsitData.ps_epost_adress) : null,
+        ps_bolagsengagemang: ratsitData.ps_bolagsengagemang ? JSON.stringify(ratsitData.ps_bolagsengagemang) : null,
         bo_gatuadress: ratsitData.bo_gatuadress || null,
         bo_postnummer: ratsitData.bo_postnummer || null,
         bo_postort: ratsitData.bo_postort || null,
         bo_forsamling: ratsitData.bo_forsamling || null,
         bo_kommun: ratsitData.bo_kommun || null,
         bo_lan: ratsitData.bo_lan || null,
-        ps_fodelsedag: ratsitData.ps_fodelsedag || null,
-        ps_personnummer: ratsitData.ps_personnummer || null,
-        ps_alder: ratsitData.ps_alder || null,
-        ps_kon: ratsitData.ps_kon || null,
-        ps_civilstand: ratsitData.ps_civilstand || null,
-        ps_fornamn: ratsitData.ps_fornamn || null,
-        ps_efternamn: ratsitData.ps_efternamn || null,
-        ps_personnamn: ratsitData.ps_personnamn || null,
-        ps_telefon: Array.isArray(ratsitData.ps_telefon) ? JSON.stringify(ratsitData.ps_telefon) : '[]',
-        ps_epost_adress: ratsitData.ps_epost_adress ? JSON.stringify(ratsitData.ps_epost_adress) : '[]',
-        ps_bolagsengagemang: ratsitData.ps_bolagsengagemang ? JSON.stringify(ratsitData.ps_bolagsengagemang) : '[]',
-        bo_personer: ratsitData.bo_personer ? JSON.stringify(ratsitData.bo_personer) : '[]',
-        bo_foretag: ratsitData.bo_foretag ? JSON.stringify(ratsitData.bo_foretag) : '[]',
-        bo_grannar: ratsitData.bo_grannar ? JSON.stringify(ratsitData.bo_grannar) : '[]',
-        bo_fordon: ratsitData.bo_fordon ? JSON.stringify(ratsitData.bo_fordon) : '[]',
-        bo_hundar: ratsitData.bo_hundar ? JSON.stringify(ratsitData.bo_hundar) : '[]',
         bo_agandeform: ratsitData.bo_agandeform || null,
         bo_bostadstyp: ratsitData.bo_bostadstyp || null,
         bo_boarea: ratsitData.bo_boarea || null,
         bo_byggar: ratsitData.bo_byggar || null,
         bo_fastighet: ratsitData.bo_fastighet || null,
+        bo_personer: ratsitData.bo_personer ? JSON.stringify(ratsitData.bo_personer) : null,
+        bo_foretag: ratsitData.bo_foretag ? JSON.stringify(ratsitData.bo_foretag) : null,
+        bo_grannar: ratsitData.bo_grannar ? JSON.stringify(ratsitData.bo_grannar) : null,
+        bo_fordon: ratsitData.bo_fordon ? JSON.stringify(ratsitData.bo_fordon) : null,
+        bo_hundar: ratsitData.bo_hundar ? JSON.stringify(ratsitData.bo_hundar) : null,
         bo_longitude: ratsitData.bo_longitude || null,
         bo_latitud: ratsitData.bo_latitud || null,
-        is_active: 1,
+        is_active: true,
       };
 
-      // Check if record already exists based on personnummer and address
-      const checkStmt = db.prepare(`
-        SELECT id FROM ratsit_data 
-        WHERE ps_personnummer = ? AND bo_gatuadress = ? AND bo_postnummer = ?
-      `);
-      const existing = checkStmt.get(
-        dbData.ps_personnummer,
-        dbData.bo_gatuadress,
-        dbData.bo_postnummer
-      );
+      // Build the INSERT ... ON DUPLICATE KEY UPDATE query
+      const fields = Object.keys(dbData);
+      const placeholders = fields.map(() => '?').join(', ');
+      const updates = fields
+        .filter(f => f !== 'created_at') // Don't update created_at
+        .map(f => `${f} = VALUES(${f})`)
+        .join(', ');
 
-      let result;
-      let action;
+      const query = `
+        INSERT INTO ratsit_data (${fields.join(', ')}, created_at, updated_at)
+        VALUES (${placeholders}, NOW(), NOW())
+        ON DUPLICATE KEY UPDATE ${updates}, updated_at = NOW()
+      `;
 
-      if (existing) {
-        // Update existing record
-        const updateFields = Object.keys(dbData).map(f => `${f} = ?`).join(', ');
-        const updateStmt = db.prepare(`
-          UPDATE ratsit_data 
-          SET ${updateFields}, updated_at = datetime('now')
-          WHERE id = ?
-        `);
-        result = updateStmt.run(...Object.values(dbData), existing.id);
-        action = 'updated';
-      } else {
-        // Insert new record
-        const fields = Object.keys(dbData);
-        const placeholders = fields.map(() => '?').join(', ');
-        const insertStmt = db.prepare(`
-          INSERT INTO ratsit_data (${fields.join(', ')}, created_at, updated_at)
-          VALUES (${placeholders}, datetime('now'), datetime('now'))
-        `);
-        result = insertStmt.run(...Object.values(dbData));
-        action = 'created';
-      }
+      const values = fields.map(f => dbData[f]);
       
-      if (result.changes > 0) {
-        console.log(`  ✓ Ratsit data saved to SQLite (${action})`);
+      const [result] = await pool.execute(query, values);
+      
+      if (result.affectedRows > 0) {
+        const action = result.insertId ? 'created' : 'updated';
+        console.log(`  ✓ Ratsit data saved to database (${action})`);
         return true;
       } else {
         console.log('  ⚠ No changes made to database');
@@ -137,17 +120,16 @@ class HittaRatsitScraper {
       }
       
     } catch (error) {
-      console.log('  ✗ Error saving Ratsit data to SQLite:', error.message);
-      console.log('  ✗ Stack:', error.stack);
+      console.log('  ✗ Error saving Ratsit data to database:', error.message);
       return false;
     }
   }
 
-  closeDbConnection() {
-    /** Close SQLite database connection */
-    if (this.db) {
-      this.db.close();
-      this.db = null;
+  async closeDbConnection() {
+    /** Close database connection pool */
+    if (this.dbPool) {
+      await this.dbPool.end();
+      this.dbPool = null;
     }
   }
 
@@ -425,13 +407,10 @@ class HittaRatsitScraper {
                   console.log('  → Error flushing pending results to DB:', e);
                 }
 
-                // Run ratsit immediately only for house owners with required args present
+                // Run ratsit immediately for this person if required args are present
                 const hasFullAddress = !!(personData.personnamn && personData.gatuadress && personData.postort);
-                const isHouse = personData.bostadstyp === 'Hus';
-                if (!isHouse) {
-                  console.log('  → Skipping ratsit (bostadstyp is not Hus or not detected)');
-                } else if (hasFullAddress) {
-                  console.log(`  → Running ratsit now for ${personData.personnamn} (Hus)`);
+                if (hasFullAddress) {
+                  console.log(`  → Running ratsit now for ${personData.personnamn}`);
                   await this.runRatsitForPerson(personData);
                 } else {
                   console.log('  → Skipping ratsit (missing required fields for immediate run)');
@@ -802,7 +781,7 @@ class HittaRatsitScraper {
         console.log(`  → Saving ${ratsitResults.length} Ratsit record(s) to database...`);
         
         for (const ratsitData of ratsitResults) {
-          this.saveRatsitToDatabase(ratsitData);
+          await this.saveRatsitToDatabase(ratsitData);
         }
         
         console.log(`  → ✓ Completed Ratsit processing for ${personData.personnamn}`);
@@ -1074,7 +1053,7 @@ async function main() {
     }
   } finally {
     // Always close database connection
-    scraper.closeDbConnection();
+    await scraper.closeDbConnection();
   }
 }
 

@@ -1,0 +1,254 @@
+ratsit_data
+---------------------------------------------------------
+
+id (int) (primary) (auto increment),
+gatuadress (string/text) (default NULL) ,
+postnummer (string/text) (default NULL),
+postort (string/text) (default NULL),
+forsamling (string/text) (default NULL),
+kommun (string/text) (default NULL),
+lan (string/text) (default NULL),
+adressandring (string/text) (default NULL),
+telfonnummer (array/json) (default EMPTY),
+stjarntacken (string/text) (default NULL)
+fodelsedag (string/text) (default NULL)
+personnummer (string/text) (default NULL),
+alder (string/text) (default NULL),
+kon (string/text) (default NULL),
+civilstand (string/text) (default NULL),
+fornamn (string/text) (default NULL)
+efternamn (string/text) (default NULL),
+personnamn (string/text) (default NULL),
+telefon (array/json) (default EMPTY),
+agandeform (string/text) (default NULL),
+bostadstyp (string/text) (default NULL),
+boarea (string/text) (default NULL),
+byggar (string/text) (default NULL),
+personer (array/json) (default EMPTY)
+foretag (array/json) (default EMPTY),
+grannar (array/json) (default EMPTY),
+fordon (array/json) (default EMPTY),
+hundar (array/json) (default EMPTY),
+bolagsengagemang (array/json) (default EMPTY),
+longitude (string/text) (default NULL),
+latitud (string/text) (default NULL),
+google_maps (string/text) (default NULL),
+google_streetview (string/text) (default NULL),
+ratsit_se (string/text) (default NULL)
+
+is_active (boolean) (default TRUE),
+created_at (date time) (default TIMESTAMP),
+updated_at (date time) (default TIMESTAMP),
+
+---------------------------------------------------------
+fetch data
+---------------------------------------------------------
+
+visit url: https://www.ratsit.se/sok/person?vem={[query]}
+
+ratsit_data rasit_link
+HTML: on the results page <a href="https://www.ratsit.se/19620312-Bo_Henry_Kristoffersson_Angelholm/t-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y" data-ga-event-action="Klick" data-ga-event-label="Träfflista" data-ga-event-page="SokSida" data-ga-event-target="Rapportsida"><div class="pe-1 search-result-list-icon"><h2><strong>Bo</strong> Henry Kristoffersson</h2> <p class="mt-0">Ålagränd 26, Ängelholm</p> <p class="mt-0">63 år <i class="icon-briefcase"></i> <i class="icon-married"></i> <i class="icon-male"></i></p></div> <div class="search-result-links-holder mt-1 mt-lg-0"><!--v-if--> <a class="btn btn--full-width-mobile btn--small btn--noshade btn-primary" data-ga-event-action="Klick-Kop" data-ga-event-label="Se lön direkt" data-ga-event-page="SokSida" href="/kop/kassa/lonekollen/t-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y">Se lön direkt</a></div></a>
+SAVE: https://www.ratsit.se/19620312-Bo_Henry_Kristoffersson_Angelholm/t-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y
+(example target HTML: <a href="https://www.ratsit.se/19620312-Bo_Henry_Kristoffersson_Angelholm/t-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y" data-ga-event-action="Klick" data-ga-event-label="Träfflista" data-ga-event-page="SokSida" data-ga-event-target="Rapportsida"><div class="pe-1 search-result-list-icon"><h2><strong>Bo</strong> Henry Kristoffersson</h2> <p class="mt-0">Ålagränd 26, Ängelholm</p> <p class="mt-0">63 år <i class="icon-briefcase"></i> <i class="icon-married"></i> <i class="icon-male"></i></p></div> <div class="search-result-links-holder mt-1 mt-lg-0"><!--v-if--> <a class="btn btn--full-width-mobile btn--small btn--noshade btn-primary" data-ga-event-action="Klick-Kop" data-ga-event-label="Se lön direkt" data-ga-event-page="SokSida" href="/kop/kassa/lonekollen/t-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y">Se lön direkt</a></div></a>)
+(data saved expected: https://www.ratsit.se/19620312-Bo_Henry_Kristoffersson_Angelholm/t-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y)
+
+ratsit_data personnummer
+HTML: after <span class="color--gray5">Personnummer:</span>
+SAVE: 19601110-XXXX
+(example target HTML: <p class="mt-0"><span class="color--gray5">Personnummer:</span> 19601110- <a data-ga-event-action="Klick" data-ga-event-label="PersonUppgifter - Se personnummer loggain" data-ga-event-page="Personrapport" rel="nofollow" class="tooltip" href="/loggain?returnurl=%2F19601110-Staffan_Gezelius_Enskededalen%2F2ptDwSYu19v5wQbQ_3MKaV7YWlOVfJjt9C39oDZNZt8" style="text-decoration: underline;"><strong>XXXX</strong><span class="tooltip-text tooltip-text--small">Visas för medlemmar</span></a></p>)
+(data saved expected: 19601110-XXXX)
+
+ratsit_data alder
+HTML: after <span class="color--gray5">Ålder:</span>
+SAVE: 61 år
+(example target HTML:<p class="mt-0"><span class="color--gray5">Ålder:</span> 61 år</p>)
+(data saved expected:61 år)
+
+ratsit_data fodelsedag
+HTML: after <span class="color--gray5">Födelsedag:</span>
+SAVE: 24 april 1964
+(example target HTML: <p class="mt-0"><span class="color--gray5">Födelsedag:</span> 24 april 1964</p>)
+(data saved expected: 24 april 1964)
+
+ratsit_data kon
+HTML: after <span class="color--gray5">Juridiskt kön:</span>
+SAVE: Man
+(example target HTML: <p class="mt-0"><span class="color--gray5">Juridiskt kön:</span> Man</p>)
+(data saved expected: Man)
+
+ratsit_data telefon
+HTML: after <span class="color--gray5">Telefon:</span>
+SAVE: +4670-7132088
+(example target HTML: <p class="mt-0"><span class="color--gray5">Telefon:</span> <a href="tel:+4670-7132088" data-ga-event-action="Klick" data-ga-event-label="Personuppgifter - Ring" data-ga-event-page="Personrapport" style="text-decoration: none;">070-7132088</a></p>)
+(data saved expected: +4670-7132088)
+
+ratsit_data personnamn
+HTML: after <span class="color--gray5">Personnamn:</span>
+SAVE: Knut Rolf Henrik Brandt
+(example target HTML: <p class="mt-1"><span class="color--gray5">Personnamn:</span> Knut Rolf Henrik Brandt</p>)
+(data saved expected: Knut Rolf Henrik Brandt)
+
+ratsit_data fornamn
+HTML: after <span class="color--gray5">Förnamn:</span>
+SAVE: Knut Rolf Henrik
+(example target HTML: <p class="mt-0"><span class="color--gray5">Förnamn:</span> Knut Rolf Henrik</p>)
+(data saved expected: Knut Rolf Henrik)
+
+ratsit_data efternamn
+HTML: after <span class="color--gray5">Efternamn:</span>
+SAVE: Brandt
+(example target HTML: <p class="mt-0"><span class="color--gray5">Efternamn:</span> Brandt</p>)
+(data saved expected: Brandt)
+
+ratsit_data gatuadress:
+HTML: after <span class="color--gray5">Gatuadress:</span>
+SAVE: Åkervägen 96
+(example target HTML: <p class="mt-0"><span class="color--gray5">Gatuadress:</span> Åkervägen 96</p>)
+(expected saved data: Åkervägen 96)
+
+ratsit_data postnummer
+HTML: after <span class="color--gray5">Postnummer:</span>
+SAVE: 121 33
+(example target HTML: <p class="mt-0"><span class="color--gray5">Postnummer:</span> 121 33</p>)
+(data saved expected: 121 33)
+
+ratsit_data postort
+HTML: after <span class="color--gray5">Postort:</span>
+SAVE: Sala
+(example target HTML: <p class="mt-0"><span class="color--gray5">Postort:</span> Sala</p>)
+(data saved expected: Sala)
+
+ratsit_data civilstand
+HTML: <span>Thomas är inte gift</span>
+SAVE: Thomas är inte gift
+(example target HTML: <div class="col-12"><h2 class="site-p color--gray5 mt-0">Civilstånd</h2><span>Thomas är inte gift</span></div>)
+(data saved expected: Thomas är inte gift)
+
+ratsit_data forsamling
+HTML: after <span class="color--gray5">Församling:</span>
+SAVE: Överjärna församling (018107)
+(example target HTML: <p class="mt-0"><span class="color--gray5">Församling:</span> Överjärna församling (018107)</p>)
+(data saved expected: Överjärna församling (018107))
+
+ratsit_data kommun
+HTML: after <span class="color--gray5">Kommun:</span>
+SAVE: Sala (1981)
+(example target HTML: <p class="mt-0"><span class="color--gray5">Kommun:</span><a href="/personer/Sala-kommun" data-ga-event-action="Klick" data-ga-event-label="Kommun" data-ga-event-page="Personrapport" style="text-decoration: none;"> Sala</a> (1981) </p>)
+(data saved expected: Sala (1981))
+
+ratsit_data lan
+HTML: after <span class="color--gray5">Län:</span>
+SAVE: Västmanland (19)
+(example target HTML: <p class="mt-0"><span class="color--gray5">Län:</span> Västmanland (19)</p>)
+(data saved expected: Västmanland (19))
+
+ratsit_data adressandring
+HTML: after <span class="color--gray5">Adressändring:</span>
+SAVE: 2014-04-08
+(example target HTML: <p class="mt-1"><span class="color--gray5">Adressändring:</span> 2014-04-08</p>)
+(data saved expected: 2014-04-08)
+
+ratsit_data telefonnummer
+HTML: after <h3> Telefonnummer </h3>
+SAVE: [070-2254197, 070-7204143, 073-0466351, 073-0933567]
+(example target HTML: <div class="col-12 col-lg-12"><h3> Telefonnummer </h3><p class="row"><span class="col-4 col-md-2 text-nowrap">070-2254197</span><span class="col-4 col-md-2 text-nowrap">070-7204143</span><span class="col-4 col-md-2 text-nowrap">073-0466351</span><span class="col-4 col-md-2 text-nowrap">073-0933567</span></p><h4 class="mt-3">Andra möjliga format</h4><div><p class="read-more read-more--small mt-2 user-select-auto"><span class="read-more__toggle"></span><strong>Läs mer</strong><!----></p><p class="row d-none"><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">0046702254197</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+46702254197</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+467-02254197</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+467-022 541 97</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">0702254197</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">070-2254197</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">070-225 41 97</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">070 225 41 97</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">070 2254197</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">0046707204143</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+46707204143</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+467-07204143</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+467-072 041 43</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">0707204143</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">070-7204143</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">070-720 41 43</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">070 720 41 43</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">070 7204143</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">0046730466351</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+46730466351</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+467-30466351</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+467-304 663 51</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">0730466351</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">073-0466351</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">073-046 63 51</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">073 046 63 51</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">073 0466351</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">0046730933567</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+46730933567</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+467-30933567</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">+467-309 335 67</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">0730933567</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">073-0933567</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">073-093 35 67</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">073 093 35 67</span><span class="col-6 col-sm-4 col-md-3 col-lg-2 text-nowrap">073 0933567</span></p></div></div>)
+(data saved expected: [070-2254197, 070-7204143, 073-0466351, 073-0933567])
+
+ratsit_data stjarntecken
+HTML: after <span class="color--gray5">Stjärntecken:</span>
+SAVE: Väduren
+(example target HTML: <p class="mt-0"><span class="color--gray5">Stjärntecken:</span> <a rel="nofollow" data-ga-event-action="Klick" data-ga-event-label="Horoskop" data-ga-event-page="Personrapport" href="/person/horoskop/KQ9GA5bl9xNQ2onUEODjyJeGNdbpMRr_DY__9yjENsM" style="text-decoration: none;"> Väduren </a></p>)
+(data saved expected: Väduren)
+
+ratsit_data agandeform
+HTML: after <span class="color--gray5">Ägandeform:</span>
+SAVE: Äganderätt
+(example target HTML: <p><span class="color--gray5">Ägandeform:</span> Äganderätt</p>)
+(data saved expected: Äganderätt)
+
+ratsit_data bostadstyp
+HTML: after <span class="color--gray5">Bostadstyp:</span>
+SAVE: Villa
+(example target HTML: <p class="mt-0"><span class="color--gray5">Bostadstyp:</span> Villa</p>)
+(data saved expected: Villa)
+
+ratsit_data boarea
+HTML: after <span class="color--gray5">Boarea:</span>
+SAVE: 77 kvm
+(example target HTML: <p class="mt-0"><span class="color--gray5">Boarea:</span> 77 kvm</p>)
+(data saved expected: 77 kvm)
+
+ratsit_data byggar
+HTML: after <span class="color--gray5">Byggår:</span>
+SAVE: 1947
+(example target HTML: <p class="mt-0"><span class="color--gray5">Byggår:</span> 1947</p>)
+(data saved expected: 1947)
+
+ratsit_data personer
+HTML: after <h3>Personer</h3>
+SAVE: [Thomas Denk (56 år), Angela Ruhri (43 år), Benjamin Rémi Jacques Adroit (34 år), Emilia Ruhri (18 år), Janina Ruhri (16 år)]
+(example target HTML: <div class="col-12 col-lg-6"><h3>Personer</h3><div class="row mt-1"><div class="col-12 col-lg-8 d-flex align-items-center"><a href="https://www.ratsit.se/19690415-Thomas_Denk_Jarna/KQ9GA5bl9xNQ2onUEODjyJeGNdbpMRr_DY__9yjENsM"><strong>Thomas Denk (56 år)</strong></a></div><div class="col-12 col-lg-4 text-lg-end mt-1 mt-lg-0" style="min-height: 35px;"><a href="/kop/kassa/lonekollen/KQ9GA5bl9xNQ2onUEODjyJeGNdbpMRr_DY__9yjENsM" class="btn btn--small btn-primary" data-ga-event-action="Klick" data-ga-event-label="LonekollenPott - På adressen" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></div></div><div class="row mt-1"><div class="col-12 col-lg-8 d-flex align-items-center"><a href="https://www.ratsit.se/19811127-Angela_Ruhri_Jarna/3tmKU5hIN_Cwi_nJFjc7XSJ4XskhqpO0C3PKR9DO_k0"><strong>Angela Ruhri (43 år)</strong></a></div><div class="col-12 col-lg-4 text-lg-end mt-1 mt-lg-0" style="min-height: 35px;"><a href="/kop/kassa/lonekollen/3tmKU5hIN_Cwi_nJFjc7XSJ4XskhqpO0C3PKR9DO_k0" class="btn btn--small btn-primary" data-ga-event-action="Klick" data-ga-event-label="LonekollenPott - På adressen" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></div></div><div class="row mt-1"><div class="col-12 col-lg-8 d-flex align-items-center"><a href="https://www.ratsit.se/19910115-Benjamin_Remi_Jacques_Adroit_Jarna/ts5gMMG49v5oRexZXVv3SoLuyn0qcrjuhY1H8nv-kwo"><strong>Benjamin Rémi Jacques Adroit (34 år)</strong></a></div><div class="col-12 col-lg-4 text-lg-end mt-1 mt-lg-0" style="min-height: 35px;"><a href="/kop/kassa/lonekollen/ts5gMMG49v5oRexZXVv3SoLuyn0qcrjuhY1H8nv-kwo" class="btn btn--small btn-primary" data-ga-event-action="Klick" data-ga-event-label="LonekollenPott - På adressen" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></div></div><div class="row mt-1"><div class="col-12 col-lg-8 d-flex align-items-center"><a href="https://www.ratsit.se/20070612-Emilia_Salome_Ruhri_Jarna/zZJOHqrGqBGpMI4txCi8HuAlQ7g8g8GkvVy9dsL5tt0"><strong>Emilia Ruhri (18 år)</strong></a></div><div class="col-12 col-lg-4 text-lg-end mt-1 mt-lg-0" style="min-height: 35px;"><a href="/kop/kassa/lonekollen/zZJOHqrGqBGpMI4txCi8HuAlQ7g8g8GkvVy9dsL5tt0" class="btn btn--small btn-primary" data-ga-event-action="Klick" data-ga-event-label="LonekollenPott - På adressen" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></div></div><div class="row mt-1"><div class="col-12 col-lg-8 d-flex align-items-center"><a href="https://www.ratsit.se/20090827-Janina_Magdalena_Ruhri_Jarna/YSi_OAskrqxQncPvNicRfdrNY0_v8aBRXQciHJ3EWfM"><strong>Janina Ruhri (16 år)</strong></a></div><div class="col-12 col-lg-4 text-lg-end mt-1 mt-lg-0" style="min-height: 35px;"><a href="/kop/kassa/lonekollen/YSi_OAskrqxQncPvNicRfdrNY0_v8aBRXQciHJ3EWfM" class="btn btn--small btn-primary" data-ga-event-action="Klick" data-ga-event-label="LonekollenPott - På adressen" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></div></div></div>)
+(data saved expected: [Thomas Denk (56 år), Angela Ruhri (43 år), Benjamin Rémi Jacques Adroit (34 år), Emilia Ruhri (18 år), Janina Ruhri (16 år)])
+
+ratsit_data foretag
+HTML: after <h3>Företag på adressen | 1 st</h3>
+SAVE: ["Ruhri, Angela", "Aktiv", "Angela Ruhri (Innehavare)"]
+(example target HTML: <div class="col-12"><h3>Företag på adressen | 1 st</h3><div class="table-standard mt-2"><table><thead><tr><th style="width: 40%; position: relative;">Företagsnamn</th><th class="d-none d-md-table-cell" style="width: 10%;">Status</th><th class="d-none d-md-table-cell" style="width: 40%;">Ansvarig</th><th class="d-none d-md-table-cell" style="width: 10%;">Lön</th></tr></thead><tbody><tr><td><div><a href="https://www.ratsit.se/811127BMUO-Ruhri,_Angela"><strong>Ruhri, Angela</strong></a><span aria-label="Öppna/stäng" class="table-standard__toggle d-block d-md-none"></span><!----></div></td><td class="d-none d-md-table-cell"><i class="icon-dot bgcolor--green"></i> <span class="color--green">Aktiv</span></td><td class="d-none d-md-table-cell"><a href="https://www.ratsit.se/19811127-Angela_Ruhri_Jarna/3tmKU5hIN_Cwi_nJFjc7XSJ4XskhqpO0C3PKR9DO_k0"><strong>Angela Ruhri</strong></a> <span class="color--gray5">(Innehavare)</span></td><td class="d-none d-md-table-cell"><a href="/kop/kassa/lonekollen/3tmKU5hIN_Cwi_nJFjc7XSJ4XskhqpO0C3PKR9DO_k0" class="btn btn--small btn--noshade btn-primary" data-ga-event-action="Klick" data-ga-event-label="Registrerat på adressen (företag) - Kolla lön direkt" data-ga-event-page="Personrapport">Kolla lön direkt</a></td></tr></tbody></table></div></div>)
+(data saved expected: ["Ruhri, Angela", "Aktiv", "Angela Ruhri (Innehavare)"])
+
+ratsit_data grannar
+HTML: after <button class="accordion-neighbours__title"><strong>Hyttgatan 50 - Villa</strong></button>
+SAVE: ["William Stomilovic, 66 år, 2003-10-30", "Dara Novakovic Stomilovic, 60 år, 2003-10-30"]
+(example target HTML: <div><button class="accordion-neighbours__title"><strong>Hyttgatan 50 - Villa</strong></button> <span class="accordion-neighbours__toggle d-block is-active"></span> <div class="d-block" style="display: none;"><table><thead><tr><th class="d-none d-md-table-cell" style="width: 40%;">Granne</th> <th class="d-none d-md-table-cell" style="width: 30%;">Adressändringsdatum</th> <th class="d-none d-md-table-cell" style="width: 30%;">Grannes lön</th></tr></thead> <tbody><tr><td><a href="https://www.ratsit.se/19591031-William_Stomilovic_Sala/yiRoU5YyGJ1fE3BqTDdVIibbRWSo3lPKIO0t1UjKBJ4"><strong>William Stomilovic, 66 år</strong></a> <span class="d-block d-md-none"><span class="d-block mt-1"><strong>Adressändringsdatum</strong></span> 2003-10-30 <a href="/kop/kassa/lonekollen/yiRoU5YyGJ1fE3BqTDdVIibbRWSo3lPKIO0t1UjKBJ4" class="btn btn--small btn--noshade btn-primary mt-1" data-ga-event-action="Klick" data-ga-event-label="Villa-Grannar - Kolla lön direkt" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></span></td> <td class="d-none d-md-table-cell">2003-10-30</td> <td class="d-none d-md-table-cell"><a href="/kop/kassa/lonekollen/yiRoU5YyGJ1fE3BqTDdVIibbRWSo3lPKIO0t1UjKBJ4" class="btn btn--small btn--noshade btn-primary" data-ga-event-action="Klick" data-ga-event-label="Villa-Grannar - Kolla lön direkt" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></td></tr><tr><td><a href="https://www.ratsit.se/19650908-Dara_Novakovic_Stomilovic_Sala/0dF29gqVAN63H0WyjmVspHqJ_adF0NDTuWzjmgt9tFY"><strong>Dara Novakovic Stomilovic, 60 år</strong></a> <span class="d-block d-md-none"><span class="d-block mt-1"><strong>Adressändringsdatum</strong></span> 2003-10-30 <a href="/kop/kassa/lonekollen/0dF29gqVAN63H0WyjmVspHqJ_adF0NDTuWzjmgt9tFY" class="btn btn--small btn--noshade btn-primary mt-1" data-ga-event-action="Klick" data-ga-event-label="Villa-Grannar - Kolla lön direkt" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></span></td> <td class="d-none d-md-table-cell">2003-10-30</td> <td class="d-none d-md-table-cell"><a href="/kop/kassa/lonekollen/0dF29gqVAN63H0WyjmVspHqJ_adF0NDTuWzjmgt9tFY" class="btn btn--small btn--noshade btn-primary" data-ga-event-action="Klick" data-ga-event-label="Villa-Grannar - Kolla lön direkt" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></td></tr></tbody></table></div></div>)
+(data saved expected: ["William Stomilovic, 66 år, 2003-10-30", "Dara Novakovic Stomilovic, 60 år, 2003-10-30"])
+
+ratsit_data fordon
+HTML: after <h3 data-v-6ea11d52="">Fordon på adressen | 2 st</h3>
+SAVE: ["Volkswagen,Touran, 2011, Silver, Angela Ruhri", "Skoda ,Fabia 1.4, 2007, Mörkgrå, Angela Ruhri"]
+(example target HTML: <div data-v-6ea11d52="" class="col-12" returnurl="https://www.ratsit.se/loggain?returnUrl=/19690415-Thomas_Denk_Jarna/KQ9GA5bl9xNQ2onUEODjyJeGNdbpMRr_DY__9yjENsM"><h3 data-v-6ea11d52="">Fordon på adressen | 2 st</h3> <!--v-if--> <div data-v-6ea11d52="" class="table-standard mt-2"><table data-v-6ea11d52=""><thead data-v-6ea11d52=""><tr data-v-6ea11d52=""><th data-v-6ea11d52="" style="width: 10%; position: relative;">Märke</th> <th data-v-6ea11d52="" class="d-none d-md-table-cell" style="width: 20%;">Modell</th> <th data-v-6ea11d52="" class="d-none d-md-table-cell" style="width: 10%;">Modellår</th> <th data-v-6ea11d52="" class="d-none d-md-table-cell" style="width: 20%;">Färg</th> <th data-v-6ea11d52="" class="d-none d-md-table-cell" style="width: 20%;">Ägare</th> <th data-v-6ea11d52="" class="d-none d-md-table-cell" style="width: 10%;">Biluppgifter</th></tr></thead> <tbody data-v-6ea11d52=""><tr data-v-6ea11d52=""><td data-v-6ea11d52=""><div data-v-6ea11d52=""><strong data-v-6ea11d52="" class="d-block">Volkswagen</strong> <button data-v-6ea11d52="" aria-label="Öppna/stäng" class="table-standard__toggle d-block d-md-none"></button> <!--v-if--></div></td> <td data-v-6ea11d52="" class="d-none d-md-table-cell">Touran</td> <td data-v-6ea11d52="" class="d-none d-md-table-cell">2011</td> <td data-v-6ea11d52="" class="d-none d-md-table-cell">Silver</td> <td data-v-6ea11d52="" class="d-none d-md-table-cell"><strong data-v-6ea11d52="">Angela Ruhri</strong></td> <td data-v-6ea11d52="" class="d-none d-md-table-cell"><a data-v-6ea11d52="" href="https://biluppgifter.se/fordon/BCM307/?utm_source=ratsit" class="btn btn--small btn--noshade btn-primary" data-ga-event-action="Klick" data-ga-event-label="Biluppgifter kolla lön direkt - på adressen" data-ga-event-page="Personrapport" target="_blank" rel="noreferrer noopener">Visa information</a></td></tr><tr data-v-6ea11d52=""><td data-v-6ea11d52=""><div data-v-6ea11d52=""><strong data-v-6ea11d52="" class="d-block">Skoda</strong> <button data-v-6ea11d52="" aria-label="Öppna/stäng" class="table-standard__toggle d-block d-md-none"></button> <!--v-if--></div></td> <td data-v-6ea11d52="" class="d-none d-md-table-cell">Fabia 1.4</td> <td data-v-6ea11d52="" class="d-none d-md-table-cell">2007</td> <td data-v-6ea11d52="" class="d-none d-md-table-cell">Mörkgrå</td> <td data-v-6ea11d52="" class="d-none d-md-table-cell"><strong data-v-6ea11d52="">Angela Ruhri</strong></td> <td data-v-6ea11d52="" class="d-none d-md-table-cell"><a data-v-6ea11d52="" href="https://biluppgifter.se/fordon/ONL010/?utm_source=ratsit" class="btn btn--small btn--noshade btn-primary" data-ga-event-action="Klick" data-ga-event-label="Biluppgifter kolla lön direkt - på adressen" data-ga-event-page="Personrapport" target="_blank" rel="noreferrer noopener">Visa information</a></td></tr></tbody></table></div> <!--v-if--> <p data-v-6ea11d52="" class="mt-3"><i data-v-6ea11d52="">Information om fordon uppdateras veckovis. Vid begäran om rättning kontakta <a data-v-6ea11d52="" href="https://www.biluppgifter.se" target="_blank" rel="noreferrer" data-ga-event-action="Klick" data-ga-event-label="Biluppgifter länk - på adressen" data-ga-event-page="Personrapport">Biluppgifter.se</a></i></p></div>)
+(data saved expected: ["Volkswagen,Touran, 2011, Silver, Angela Ruhri", "Skoda ,Fabia 1.4, 2007, Mörkgrå, Angela Ruhri"])
+
+ratsit_data hundar
+HTML: after <h3>Hundar på adressen | 1 st</h3>
+SAVE: ["LABRADOR RETRIEVER, 2011-04-22 (14 år), Bo Kristoffersson"]
+(example target HTML: <div class="col-12"><h3>Hundar på adressen | 1 st</h3><div class="table-standard mt-2"><table><thead><tr><th style="width: 10%; position: relative;">Ras</th><th class="d-none d-md-table-cell" style="width: 20%;">Chipnummer</th><th class="d-none d-md-table-cell" style="width: 10%;">Kön</th><th class="d-none d-md-table-cell" style="width: 20%;">Födelsedatum</th><th class="d-none d-md-table-cell" style="width: 20%;">Ägare</th><th class="d-none d-md-table-cell" style="width: 10%;">Ägarens lön</th></tr></thead><tbody><tr><td><div><strong>LABRADOR RETRIEVER</strong><span class="table-standard__toggle d-block d-md-none"></span><!----></div></td><td class="d-none d-md-table-cell"><a data-ga-event-action="Klick" data-ga-event-label="Registrerat på adressen (fordon) - dold loggain" data-ga-event-page="Personrapport" href="/loggain?returnurl=%2F19620312-Bo_Henry_Kristoffersson_Angelholm%2Ft-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y"><strong>DOLT - Bli validerad medlem för att se</strong></a></td><td class="d-none d-md-table-cell"><i class="icon-male"></i></td><td class="d-none d-md-table-cell">2011-04-22 (14 år)</td><td class="d-none d-md-table-cell"><a href="https://www.ratsit.se/19620312-Bo_Henry_Kristoffersson_Angelholm/t-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y"><strong>Bo Kristoffersson</strong></a></td><td class="d-none d-md-table-cell"><a href="/kop/kassa/lonekollen/t-gwGn_f-mmF5aLzNlM-tGnqHxuNZhrq8dIVMTPio4Y" class="btn btn--small btn--noshade btn-primary" data-ga-event-action="Klick" data-ga-event-label="Registrerat på adressen (fordon) - Kolla lön direkt" data-ga-event-page="Personrapport" data-ga-event-target="Lönekollen">Kolla lön direkt</a></td></tr></tbody></table></div><p><i> Uppdaterad 2025-08-19. Vi uppdaterar hunduppgifter var tredje månad och visar endast hundar med chipnummer. Vid felaktig uppgift begär rättelse hos Jordbruksverket. </i></p></div>)
+(data saved expected: ["LABRADOR RETRIEVER, 2011-04-22 (14 år), Bo Kristoffersson"])
+
+ratsit_data bolagsengagemang
+HTML: after <h2>Bolagsengagemang | 3 st</h2>
+SAVE: ["Unikum - Unikt lärande AB, Aktiebolag, Aktiv, Extern VD, 0, 2024, '81,2', '0,5'", "Studybee AB, Aktiebolag, Aktiv, Extern VD, 0, 2024, '6,7', '−1,2'", "Axionoma AB, Aktiebolag, Aktiv, Styrelseledamot, 25-50%, 2024, 0, 0"]
+(example target HTML: <div class="row mt-3" id="engagemang"><div class="col-12"><h2>Bolagsengagemang | 3 st</h2><div class="table-standard mt-2"><table><thead><tr><th style="width: 30%;">Företagsnamn</th><th class="d-none d-md-table-cell" style="width: 5%;">Typ</th><th class="d-none d-md-table-cell" style="width: 10%;">Status</th><th class="d-none d-md-table-cell" style="width: 15%;">Befattning</th><th class="d-none d-md-table-cell" style="width: 10%;"><span class="tooltip"><i class="icon-info position-relative" style="top: 1px; padding-right: 5px;"></i>Kontrollerar<span class="tooltip-text"> Kontroll motsvarar det som hos Bolagsverket heter omfattning av kontroll </span></span></th><th class="d-none d-md-table-cell text-end" style="width: 10%;">Bokslut</th><th class="d-none d-md-table-cell" style="width: 10%;">Omsättning (MSEK)</th><th class="d-none d-md-table-cell text-end" style="width: 10%;">Vinst (MSEK)</th></tr></thead><tbody><tr><td><div><a href="https://www.ratsit.se/5566492350-Unikum___Unikt_larande_AB"><strong>Unikum - Unikt lärande AB</strong></a><span aria-label="Öppna/stäng" class="table-standard__toggle d-block d-md-none"></span><!----></div></td><td class="d-none d-md-table-cell"><img src="/dist/assets/images/icons/icon-ab.svg" width="25" height="25" alt="Aktiebolag"></td><td class="d-none d-md-table-cell text-nowrap"><i class="icon-dot bgcolor--green"></i> <span class="color--green">Aktiv</span><br></td><td class="d-none d-md-table-cell text-nowrap">Extern VD</td><td class="d-none d-md-table-cell text-end">0</td><td class="d-none d-md-table-cell text-end">2024</td><td class="d-none d-md-table-cell text-end">81,2</td><td class="d-none d-md-table-cell text-end">0,5</td></tr><tr><td><div><a href="https://www.ratsit.se/5569056525-Studybee_AB"><strong>Studybee AB</strong></a><span aria-label="Öppna/stäng" class="table-standard__toggle d-block d-md-none"></span><!----></div></td><td class="d-none d-md-table-cell"><img src="/dist/assets/images/icons/icon-ab.svg" width="25" height="25" alt="Aktiebolag"></td><td class="d-none d-md-table-cell text-nowrap"><i class="icon-dot bgcolor--green"></i> <span class="color--green">Aktiv</span><br></td><td class="d-none d-md-table-cell text-nowrap">Extern VD</td><td class="d-none d-md-table-cell text-end">0</td><td class="d-none d-md-table-cell text-end">2024</td><td class="d-none d-md-table-cell text-end">6,7</td><td class="d-none d-md-table-cell text-end">−1,2</td></tr><tr><td><div><a href="https://www.ratsit.se/5590947858-Axionoma_AB"><strong>Axionoma AB</strong></a><span aria-label="Öppna/stäng" class="table-standard__toggle d-block d-md-none"></span><!----></div></td><td class="d-none d-md-table-cell"><img src="/dist/assets/images/icons/icon-ab.svg" width="25" height="25" alt="Aktiebolag"></td><td class="d-none d-md-table-cell text-nowrap"><i class="icon-dot bgcolor--green"></i> <span class="color--green">Aktiv</span><br></td><td class="d-none d-md-table-cell text-nowrap">Styrelseledamot</td><td class="d-none d-md-table-cell text-end">25-50%</td><td class="d-none d-md-table-cell text-end">2024</td><td class="d-none d-md-table-cell text-end">0</td><td class="d-none d-md-table-cell text-end">0</td></tr></tbody></table></div></div></div>)
+(data saved expected: )
+
+ratsit_data longitude
+HTML: <div class="col-12 col-lg-5 d-lg-flex align-items-lg-center"> Latitud: 56.24432 &nbsp;&nbsp;|&nbsp;&nbsp; Longitud: 12.88299 </div>
+SAVE: 12.88299
+(example target HTML: <div class="col-12 col-lg-5 d-lg-flex align-items-lg-center"> Latitud: 56.24432 &nbsp;&nbsp;|&nbsp;&nbsp; Longitud: 12.88299 </div>)
+(data saved expected: 12.88299)
+
+ratsit_data latitude
+HTML: <div class="col-12 col-lg-5 d-lg-flex align-items-lg-center"> Latitud: 56.24432 &nbsp;&nbsp;|&nbsp;&nbsp; Longitud: 12.88299 </div>
+SAVE: 56.24432 
+(example target HTML: <div class="col-12 col-lg-5 d-lg-flex align-items-lg-center"> Latitud: 56.24432 &nbsp;&nbsp;|&nbsp;&nbsp; Longitud: 12.88299 </div>)
+(data saved expected: 56.24432 )
+
+ratsit_data google_maps
+HTML: <a rel="noreferrer" target="_blank" href="http://maps.google.com/?q=Ålagränd 26 262 41 Ängelholm" class="btn btn-tertiary mt-1 mt-md-0" data-ga-event-action="Klick" data-ga-event-label="Navigera till - karta" data-ga-event-page="Personrapport" style="cursor: pointer;"> Navigera Till Adressen </a>
+SAVE: http://maps.google.com/?q=%C3%85lagr%C3%A4nd%2026%20262%2041%20%C3%84ngelholm
+(example target HTML: <a rel="noreferrer" target="_blank" href="http://maps.google.com/?q=Ålagränd 26 262 41 Ängelholm" class="btn btn-tertiary mt-1 mt-md-0" data-ga-event-action="Klick" data-ga-event-label="Navigera till - karta" data-ga-event-page="Personrapport" style="cursor: pointer;"> Navigera Till Adressen </a>)
+(data saved expected: http://maps.google.com/?q=%C3%85lagr%C3%A4nd%2026%20262%2041%20%C3%84ngelholm)
+
+ratsit_data google_steetview
+HTML: <a rel="noreferrer" target="_blank" href="https://www.google.com/maps/@?api=1&amp;map_action=pano&amp;viewpoint=56.24432,12.88299" data-ga-event-action="Klick" data-ga-event-label="Byt till gatuvy - karta" data-ga-event-page="Personrapport" class="btn btn-tertiary me-1" style="cursor: pointer;">Visa Gatuvy</a>
+SAVE: https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=56.24432,12.88299
+(example target HTML: <a rel="noreferrer" target="_blank" href="https://www.google.com/maps/@?api=1&amp;map_action=pano&amp;viewpoint=56.24432,12.88299" data-ga-event-action="Klick" data-ga-event-label="Byt till gatuvy - karta" data-ga-event-page="Personrapport" class="btn btn-tertiary me-1" style="cursor: pointer;">Visa Gatuvy</a>)
+(data saved expected: https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=56.24432,12.88299)
+
+# ratsit_data
+# HTML:
+# SAVE:
+# (example target HTML:)
+# (data saved expected:)
+
+- save csv file with name rasit_[timestamp] in scripts/data folder - csv including complete data from details page and without header titles
+- save to complete data to database table rasit_data 

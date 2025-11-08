@@ -10,6 +10,11 @@ bo_forsamling [address parish] (string/text) (default NULL),
 bo_kommun [address municipality] (string/text) (default NULL)
 bo_lan [address state] (string/text) (default NULL)
 
+bo_adressandring [address registred] (string/text) (default NULL)
+
+ps_telfonnummer [person phone numbers] (array/json) (default EMPTY),
+
+
 ps_fodelsedag [person date of birth] (string/text) (default NULL)
 ps_personnummer [person social security number] (string/text) (default NULL),
 ps_alder [person age] (string/text) (default NULL),
