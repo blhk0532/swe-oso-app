@@ -21,13 +21,13 @@ class RatsitDataResource extends Resource
 {
     protected static ?string $model = RatsitData::class;
 
-    protected static ?string $recordTitleAttribute = 'ps_personnamn';
+    protected static ?string $recordTitleAttribute = 'personnamn';
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
+    //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
 
     protected static ?string $navigationLabel = 'Ratsit';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Data';
+    protected static string | UnitEnum | null $navigationGroup = 'Databases';
 
     protected static ?int $navigationSort = 3;
 
@@ -58,13 +58,13 @@ class RatsitDataResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return [
-            'ps_personnamn',
-            'ps_personnummer',
-            'ps_fornamn',
-            'ps_efternamn',
-            'bo_postnummer',
-            'bo_postort',
-            'bo_kommun',
+            'personnamn',
+            'personnummer',
+            'fornamn',
+            'efternamn',
+            'postnummer',
+            'postort',
+            'kommun',
         ];
     }
 
@@ -78,9 +78,9 @@ class RatsitDataResource extends Resource
     {
         /** @var RatsitData $record */
         return [
-            'Personnummer' => $record->ps_personnummer,
-            'Address' => $record->bo_gatuadress,
-            'Postort' => $record->bo_postort,
+            'Personnummer' => $record->personnummer,
+            'Address' => $record->gatuadress,
+            'Postort' => $record->postort,
         ];
     }
 }

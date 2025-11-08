@@ -15,121 +15,121 @@ class DataPrivateImporter extends Importer
     public static function getColumns(): array
     {
         return [
-            ImportColumn::make('bo_gatuadress')
+            ImportColumn::make('gatuadress')
                 ->label('Address')
                 ->example('Main Street 123'),
 
-            ImportColumn::make('bo_postnummer')
+            ImportColumn::make('postnummer')
                 ->label('Postal Code')
                 ->example('12345'),
 
-            ImportColumn::make('bo_postort')
+            ImportColumn::make('postort')
                 ->label('City')
                 ->example('Stockholm'),
 
-            ImportColumn::make('bo_forsamling')
+            ImportColumn::make('forsamling')
                 ->label('Parish')
                 ->example('Parish Name'),
 
-            ImportColumn::make('bo_kommun')
+            ImportColumn::make('kommun')
                 ->label('Municipality')
                 ->example('Municipality Name'),
 
-            ImportColumn::make('bo_lan')
+            ImportColumn::make('lan')
                 ->label('State')
                 ->example('Stockholm County'),
 
-            ImportColumn::make('ps_fodelsedag')
+            ImportColumn::make('fodelsedag')
                 ->label('Date of Birth')
                 ->example('1990-01-15'),
 
-            ImportColumn::make('ps_personnummer')
+            ImportColumn::make('personnummer')
                 ->label('Social Security Number')
                 ->example('199001151234'),
 
-            ImportColumn::make('ps_alder')
+            ImportColumn::make('alder')
                 ->label('Age')
                 ->example('34'),
 
-            ImportColumn::make('ps_kon')
+            ImportColumn::make('kon')
                 ->label('Sex')
                 ->example('M'),
 
-            ImportColumn::make('ps_civilstand')
+            ImportColumn::make('civilstand')
                 ->label('Marital Status')
                 ->example('married'),
 
-            ImportColumn::make('ps_fornamn')
+            ImportColumn::make('fornamn')
                 ->label('First Name')
                 ->example('John'),
 
-            ImportColumn::make('ps_efternamn')
+            ImportColumn::make('efternamn')
                 ->label('Last Name')
                 ->example('Doe'),
 
-            ImportColumn::make('ps_personnamn')
+            ImportColumn::make('personnamn')
                 ->label('Full Name')
                 ->example('John Doe'),
 
-            ImportColumn::make('ps_telefon')
+            ImportColumn::make('telefon')
                 ->label('Phone Numbers (JSON array)')
                 ->example('["+46123456789","+46987654321"]'),
 
-            ImportColumn::make('ps_epost_adress')
+            ImportColumn::make('epost_adress')
                 ->label('Email Addresses (JSON array)')
                 ->example('["john@example.com"]'),
 
-            ImportColumn::make('bo_agandeform')
+            ImportColumn::make('agandeform')
                 ->label('Form of Ownership')
                 ->example('Owned'),
 
-            ImportColumn::make('bo_bostadstyp')
+            ImportColumn::make('bostadstyp')
                 ->label('Housing Type')
                 ->example('Apartment'),
 
-            ImportColumn::make('bo_boarea')
+            ImportColumn::make('boarea')
                 ->label('Living Area')
                 ->example('75'),
 
-            ImportColumn::make('bo_byggar')
+            ImportColumn::make('byggar')
                 ->label('Year of Construction')
                 ->example('1990'),
 
-            ImportColumn::make('bo_fastighet')
+            ImportColumn::make('fastighet')
                 ->label('Fastighetsbetäckning')
                 ->example('ABC 123'),
 
-            ImportColumn::make('bo_personer')
+            ImportColumn::make('personer')
                 ->label('Persons at Address (JSON array)')
                 ->example('["John Doe","Jane Doe"]'),
 
-            ImportColumn::make('bo_foretag')
+            ImportColumn::make('foretag')
                 ->label('Companies at Address (JSON array)')
                 ->example('["Company ABC"]'),
 
-            ImportColumn::make('bo_grannar')
+            ImportColumn::make('grannar')
                 ->label('Neighbors (JSON array)')
                 ->example('["Neighbor Name"]'),
 
-            ImportColumn::make('bo_fordon')
+            ImportColumn::make('fordon')
                 ->label('Vehicles (JSON array)')
                 ->example('[{"type":"Car","registration":"ABC123"}]'),
 
-            ImportColumn::make('bo_hundar')
+            ImportColumn::make('hundar')
                 ->label('Dogs (JSON array)')
                 ->example('["Buddy"]'),
 
-            ImportColumn::make('bo_longitude')
+            ImportColumn::make('longitude')
                 ->label('Longitude')
                 ->numeric()
                 ->example('18.0686'),
 
-            ImportColumn::make('bo_latitud')
+            ImportColumn::make('latitud')
                 ->label('Latitude')
                 ->numeric()
                 ->example('59.3293'),
 
-            ImportColumn::make('ps_bolagsengagemang')
+            ImportColumn::make('bolagsengagemang')
                 ->label('Corporate Commitments (JSON array)')
                 ->example('[{"company":"ABC Corp","role":"Director"}]'),
 
@@ -150,14 +150,14 @@ class DataPrivateImporter extends Importer
     {
         // Convert JSON strings to arrays for JSONB fields
         $jsonFields = [
-            'ps_telefon',
-            'ps_epost_adress',
-            'bo_personer',
-            'bo_foretag',
-            'bo_grannar',
-            'bo_fordon',
-            'bo_hundar',
-            'ps_bolagsengagemang',
+            'telefon',
+            'epost_adress',
+            'personer',
+            'foretag',
+            'grannar',
+            'fordon',
+            'hundar',
+            'bolagsengagemang',
         ];
 
         foreach ($jsonFields as $field) {

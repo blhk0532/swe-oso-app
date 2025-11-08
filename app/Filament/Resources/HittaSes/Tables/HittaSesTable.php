@@ -191,7 +191,7 @@ class HittaSesTable
             ])
             ->defaultSort('created_at', 'desc')
             ->defaultPaginationPageOption(50)
-            ->paginated([10, 25, 50, 100, 200])
+            ->paginated([10, 25, 50, 100, 200, 500, 1000])
             ->striped()
             ->persistSearchInSession()
             ->persistColumnSearchesInSession()

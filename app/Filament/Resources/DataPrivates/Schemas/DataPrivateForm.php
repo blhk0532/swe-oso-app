@@ -22,31 +22,31 @@ class DataPrivateForm
                     ->schema([
                         Section::make('Person Information')
                             ->schema([
-                                TextInput::make('ps_personnamn')
+                                TextInput::make('personnamn')
                                     ->label('Full Name')
                                     ->maxLength(255),
 
-                                TextInput::make('ps_fornamn')
+                                TextInput::make('fornamn')
                                     ->label('First Name')
                                     ->maxLength(255),
 
-                                TextInput::make('ps_efternamn')
+                                TextInput::make('efternamn')
                                     ->label('Last Name')
                                     ->maxLength(255),
 
-                                TextInput::make('ps_personnummer')
+                                TextInput::make('personnummer')
                                     ->label('Social Security Number')
                                     ->maxLength(255),
 
-                                DatePicker::make('ps_fodelsedag')
+                                DatePicker::make('fodelsedag')
                                     ->label('Date of Birth')
                                     ->displayFormat('Y-m-d'),
 
-                                TextInput::make('ps_alder')
+                                TextInput::make('alder')
                                     ->label('Age')
                                     ->maxLength(255),
 
-                                Select::make('ps_kon')
+                                Select::make('kon')
                                     ->label('Sex')
                                     ->options([
                                         'M' => 'Male',
@@ -54,7 +54,7 @@ class DataPrivateForm
                                         'O' => 'Other',
                                     ]),
 
-                                Select::make('ps_civilstand')
+                                Select::make('civilstand')
                                     ->label('Marital Status')
                                     ->options([
                                         'single' => 'Single',
@@ -63,7 +63,7 @@ class DataPrivateForm
                                         'widowed' => 'Widowed',
                                     ]),
 
-                                Repeater::make('ps_telefon')
+                                Repeater::make('telefon')
                                     ->label('Phone Numbers')
                                     ->schema([
                                         TextInput::make('number')
@@ -74,7 +74,7 @@ class DataPrivateForm
                                     ->collapsible()
                                     ->itemLabel(fn (array $state): ?string => $state['number'] ?? null),
 
-                                Repeater::make('ps_epost_adress')
+                                Repeater::make('epost_adress')
                                     ->label('Email Addresses')
                                     ->schema([
                                         TextInput::make('email')
@@ -86,7 +86,7 @@ class DataPrivateForm
                                     ->collapsible()
                                     ->itemLabel(fn (array $state): ?string => $state['email'] ?? null),
 
-                                Repeater::make('ps_bolagsengagemang')
+                                Repeater::make('bolagsengagemang')
                                     ->label('Corporate Commitments')
                                     ->schema([
                                         TextInput::make('company')
@@ -105,42 +105,42 @@ class DataPrivateForm
 
                         Section::make('Address Information')
                             ->schema([
-                                Textarea::make('bo_gatuadress')
+                                Textarea::make('gatuadress')
                                     ->label('Street Address')
                                     ->rows(2)
                                     ->columnSpanFull(),
 
-                                TextInput::make('bo_postnummer')
+                                TextInput::make('postnummer')
                                     ->label('Postal Code')
                                     ->maxLength(255),
 
-                                TextInput::make('bo_postort')
+                                TextInput::make('postort')
                                     ->label('City')
                                     ->maxLength(255),
 
-                                TextInput::make('bo_forsamling')
+                                TextInput::make('forsamling')
                                     ->label('Parish')
                                     ->maxLength(255),
 
-                                TextInput::make('bo_kommun')
+                                TextInput::make('kommun')
                                     ->label('Municipality')
                                     ->maxLength(255),
 
-                                TextInput::make('bo_lan')
+                                TextInput::make('lan')
                                     ->label('State')
                                     ->maxLength(255),
 
-                                TextInput::make('bo_fastighet')
+                                TextInput::make('fastighet')
                                     ->label('Fastighetsbetäckning')
                                     ->maxLength(255)
                                     ->columnSpanFull(),
 
-                                TextInput::make('bo_longitude')
+                                TextInput::make('longitude')
                                     ->label('Longitude')
                                     ->numeric()
                                     ->step(0.0000001),
 
-                                TextInput::make('bo_latitud')
+                                TextInput::make('latitud')
                                     ->label('Latitude')
                                     ->numeric()
                                     ->step(0.0000001),
@@ -150,23 +150,23 @@ class DataPrivateForm
 
                         Section::make('Address Property Details')
                             ->schema([
-                                Select::make('bo_agandeform')
+                                Select::make('agandeform')
                                     ->label('Form of Ownership')
                                     ->maxLength(255),
 
-                                Select::make('bo_bostadstyp')
+                                Select::make('bostadstyp')
                                     ->label('Housing Type')
                                     ->maxLength(255),
 
-                                TextInput::make('bo_boarea')
+                                TextInput::make('boarea')
                                     ->label('Living Area')
                                     ->maxLength(255),
 
-                                TextInput::make('bo_byggar')
+                                TextInput::make('byggar')
                                     ->label('Year of Construction')
                                     ->maxLength(255),
 
-                                Repeater::make('bo_personer')
+                                Repeater::make('personer')
                                     ->label('Persons at Address')
                                     ->schema([
                                         TextInput::make('name')
@@ -177,7 +177,7 @@ class DataPrivateForm
                                     ->collapsible()
                                     ->columnSpanFull(),
 
-                                Repeater::make('bo_foretag')
+                                Repeater::make('foretag')
                                     ->label('Companies at Address')
                                     ->schema([
                                         TextInput::make('name')
@@ -188,7 +188,7 @@ class DataPrivateForm
                                     ->collapsible()
                                     ->columnSpanFull(),
 
-                                Repeater::make('bo_grannar')
+                                Repeater::make('grannar')
                                     ->label('Neighbors')
                                     ->schema([
                                         TextInput::make('name')
@@ -199,7 +199,7 @@ class DataPrivateForm
                                     ->collapsible()
                                     ->columnSpanFull(),
 
-                                Repeater::make('bo_fordon')
+                                Repeater::make('fordon')
                                     ->label('Vehicles')
                                     ->schema([
                                         TextInput::make('type')
@@ -214,7 +214,7 @@ class DataPrivateForm
                                     ->columns(2)
                                     ->columnSpanFull(),
 
-                                Repeater::make('bo_hundar')
+                                Repeater::make('hundar')
                                     ->label('Dogs')
                                     ->schema([
                                         TextInput::make('name')

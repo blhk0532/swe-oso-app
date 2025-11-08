@@ -14,60 +14,69 @@ class DataPrivate extends Model
     /**
      * @var string
      */
-    protected $table = 'data_private';
+    protected $table = 'private_data';
 
     /**
      * @var array<string, string>
      */
     protected $casts = [
-        'ps_fodelsedag' => 'date',
-        'ps_telefon' => 'array',
-        'ps_epost_adress' => 'array',
-        'ps_bolagsengagemang' => 'array',
-        'bo_personer' => 'array',
-        'bo_foretag' => 'array',
-        'bo_grannar' => 'array',
-        'bo_fordon' => 'array',
-        'bo_hundar' => 'array',
+        'fodelsedag' => 'date',
+        'telefon' => 'array',
+        'telfonnummer' => 'array',
+        'bolagsengagemang' => 'array',
+        'personer' => 'array',
+        'foretag' => 'array',
+        'grannar' => 'array',
+        'fordon' => 'array',
+        'hundar' => 'array',
         'is_active' => 'boolean',
-        'bo_longitude' => 'decimal:7',
-        'bo_latitud' => 'decimal:7',
+        'is_update' => 'boolean',
+        'longitude' => 'string',
+        'latitud' => 'string',
     ];
 
     /**
      * @var array<int, string>
      */
     protected $fillable = [
-        'bo_gatuadress',
-        'bo_postnummer',
-        'bo_postort',
-        'bo_forsamling',
-        'bo_kommun',
-        'bo_lan',
-        'ps_fodelsedag',
-        'ps_personnummer',
-        'ps_alder',
-        'ps_kon',
-        'ps_civilstand',
-        'ps_fornamn',
-        'ps_efternamn',
-        'ps_personnamn',
-        'ps_telefon',
-        'ps_epost_adress',
-        'ps_bolagsengagemang',
-        'bo_agandeform',
-        'bo_bostadstyp',
-        'bo_boarea',
-        'bo_byggar',
-        'bo_fastighet',
-        'bo_personer',
-        'bo_foretag',
-        'bo_grannar',
-        'bo_fordon',
-        'bo_hundar',
-        'bo_longitude',
-        'bo_latitud',
+        'gatuadress',
+        'postnummer',
+        'postort',
+        'forsamling',
+        'kommun',
+        'lan',
+        'adressandring',
+        'fodelsedag',
+        'personnummer',
+        'alder',
+        'kon',
+        'civilstand',
+        'fornamn',
+        'efternamn',
+        'personnamn',
+        'telefon',
+        'telfonnummer',
+        'bolagsengagemang',
+        'agandeform',
+        'bostadstyp',
+        'boarea',
+        'byggar',
+        'personer',
+        'foretag',
+        'grannar',
+        'fordon',
+        'hundar',
+        'longitude',
+        'latitud',
+        'google_maps',
+        'google_streetview',
+        'ratsit_link',
+        'hitta_link',
+        'hitta_karta',
+        'bostad_typ',
+        'bostad_pris',
         'is_active',
+        'is_update',
     ];
 
     /**
@@ -87,7 +96,7 @@ class DataPrivate extends Model
      */
     public function scopeByPostnummer(Builder $query, string $postnummer): Builder
     {
-        return $query->where('bo_postnummer', $postnummer);
+        return $query->where('postnummer', $postnummer);
     }
 
     /**
@@ -97,7 +106,7 @@ class DataPrivate extends Model
      */
     public function scopeByPostort(Builder $query, string $postort): Builder
     {
-        return $query->where('bo_postort', $postort);
+        return $query->where('postort', $postort);
     }
 
     /**
@@ -107,7 +116,7 @@ class DataPrivate extends Model
      */
     public function scopeByKommun(Builder $query, string $kommun): Builder
     {
-        return $query->where('bo_kommun', $kommun);
+        return $query->where('kommun', $kommun);
     }
 
     /**
@@ -117,7 +126,7 @@ class DataPrivate extends Model
      */
     public function scopeByLan(Builder $query, string $lan): Builder
     {
-        return $query->where('bo_lan', $lan);
+        return $query->where('lan', $lan);
     }
 
     /**
@@ -127,7 +136,7 @@ class DataPrivate extends Model
      */
     public function scopeByPersonnummer(Builder $query, string $personnummer): Builder
     {
-        return $query->where('ps_personnummer', $personnummer);
+        return $query->where('personnummer', $personnummer);
     }
 
     /**
@@ -137,8 +146,8 @@ class DataPrivate extends Model
      */
     public function scopeSearchByName(Builder $query, string $name): Builder
     {
-        return $query->where('ps_personnamn', 'ilike', "%{$name}%")
-            ->orWhere('ps_fornamn', 'ilike', "%{$name}%")
-            ->orWhere('ps_efternamn', 'ilike', "%{$name}%");
+        return $query->where('personnamn', 'ilike', "%{$name}%")
+            ->orWhere('fornamn', 'ilike', "%{$name}%")
+            ->orWhere('efternamn', 'ilike', "%{$name}%");
     }
 }

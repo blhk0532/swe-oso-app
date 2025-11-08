@@ -42,4 +42,10 @@ class AuthorResource extends Resource
             'index' => ManageAuthors::route('/'),
         ];
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        // Hide Blog > Authors from sidebar navigation.
+        return false;
+    }
 }

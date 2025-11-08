@@ -21,72 +21,78 @@ class DataPrivatesTable
     {
         return $table
             ->columns([
-                TextColumn::make('ps_personnamn')
+                TextColumn::make('personnamn')
                     ->label('Name')
                     ->searchable()
                     ->sortable()
                     ->weight('medium')
                     ->limit(50),
 
-                TextColumn::make('ps_personnummer')
+                TextColumn::make('personnummer')
                     ->label('Personnummer')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make('bo_gatuadress')
+                TextColumn::make('gatuadress')
                     ->label('Address')
                     ->searchable()
                     ->sortable()
                     ->limit(50)
                     ->toggleable(),
 
-                TextColumn::make('bo_postnummer')
+                TextColumn::make('postnummer')
                     ->label('Postnummer')
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('bo_postort')
+                TextColumn::make('postort')
                     ->label('City')
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('bo_kommun')
+                TextColumn::make('kommun')
                     ->label('Municipality')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make('bo_lan')
+                TextColumn::make('lan')
                     ->label('State')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make('ps_telefon')
-                    ->label('Phone')
+                TextColumn::make('telefon')
+                    ->label('Telefon (Main)')
                     ->formatStateUsing(fn ($state) => is_array($state) && count($state) > 0 ? implode(', ', array_slice($state, 0, 2)) : '-')
                     ->searchable(query: function ($query, $state) {
-                        return $query->whereJsonContains('ps_telefon', $state);
+                        return $query->whereJsonContains('telefon', $state);
                     })
                     ->toggleable()
                     ->toggledHiddenByDefault(),
 
-                TextColumn::make('ps_fodelsedag')
+                TextColumn::make('telfonnummer')
+                    ->label('Telefon (Extra)')
+                    ->formatStateUsing(fn ($state) => is_array($state) && count($state) > 0 ? implode(', ', array_slice($state, 0, 2)) : '-')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('fodelsedag')
                     ->label('Date of Birth')
                     ->date()
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
 
-                TextColumn::make('bo_agandeform')
+                TextColumn::make('agandeform')
                     ->label('Ownership')
                     ->searchable()
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
 
-                TextColumn::make('bo_bostadstyp')
+                TextColumn::make('bostadstyp')
                     ->label('Housing Type')
                     ->searchable()
                     ->sortable()
@@ -113,81 +119,81 @@ class DataPrivatesTable
                     ->trueLabel('Active only')
                     ->falseLabel('Inactive only'),
 
-                SelectFilter::make('bo_postort')
+                SelectFilter::make('postort')
                     ->label('City')
                     ->multiple()
                     ->searchable()
                     ->options(function () {
                         return DataPrivate::query()
-                            ->whereNotNull('bo_postort')
+                            ->whereNotNull('postort')
                             ->distinct()
-                            ->orderBy('bo_postort')
-                            ->pluck('bo_postort', 'bo_postort')
+                            ->orderBy('postort')
+                            ->pluck('postort', 'postort')
                             ->toArray();
                     }),
 
-                SelectFilter::make('bo_kommun')
+                SelectFilter::make('kommun')
                     ->label('Municipality')
                     ->multiple()
                     ->searchable()
                     ->options(function () {
                         return DataPrivate::query()
-                            ->whereNotNull('bo_kommun')
+                            ->whereNotNull('kommun')
                             ->distinct()
-                            ->orderBy('bo_kommun')
-                            ->pluck('bo_kommun', 'bo_kommun')
+                            ->orderBy('kommun')
+                            ->pluck('kommun', 'kommun')
                             ->toArray();
                     }),
 
-                SelectFilter::make('bo_lan')
+                SelectFilter::make('lan')
                     ->label('State')
                     ->multiple()
                     ->searchable()
                     ->options(function () {
                         return DataPrivate::query()
-                            ->whereNotNull('bo_lan')
+                            ->whereNotNull('lan')
                             ->distinct()
-                            ->orderBy('bo_lan')
-                            ->pluck('bo_lan', 'bo_lan')
+                            ->orderBy('lan')
+                            ->pluck('lan', 'lan')
                             ->toArray();
                     }),
 
-                SelectFilter::make('bo_agandeform')
+                SelectFilter::make('agandeform')
                     ->label('Ownership Form')
                     ->multiple()
                     ->searchable()
                     ->options(function () {
                         return DataPrivate::query()
-                            ->whereNotNull('bo_agandeform')
+                            ->whereNotNull('agandeform')
                             ->distinct()
-                            ->orderBy('bo_agandeform')
-                            ->pluck('bo_agandeform', 'bo_agandeform')
+                            ->orderBy('agandeform')
+                            ->pluck('agandeform', 'agandeform')
                             ->toArray();
                     }),
 
-                SelectFilter::make('bo_bostadstyp')
+                SelectFilter::make('bostadstyp')
                     ->label('Housing Type')
                     ->multiple()
                     ->searchable()
                     ->options(function () {
                         return DataPrivate::query()
-                            ->whereNotNull('bo_bostadstyp')
+                            ->whereNotNull('bostadstyp')
                             ->distinct()
-                            ->orderBy('bo_bostadstyp')
-                            ->pluck('bo_bostadstyp', 'bo_bostadstyp')
+                            ->orderBy('bostadstyp')
+                            ->pluck('bostadstyp', 'bostadstyp')
                             ->toArray();
                     }),
 
-                Filter::make('bo_postnummer')
+                Filter::make('postnummer')
                     ->label('Postnummer')
                     ->form([
-                        TextInput::make('bo_postnummer')
+                        TextInput::make('postnummer')
                             ->label('Postnummer'),
                     ])
                     ->query(function ($query, array $data) {
                         return $query->when(
-                            $data['bo_postnummer'],
-                            fn ($query, $postnummer) => $query->where('bo_postnummer', 'like', "%{$postnummer}%")
+                            $data['postnummer'],
+                            fn ($query, $postnummer) => $query->where('postnummer', 'like', "%{$postnummer}%")
                         );
                     }),
             ], layout: FiltersLayout::AboveContentCollapsible)

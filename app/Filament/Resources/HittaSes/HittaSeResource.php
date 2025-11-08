@@ -19,11 +19,11 @@ class HittaSeResource extends Resource
 {
     protected static ?string $model = HittaSe::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUsers;
+    //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUsers;
 
     protected static ?string $navigationLabel = 'Hitta';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Data';
+    protected static string | UnitEnum | null $navigationGroup = 'Databases';
 
     protected static ?string $modelLabel = 'Hitta.se';
 

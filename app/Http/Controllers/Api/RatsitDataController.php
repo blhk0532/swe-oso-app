@@ -21,28 +21,28 @@ class RatsitDataController extends Controller
             $query->where('is_active', $request->boolean('is_active'));
         }
 
-        if ($request->has('bo_postnummer')) {
-            $query->where('bo_postnummer', 'like', "%{$request->bo_postnummer}%");
+        if ($request->has('postnummer')) {
+            $query->where('postnummer', 'like', "%{$request->postnummer}%");
         }
 
-        if ($request->has('bo_postort')) {
-            $query->where('bo_postort', 'like', "%{$request->bo_postort}%");
+        if ($request->has('postort')) {
+            $query->where('postort', 'like', "%{$request->postort}%");
         }
 
-        if ($request->has('bo_kommun')) {
-            $query->where('bo_kommun', 'like', "%{$request->bo_kommun}%");
+        if ($request->has('kommun')) {
+            $query->where('kommun', 'like', "%{$request->kommun}%");
         }
 
-        if ($request->has('bo_lan')) {
-            $query->where('bo_lan', 'like', "%{$request->bo_lan}%");
+        if ($request->has('lan')) {
+            $query->where('lan', 'like', "%{$request->lan}%");
         }
 
-        if ($request->has('ps_personnummer')) {
-            $query->where('ps_personnummer', 'like', "%{$request->ps_personnummer}%");
+        if ($request->has('personnummer')) {
+            $query->where('personnummer', 'like', "%{$request->personnummer}%");
         }
 
-        if ($request->has('ps_personnamn')) {
-            $query->where('ps_personnamn', 'like', "%{$request->ps_personnamn}%");
+        if ($request->has('personnamn')) {
+            $query->where('personnamn', 'like', "%{$request->personnamn}%");
         }
 
         $sortField = $request->get('sort_by', 'created_at');
@@ -59,10 +59,10 @@ class RatsitDataController extends Controller
     {
         $data = $request->validated();
 
-        // Upsert by ps_personnummer when provided
-        if (! empty($data['ps_personnummer'])) {
+        // Upsert by personnummer when provided
+        if (! empty($data['personnummer'])) {
             $existing = RatsitData::query()
-                ->where('ps_personnummer', $data['ps_personnummer'])
+                ->where('personnummer', $data['personnummer'])
                 ->first();
 
             if ($existing) {

@@ -69,4 +69,10 @@ class CustomerResource extends Resource
     {
         return ['name', 'email'];
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        // Hide Shop > Customers from sidebar navigation.
+        return false;
+    }
 }

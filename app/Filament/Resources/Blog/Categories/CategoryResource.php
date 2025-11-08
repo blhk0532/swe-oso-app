@@ -48,4 +48,10 @@ class CategoryResource extends Resource
             'index' => ManageCategories::route('/'),
         ];
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        // Hide Blog > Categories from sidebar navigation.
+        return false;
+    }
 }

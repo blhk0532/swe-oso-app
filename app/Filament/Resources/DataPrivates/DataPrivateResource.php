@@ -21,15 +21,15 @@ class DataPrivateResource extends Resource
 {
     protected static ?string $model = DataPrivate::class;
 
-    //    protected static ?string $recordTitleAttribute = 'ps_personnamn';
+    protected static ?string $recordTitleAttribute = 'personnamn';
 
     //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
 
-    //    protected static ?string $navigationLabel = 'Private Data';
+    protected static ?string $navigationLabel = 'Private';
 
-    //    protected static string | UnitEnum | null $navigationGroup = 'Data Management';
+    protected static string | UnitEnum | null $navigationGroup = 'Databases';
 
-    //    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
     {
@@ -58,13 +58,13 @@ class DataPrivateResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return [
-            'ps_personnamn',
-            'ps_personnummer',
-            'ps_fornamn',
-            'ps_efternamn',
-            'bo_postnummer',
-            'bo_postort',
-            'bo_kommun',
+            'personnamn',
+            'personnummer',
+            'fornamn',
+            'efternamn',
+            'postnummer',
+            'postort',
+            'kommun',
         ];
     }
 
@@ -78,9 +78,9 @@ class DataPrivateResource extends Resource
     {
         /** @var DataPrivate $record */
         return [
-            'Personnummer' => $record->ps_personnummer,
-            'Address' => $record->bo_gatuadress,
-            'Postort' => $record->bo_postort,
+            'Personnummer' => $record->personnummer,
+            'Address' => $record->gatuadress,
+            'Postort' => $record->postort,
         ];
     }
 }

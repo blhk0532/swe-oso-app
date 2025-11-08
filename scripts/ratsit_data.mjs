@@ -235,6 +235,11 @@ class HittaRatsitScraper {
             ps_civilstand: await this.extractRatsitCivilstand(page),
             adressandring: await this.extractRatsitTextAfterLabel(page, 'Adressändring:'),
             stjarntacken: await this.extractRatsitTextAfterLabel(page, 'Stjärntecken:'),
+            // Dwelling specific labels
+            bo_agandeform: await this.extractRatsitTextAfterLabel(page, 'Ägandeform:'),
+            bo_bostadstyp: await this.extractRatsitTextAfterLabel(page, 'Bostadstyp:'),
+            bo_boarea: await this.extractRatsitTextAfterLabel(page, 'Boarea:'),
+            bo_byggar: await this.extractRatsitTextAfterLabel(page, 'Byggår:'),
           };
           // Link for saving
           personData.ratsit_se = link;
@@ -396,24 +401,28 @@ class HittaRatsitScraper {
 
   async extractSectionTelefonnummer(page) {
     try {
-      const section = await page.$('h3:has-text("Telefonnummer")');
-      if (!section) return [];
-      const container = await section.evaluateHandle((el) => {
-        let n = el.parentElement;
-        // Walk up to a container then find next sibling with numbers
-        return n ? n.parentElement : null;
+      // Find heading by text (h3 preferred)
+      let header = await page.$('h3:has-text("Telefonnummer")');
+      if (!header) return [];
+      // Traverse siblings until next header and collect spans that look like phone numbers
+      const numbers = await header.evaluate((h3) => {
+        const out = [];
+        let node = h3.nextElementSibling;
+        const isHeader = (el) => !el ? false : ['H1','H2','H3'].includes(el.tagName);
+        const looksLikePhone = (t) => /^(?:0\d{1,3}|\+46)[\d\s-]{5,}$/.test(t) && /\d/.test(t);
+        while (node && !isHeader(node)) {
+          // Only scan common wrappers
+          if (node.matches('p, div, section')) {
+            node.querySelectorAll('span, a').forEach((el) => {
+              const txt = (el.textContent || '').trim();
+              if (looksLikePhone(txt)) out.push(txt);
+            });
+          }
+          node = node.nextElementSibling;
+        }
+        return Array.from(new Set(out));
       });
-      const numbers = await page.evaluate((root) => {
-        if (!root) return [];
-        const res = [];
-        const spans = root.querySelectorAll('span');
-        spans.forEach((s) => {
-          const t = s.textContent?.trim() || '';
-          if (/\+?\d[\d\s-]{6,}/.test(t)) res.push(t);
-        });
-        return res;
-      }, container);
-      return Array.from(new Set(numbers));
+      return numbers;
     } catch { return []; }
   }
 
@@ -499,14 +508,46 @@ class HittaRatsitScraper {
       const header = await page.$('h3:has-text("Hundar")');
       if (!header) return [];
       const container = await header.evaluateHandle((el) => el.parentElement);
+
+      // Prefer structured table parsing if available
+      const table = await header.evaluateHandle((el) => el.parentElement?.querySelector('table'));
+      const tableRows = await page.evaluate((tbl) => {
+        const out = [];
+        if (!tbl) return out;
+        let rows = tbl.querySelectorAll('tbody tr');
+        if (!rows.length) rows = tbl.querySelectorAll('tr');
+        rows.forEach((tr) => {
+          const cells = Array.from(tr.querySelectorAll('td, th')).map((c) => c.innerText.replace(/\s+/g, ' ').trim());
+          if (!cells.length) return;
+          const headerLike = cells.join(' ').match(/^(Ras|Hund|Födelsedatum|Ålder|Ägare|Namn)/i);
+          if (headerLike) return;
+          const line = cells.filter(Boolean).join(', ');
+          if (line) out.push(line);
+        });
+        return out;
+      }, table);
+      if (Array.isArray(tableRows) && tableRows.length) return tableRows;
+
+      // Fallback heuristic grouping
       const lines = await page.evaluate((root) => {
         const out = [];
         if (!root) return out;
-        const text = root.innerText || '';
-        text.split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
-          if (/\d{4}-\d{2}-\d{2}/.test(l) || /år\)/.test(l)) out.push(l);
-        });
-        return out;
+        const rawLines = (root.innerText || '')
+          .split('\n')
+          .map((l) => l.trim())
+          .filter(Boolean)
+          .filter((l) => !/^Hundar$/i.test(l) && !/Visa mer|Visa mindre/i.test(l));
+
+        const isDateAge = (s) => /\d{4}-\d{2}-\d{2}/.test(s) || /\(\d+\s*år\)/i.test(s);
+        for (let i = 0; i < rawLines.length; i++) {
+          if (!isDateAge(rawLines[i])) continue;
+          const dateAge = rawLines[i];
+          const breed = rawLines[i - 1] && !isDateAge(rawLines[i - 1]) ? rawLines[i - 1] : null;
+          const owner = rawLines[i + 1] && !isDateAge(rawLines[i + 1]) ? rawLines[i + 1] : null;
+          const composed = [breed, dateAge, owner].filter(Boolean).join(', ');
+          if (composed) out.push(composed);
+        }
+        return Array.from(new Set(out));
       }, container);
       return lines;
     } catch { return []; }
@@ -514,19 +555,76 @@ class HittaRatsitScraper {
 
   async extractSectionBolagsengagemang(page) {
     try {
-      const header = await page.$('h3:has-text("Bolagsengagemang")');
-      if (!header) return [];
-      const container = await header.evaluateHandle((el) => el.parentElement);
-      const items = await page.evaluate((root) => {
-        const out = [];
-        if (!root) return out;
-        root.querySelectorAll('table tbody tr').forEach((tr) => {
-          out.push(tr.innerText.replace(/\s+/g, ' ').trim());
+      // Check if "Bolagsengagemang" text exists anywhere on page
+      const hasText = await page.locator('text="Bolagsengagemang"').count();
+      if (!hasText) {
+        console.log('  → Bolagsengagemang not present on page');
+        return [];
+      }
+      
+      // Since heading might be in sidebar or other location, search page-wide for any section/div with id="engagemang"
+      const sectionEl = await page.$('[id="engagemang"]');
+      if (sectionEl) {
+        console.log('  → Found #engagemang section');
+        const items = await sectionEl.evaluate((sec) => {
+          const out = [];
+          const tbl = sec.querySelector('table');
+          if (!tbl) return out;
+          let rows = tbl.querySelectorAll('tbody tr');
+          if (!rows.length) rows = tbl.querySelectorAll('tr');
+          rows.forEach((tr) => {
+            const cells = Array.from(tr.querySelectorAll('td, th')).map(c => c.innerText.replace(/\s+/g,' ').trim());
+            if (cells.length && !cells[0].match(/^(Företagsnamn|Typ|Status|Befattning)/i)) {
+              out.push(cells.join(', '));
+            }
+          });
+          return out;
         });
-        return out;
-      }, container);
-      return items;
-    } catch { return []; }
+        if (items.length > 0) {
+          console.log(`  → Extracted ${items.length} bolagsengagemang row(s)`);
+          return items;
+        }
+      }
+      
+      // Fallback: find any h2 containing "Bolagsengagemang" in main content (not sidebar)
+      const mainHeader = await page.$('main h2:has-text("Bolagsengagemang"), article h2:has-text("Bolagsengagemang")');
+      if (mainHeader) {
+        console.log('  → Found main content h2');
+        await mainHeader.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(1000);
+        const items = await mainHeader.evaluate((h) => {
+          const out = [];
+          // Search next siblings or parent container
+          let node = h.nextElementSibling;
+          while (node && !node.matches('h1,h2,h3')) {
+            const tbl = node.matches('table') ? node : node.querySelector('table');
+            if (tbl) {
+              let rows = tbl.querySelectorAll('tbody tr');
+              if (!rows.length) rows = tbl.querySelectorAll('tr');
+              rows.forEach((tr) => {
+                const cells = Array.from(tr.querySelectorAll('td, th')).map(c => c.innerText.replace(/\s+/g,' ').trim());
+                if (cells.length && !cells[0].match(/^(Företagsnamn|Typ|Status|Befattning)/i)) {
+                  out.push(cells.join(', '));
+                }
+              });
+              return out;
+            }
+            node = node.nextElementSibling;
+          }
+          return out;
+        });
+        if (items.length > 0) {
+          console.log(`  → Extracted ${items.length} bolagsengagemang row(s)`);
+          return items;
+        }
+      }
+      
+      console.log('  → Bolagsengagemang: header found but no table/data extracted');
+      return [];
+    } catch (e) {
+      console.log('  → Bolagsengagemang extraction error:', e.message);
+      return [];
+    }
   }
 
   async extractLatLongText(page) {
