@@ -152,7 +152,7 @@ class HittaRatsitScraper {
 
   saveHittaToDatabase(hittaData) {
     /**
-     * Save Hitta data to hitta_se table
+     * Save Hitta data to hitta_se table (if kon exists) or hitta_bolag table (if kon doesn't exist)
      */
     try {
       const db = this.getDbConnection();
@@ -172,15 +172,18 @@ class HittaRatsitScraper {
         is_active: 1,
       };
 
-      // Check if record exists based on personnamn and address
+      // Determine which table to use based on whether kon exists
+      const tableName = dbData.kon ? 'hitta_se' : 'hitta_bolag';
+
+      // Check if record exists based on personnamn, gatuadress, and telefon
       const checkStmt = db.prepare(`
-        SELECT id FROM hitta_se 
-        WHERE personnamn = ? AND gatuadress = ? AND postnummer = ?
+        SELECT id FROM ${tableName} 
+        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
       `);
       const existing = checkStmt.get(
         dbData.personnamn,
         dbData.gatuadress,
-        dbData.postnummer
+        dbData.telefon
       );
 
       let result;
@@ -189,7 +192,7 @@ class HittaRatsitScraper {
       if (existing) {
         const updateFields = Object.keys(dbData).map(f => `${f} = ?`).join(', ');
         const updateStmt = db.prepare(`
-          UPDATE hitta_se 
+          UPDATE ${tableName} 
           SET ${updateFields}, updated_at = datetime('now')
           WHERE id = ?
         `);
@@ -199,7 +202,7 @@ class HittaRatsitScraper {
         const fields = Object.keys(dbData);
         const placeholders = fields.map(() => '?').join(', ');
         const insertStmt = db.prepare(`
-          INSERT INTO hitta_se (${fields.join(', ')}, created_at, updated_at)
+          INSERT INTO ${tableName} (${fields.join(', ')}, created_at, updated_at)
           VALUES (${placeholders}, datetime('now'), datetime('now'))
         `);
         result = insertStmt.run(...Object.values(dbData));
@@ -207,10 +210,10 @@ class HittaRatsitScraper {
       }
       
       if (result.changes > 0) {
-        console.log(`  ✓ Hitta data saved to hitta_se table (${action})`);
+        console.log(`  ✓ Hitta data saved to ${tableName} table (${action})`);
         return true;
       } else {
-        console.log('  ⚠ No changes made to hitta_se table');
+        console.log(`  ⚠ No changes made to ${tableName} table`);
         return false;
       }
       

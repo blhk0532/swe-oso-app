@@ -102,6 +102,7 @@ class PostNummersTable
                         'pending' => 'gray',
                         'running' => 'warning',
                         'complete' => 'success',
+                        'empty' => 'danger',
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (?string $state): string => $state ? ucfirst($state) : '—')
@@ -119,6 +120,7 @@ class PostNummersTable
                         'pending' => 'Pending',
                         'running' => 'Running',
                         'complete' => 'Complete',
+                        'empty' => 'Empty',
                     ]),
 
                 TernaryFilter::make('is_active')
@@ -149,7 +151,7 @@ class PostNummersTable
                             ->success()
                             ->send();
                     })
-                    ->visible(fn ($record) => $record->status !== 'running' && $record->status !== 'complete'),
+                    ->visible(fn ($record) => $record->status !== 'running' && $record->status !== 'complete' && $record->status !== 'empty'),
 
                 Action::make('pause')
                     ->label('Pause')
@@ -227,6 +229,36 @@ class PostNummersTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    BulkAction::make('bulkResetValues')
+                        ->label('Bulk Reset Values')
+                        ->icon('heroicon-o-arrow-path')
+                        ->requiresConfirmation()
+                        ->modalHeading('Bulk Reset Selected Post Nummer Values')
+                        ->modalDescription('This will reset status, is_active, progress, count, total_count, phone, house, is_pending, is_complete for all selected post nummers.')
+                        ->action(function (Collection $records): void {
+                            $reset = 0;
+                            foreach ($records as $record) {
+                                $record->update([
+                                    'status' => null,
+                                    'is_active' => false,
+                                    'progress' => 0,
+                                    'count' => 0,
+                                    'total_count' => 0,
+                                    'phone' => 0,
+                                    'house' => 0,
+                                    'is_pending' => false,
+                                    'is_complete' => false,
+                                ]);
+                                $reset++;
+                            }
+                            Notification::make()
+                                ->title('Bulk Reset Complete')
+                                ->body("Reset {$reset} post nummer row(s).")
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->closeModalByClickingAway(false),
                     BulkAction::make('queueRun')
                         ->label('Queue Run')
                         ->icon('heroicon-o-play')
@@ -268,11 +300,13 @@ class PostNummersTable
                         ->modalHeading('Bulk Check Hitta Totals')
                         ->modalDescription('Run a light totals check for selected rows that are not already empty (status and total_count both null). Empty rows will be skipped.')
                         ->action(function (Collection $records): void {
-                            $queued = 0; $skipped = 0;
+                            $queued = 0;
+                            $skipped = 0;
                             foreach ($records as $record) {
-                                // Skip rows already empty (status NULL and total_count NULL)
-                                if (is_null($record->status) && is_null($record->total_count)) {
+                                // Skip rows already empty (status = 'empty')
+                                if ($record->status === 'empty') {
                                     $skipped++;
+
                                     continue;
                                 }
                                 CheckHittaTotals::dispatch($record->post_nummer);

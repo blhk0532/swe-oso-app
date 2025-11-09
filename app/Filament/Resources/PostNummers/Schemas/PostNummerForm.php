@@ -19,8 +19,7 @@ class PostNummerForm
                         TextInput::make('post_nummer')
                             ->label('Post Nummer')
                             ->required()
-                            ->maxLength(5)
-                            ->numeric()
+                            ->maxLength(6)
                             ->unique(ignoreRecord: true),
 
                         TextInput::make('post_ort')
@@ -33,6 +32,42 @@ class PostNummerForm
 
                         TextInput::make('total_count')
                             ->label('Total Count')
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0),
+
+                        TextInput::make('count')
+                            ->label('Count')
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0),
+
+                        TextInput::make('phone')
+                            ->label('Phone')
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0),
+
+                        TextInput::make('house')
+                            ->label('House')
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0),
+
+                        TextInput::make('progress')
+                            ->label('Progress')
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0),
+
+                        TextInput::make('last_processed_page')
+                            ->label('Last Processed Page')
+                            ->numeric()
+                            ->default(0)
+                            ->minValue(0),
+
+                        TextInput::make('processed_count')
+                            ->label('Processed Count')
                             ->numeric()
                             ->default(0)
                             ->minValue(0),

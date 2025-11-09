@@ -40,9 +40,13 @@ class CheckHittaTotals implements ShouldQueue
             return;
         }
 
+        // Build search query: "post_nummer post_ort" (e.g., "11212 Stockholm")
+        $searchQuery = trim($this->postNummer . ' ' . ($record->post_ort ?? ''));
+        Log::info("[CheckHittaTotals {$this->postNummer}] Search query: {$searchQuery}");
+
         $result = Process::path(base_path('scripts'))
             ->timeout($this->timeout)
-            ->run(['node', 'post_ort_update.mjs', $this->postNummer, '--onlyTotals']);
+            ->run(['node', 'post_ort_update.mjs', $searchQuery, '--onlyTotals']);
 
         if (! $result->successful()) {
             Log::error("[CheckHittaTotals {$this->postNummer}] Script failed: {$result->errorOutput()}");
@@ -62,8 +66,8 @@ class CheckHittaTotals implements ShouldQueue
 
                 break;
             }
-            // Fallback: detect Swedish phrase if script didn't emit the flag
-            if (str_contains(mb_strtolower($line), 'ingen träff på') && str_contains(mb_strtolower($line), 'visar utökat resultat')) {
+            // Detect "Ingen träff på" (no results at all)
+            if (str_contains(mb_strtolower($line), 'ingen träff på')) {
                 $noDirectResults = true;
 
                 break;
@@ -83,14 +87,16 @@ class CheckHittaTotals implements ShouldQueue
         // Handle the extended results case: clear status and total_count (display as — in UI)
         if ($noDirectResults) {
             $record->update([
-                'status' => null,
-                'total_count' => null,
+                'status' => 'empty',
+                'total_count' => 0,
+                'count' => 0,
+                'progress' => 0,
                 // Keep existing count/progress as-is; ensure flags are not active/complete
                 'is_active' => false,
                 'is_complete' => false,
             ]);
 
-            Log::info("[CheckHittaTotals {$this->postNummer}] No direct results (extended results shown). Cleared status and total_count.");
+            Log::info("[CheckHittaTotals {$this->postNummer}] No direct results. Set status to empty.");
             event(new PostNummerStatusUpdated($record->fresh()));
 
             return;
@@ -106,6 +112,14 @@ class CheckHittaTotals implements ShouldQueue
             if ($total > 0) {
                 $computed = (int) min(100, max(0, floor(($done / $total) * 100)));
                 $updates['progress'] = $computed;
+                
+                // If total is not 0, set status to pending (unless already complete)
+                if ($done < $total) {
+                    $updates['status'] = 'pending';
+                    $updates['is_complete'] = false;
+                    $updates['is_active'] = false;
+                    $updates['is_pending'] = true;
+                }
             }
 
             // If previously marked complete but counts disagree, revert to pending
@@ -113,6 +127,7 @@ class CheckHittaTotals implements ShouldQueue
                 $updates['status'] = 'pending';
                 $updates['is_complete'] = false;
                 $updates['is_active'] = false;
+                $updates['is_pending'] = true;
             }
 
             // If counts show completion, ensure status is complete
@@ -120,6 +135,7 @@ class CheckHittaTotals implements ShouldQueue
                 $updates['status'] = 'complete';
                 $updates['is_complete'] = true;
                 $updates['is_active'] = false;
+                $updates['is_pending'] = false;
                 $updates['progress'] = 100;
             }
 

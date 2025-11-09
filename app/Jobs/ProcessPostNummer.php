@@ -55,11 +55,15 @@ class ProcessPostNummer implements ShouldQueue
             return;
         }
 
+        // Build search query: "post_nummer post_ort" (e.g., "11212 Stockholm")
+        $searchQuery = trim($this->postNummer . ' ' . ($record->post_ort ?? ''));
+        Log::info("[PostNummer {$this->postNummer}] Search query: {$searchQuery}");
+
         // PRE-FLIGHT CHECK: Run --onlyTotals first to detect "no direct match" case
         Log::info("[PostNummer {$this->postNummer}] Running pre-flight check (onlyTotals)");
         $checkResult = Process::path(base_path('scripts'))
             ->timeout(120) // 2 minute timeout for quick check
-            ->run(['node', 'post_ort_update.mjs', $this->postNummer, '--onlyTotals']);
+            ->run(['node', 'post_ort_update.mjs', $searchQuery, '--onlyTotals']);
 
         if ($checkResult->successful()) {
             $checkOutput = $checkResult->output();
@@ -73,7 +77,8 @@ class ProcessPostNummer implements ShouldQueue
 
                     break;
                 }
-                if (str_contains(mb_strtolower($line), 'ingen träff på') && str_contains(mb_strtolower($line), 'visar utökat resultat')) {
+                // Detect "Ingen träff på" (no results at all)
+                if (str_contains(mb_strtolower($line), 'ingen träff på')) {
                     $noDirectResults = true;
 
                     break;
@@ -81,10 +86,14 @@ class ProcessPostNummer implements ShouldQueue
             }
 
             if ($noDirectResults) {
-                Log::info("[PostNummer {$this->postNummer}] No direct results (extended results only). Marking empty and skipping full scrape.");
+                Log::info("[PostNummer {$this->postNummer}] No direct results. Marking empty and skipping full scrape.");
                 $record->update([
-                    'status' => null,
-                    'total_count' => null,
+                    'status' => 'empty',
+                    'total_count' => 0,
+                    'count' => 0,
+                    'progress' => 0,
+                    'phone' => 0,
+                    'house' => 0,
                     'is_active' => false,
                     'is_complete' => false,
                 ]);
@@ -116,12 +125,12 @@ class ProcessPostNummer implements ShouldQueue
 
         Log::info("[PostNummer {$this->postNummer}] Invoking script post_ort_update.mjs");
 
-        // Run the script with the post nummer as the search query (with resume args)
+        // Run the script with the search query (post_nummer + post_ort) with resume args
         $currentTotalCount = (int) ($record->total_count ?? 0);
         $currentCount = (int) max(0, $resumeCount);
         $result = Process::path(base_path('scripts'))
             ->timeout($this->timeout)
-            ->run(['node', 'post_ort_update.mjs', $this->postNummer, '--startPage', (string) $resumePage, '--startIndex', (string) $resumeCount], function (string $type, string $buffer) use ($record, &$currentTotalCount, &$currentCount) {
+            ->run(['node', 'post_ort_update.mjs', $searchQuery, '--startPage', (string) $resumePage, '--startIndex', (string) $resumeCount], function (string $type, string $buffer) use ($record, &$currentTotalCount, &$currentCount) {
                 // Parse output in real-time to update progress
                 $lines = explode("\n", $buffer);
                 $phoneCount = (int) ($record->phone ?? 0);

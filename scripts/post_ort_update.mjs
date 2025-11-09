@@ -99,15 +99,15 @@ class HittaRatsitScraper {
         is_active: 1,
       };
 
-      // Check if record already exists based on personnummer and address
+      // Check if record already exists based on personnamn, gatuadress, and telefon
       const checkStmt = db.prepare(`
         SELECT id FROM ratsit_data 
-        WHERE personnummer = ? AND gatuadress = ? AND postnummer = ?
+        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
       `);
       const existing = checkStmt.get(
-        dbData.personnummer,
+        dbData.personnamn,
         dbData.gatuadress,
-        dbData.postnummer
+        dbData.telefon
       );
 
       let result;
@@ -172,15 +172,15 @@ class HittaRatsitScraper {
         is_active: 1,
       };
 
-      // Check if record exists based on personnamn and address
+      // Check if record exists based on personnamn, gatuadress, and telefon
       const checkStmt = db.prepare(`
         SELECT id FROM hitta_se 
-        WHERE personnamn = ? AND gatuadress = ? AND postnummer = ?
+        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
       `);
       const existing = checkStmt.get(
         dbData.personnamn,
         dbData.gatuadress,
-        dbData.postnummer
+        dbData.telefon
       );
 
       let result;
@@ -291,15 +291,15 @@ class HittaRatsitScraper {
         is_update: 0,
       };
 
-      // Check if record exists
+      // Check if record exists based on personnamn, gatuadress, and telefon
       const checkStmt = db.prepare(`
         SELECT id FROM private_data 
-        WHERE personnummer = ? AND gatuadress = ? AND postnummer = ?
+        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
       `);
       const existing = checkStmt.get(
-        dbData.personnummer,
+        dbData.personnamn,
         dbData.gatuadress,
-        dbData.postnummer
+        dbData.telefon
       );
 
       let result;
@@ -1583,13 +1583,13 @@ async function main() {
       const context = await browser.newContext();
       const page = await context.newPage();
       await page.goto(searchUrl);
-      // Detect special case: "Ingen träff på … visar utökat resultat." => no direct results
+      // Detect special case: "Ingen träff på" => no results at all
       try {
         await page.waitForLoadState('domcontentloaded', { timeout: 5000 });
         const noDirectResults = await page.evaluate(() => {
           try {
             const t = (document.body?.innerText || '').toLowerCase();
-            return t.includes('ingen träff på') && t.includes('visar utökat resultat');
+            return t.includes('ingen träff på');
           } catch { return false; }
         });
         if (noDirectResults) {
@@ -1636,9 +1636,9 @@ async function main() {
         if (phones && phones.length > 0) {
           phoneCount += 1;
         }
-        // House: simple heuristic on bostadstyp (villa, radhus, friliggande, kedjehus)
+        // House: check bostadstyp for house types (hus, villa, radhus, friliggande, kedjehus)
         const type = (r.bo_bostadstyp || r.bostadstyp || '').toLowerCase();
-        if (type.match(/villa|radhus|friliggande|kedjehus/)) {
+        if (type.match(/\bhus\b|villa|radhus|friliggande|kedjehus/)) {
           houseCount += 1;
         }
       }
