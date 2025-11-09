@@ -23,13 +23,18 @@ class DataPrivateResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'personnamn';
 
-    //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUsers;
 
-    protected static ?string $navigationLabel = 'Private';
+    protected static ?string $navigationLabel = 'Uppgifter DB';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Databases';
+    //    protected static string | UnitEnum | null $navigationGroup = 'Databases';
 
     protected static ?int $navigationSort = 4;
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Schema $schema): Schema
     {

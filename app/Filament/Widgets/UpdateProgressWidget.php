@@ -2,9 +2,9 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\PostNummer;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Support\Facades\Cache;
 
 class UpdateProgressWidget extends StatsOverviewWidget
 {
@@ -17,45 +17,79 @@ class UpdateProgressWidget extends StatsOverviewWidget
 
     protected function getStats(): array
     {
-        $progress = Cache::get('update_post_nummer_progress');
+        // Get real-time data from post_nummer table
+        $runningRecords = PostNummer::where('status', 'running')->get();
+        $totalRecords = PostNummer::count();
+        $updatedRecords = PostNummer::where('status', 'complete')->count();
+        $pendingRecords = PostNummer::where('status', 'pending')
+            ->orWhereNull('status')
+            ->count();
 
-        if (! $progress) {
-            return [];
+        // If no running records, show minimal state
+        if ($runningRecords->isEmpty()) {
+            return [
+                Stat::make('Status', 'Idle')
+                    ->description('No jobs running')
+                    ->color('gray'),
+
+                Stat::make('Total', number_format($totalRecords))
+                    ->description('Records')
+                    ->color('gray'),
+
+                Stat::make('Updated', number_format($updatedRecords))
+                    ->description('Records updated')
+                    ->color('success'),
+
+                Stat::make('Pending', number_format($pendingRecords))
+                    ->description('Records pending')
+                    ->color('warning'),
+            ];
         }
+
+        // Build running post nummers list (show up to 5)
+        $runningCount = $runningRecords->count();
+        $runningList = $runningRecords->take(5)->pluck('post_nummer')->toArray();
+        $runningDesc = implode(', ', $runningList);
+        if ($runningCount > count($runningList)) {
+            $runningDesc .= ' (+' . ($runningCount - count($runningList)) . ' more)';
+        }
+
+        // Calculate aggregated progress across all running jobs
+        $totalCount = $runningRecords->sum('total_count');
+        $currentCount = $runningRecords->sum('count');
+        $avgProgress = $runningRecords->avg('progress') ?? 0;
 
         $stats = [];
 
-        // Status stat
-        $stats[] = Stat::make('Update Status', ucfirst($progress['status'] ?? 'Unknown'))
-            ->description($progress['message'] ?? '')
-            ->color(match ($progress['status'] ?? '') {
-                'running' => 'warning',
-                'completed' => 'success',
-                'failed' => 'danger',
-                default => 'gray',
-            });
+        // 1) Status
+        $stats[] = Stat::make('Status', 'Running')
+            ->description($runningDesc)
+            ->color('warning');
 
-        // Progress stat
-        if (isset($progress['percentage'])) {
-            $stats[] = Stat::make('Progress', $progress['percentage'] . '%')
-                ->description(
-                    isset($progress['processed'], $progress['total'])
-                    ? "{$progress['processed']} / {$progress['total']} records"
-                    : ''
-                )
-                ->color('primary');
-        }
+        // 2) Queue (average progress + total processed/total)
+        $percentage = round($avgProgress) . '%';
+        $queueDesc = $totalCount > 0
+            ? number_format($currentCount) . ' / ' . number_format($totalCount)
+            : 'Calculating...';
 
-        // Updated stat
-        if (isset($progress['updated'])) {
-            $stats[] = Stat::make('Updated', number_format($progress['updated']))
-                ->description('Records updated')
-                ->color('success');
-        }
+        $stats[] = Stat::make('Queue', $percentage)
+            ->description($queueDesc)
+            ->color('primary');
 
-        // Skipped stat
-        if (isset($progress['skipped'])) {
-            $stats[] = Stat::make('Skipped', number_format($progress['skipped']))
+        // 3) Updated
+        $stats[] = Stat::make('Updated', number_format($updatedRecords))
+            ->description('Records updated')
+            ->color('success');
+
+        // 4) Total
+        $stats[] = Stat::make('Total', number_format($totalRecords))
+            ->description('Records')
+            ->color('gray');
+
+        // 5) Skipped (optional - records that failed or were skipped)
+        $failedRecords = PostNummer::where('status', 'failed')->count();
+        if ($failedRecords > 0) {
+            $stats[] = Stat::make('Skipped', number_format($failedRecords))
                 ->description('Records not found')
                 ->color('gray');
         }

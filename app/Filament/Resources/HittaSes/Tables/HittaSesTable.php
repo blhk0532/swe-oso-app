@@ -64,20 +64,20 @@ class HittaSesTable
                     ->searchable()
                     ->sortable(),
 
-                // Phone (array of numbers)
-                TextColumn::make('telefon')
+                // Phone preview (truncated) with full copyable & tooltip state
+                TextColumn::make('telefon_preview')
                     ->label('Phone')
-                    ->formatStateUsing(fn ($state) => is_array($state) ? implode(' | ', $state) : (string) $state)
-                    ->searchable()
+                    ->getStateUsing(fn ($record) => $record->telefon_preview)
                     ->copyable()
-                    ->copyMessage('Phone number(s) copied')
-                    ->color(function ($state): string {
-                        if (is_array($state)) {
-                            return count($state) ? 'success' : 'gray';
-                        }
+                    ->copyMessage('Full phone data copied')
+                    ->copyableState(fn ($record) => is_array($record->telefon) ? implode(' | ', $record->telefon) : (string) ($record->telefon ?? ''))
+                    ->color(function ($record): string {
+                        $arr = is_array($record->telefon) ? $record->telefon : (is_string($record->telefon) ? [$record->telefon] : []);
+                        $hasReal = collect($arr)->filter(fn ($n) => $n && ! str_contains($n, 'Lägg till telefonnummer'))->isNotEmpty();
 
-                        return ($state === 'Lägg till telefonnummer' || empty($state)) ? 'gray' : 'success';
-                    }),
+                        return $hasReal ? 'success' : 'gray';
+                    })
+                    ->tooltip(fn ($record) => is_array($record->telefon) ? implode(' | ', $record->telefon) : (string) ($record->telefon ?? '')),
 
                 // Ratsit
                 IconColumn::make('is_ratsit')

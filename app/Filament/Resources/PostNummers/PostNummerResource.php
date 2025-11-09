@@ -26,6 +26,11 @@ class PostNummerResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Post Nummer';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Schema $schema): Schema
     {
         return PostNummerForm::configure($schema);

@@ -31,4 +31,25 @@ class HittaSe extends Model
         'is_ratsit' => 'boolean',
         'telefon' => 'array',
     ];
+
+    /**
+     * Truncated preview of the telefon field for table display.
+     * Returns an em dash when empty or placeholder.
+     */
+    public function getTelefonPreviewAttribute(): string
+    {
+        $raw = $this->telefon; // Casted to array if JSON, else mixed
+
+        if (is_array($raw)) {
+            $phoneStr = implode(' | ', $raw);
+        } else {
+            $phoneStr = trim(preg_replace('/\s+/', ' ', (string) $raw));
+        }
+
+        if ($phoneStr === '' || $phoneStr === 'Lägg till telefonnummer') {
+            return '—';
+        }
+
+        return mb_strlen($phoneStr) > 13 ? mb_substr($phoneStr, 0, 13) . '…' : $phoneStr;
+    }
 }

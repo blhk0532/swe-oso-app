@@ -833,18 +833,23 @@ class HittaRatsitScraper {
     } catch { return null; }
   }
 
-  async scrapeSearchResults(query, maxResults = 50) {
+  async scrapeSearchResults(query, maxResults = 50, startPage = 0, startIndex = 0) {
     this.results = [];
     const encodedQuery = encodeURIComponent(query);
     const searchUrl = `${this.base_url}/s%C3%B6k?vad=${encodedQuery}&typ=prv`;
     
     console.log(`Searching for: ${query} (max ${maxResults} results)`);
     console.log(`URL: ${searchUrl}`);
+    
+    if (startPage > 0 || startIndex > 0) {
+      console.log(`Resume mode: starting from page ${startPage || 1}, index ${startIndex}`);
+    }
 
     let browser = null;
-    let currentPage = 1;
+    let currentPage = startPage > 0 ? startPage : 1;
     let totalPages = null;
     let hasMorePages = true;
+    let globalIndex = startIndex; // Track global item count for resume
     
     try {
       // Launch browser
@@ -912,7 +917,17 @@ class HittaRatsitScraper {
 
         const pageResults = [];
         let pendingToSave = [];
-        for (let i = 0; i < pageTotal; i++) {
+        
+        // Determine starting index for this page
+        let startIdx = 0;
+        if (currentPage === startPage && startIndex > 0) {
+          // Calculate items per page (assuming 25 per page)
+          const itemsPerPage = 25;
+          startIdx = startIndex % itemsPerPage;
+          console.log(`Resuming from item ${startIdx + 1} on page ${currentPage}`);
+        }
+        
+        for (let i = startIdx; i < pageTotal; i++) {
           try {
             // Re-query items each iteration to avoid stale references
             const currentItems = await page.$$('li[data-test="person-item"]');
@@ -926,6 +941,7 @@ class HittaRatsitScraper {
               pageResults.push(personData);
               this.results.push(personData);
               pendingToSave.push(personData);
+              globalIndex++; // Increment global counter
               console.log(`[Page ${currentPage}] Extracted ${idx}/${pageTotal}: ${personData.personnamn || 'Unknown'}`);
               // If we have a phone number, flush pending results to DB, then try running ratsit for this person
               const hasPhone = Array.isArray(personData.telefon)
@@ -1535,19 +1551,99 @@ async function main() {
     .option('--no-db', 'Do not save to database')
     .option('--api-url <url>', 'Laravel API URL (default: http://localhost:8000)')
     .option('--api-token <token>', 'API authentication token')
+    .option('--startPage <page>', 'Start from this page (for resume)', '0')
+    .option('--startIndex <index>', 'Start from this item index (for resume)', '0')
+    .option('--onlyTotals', 'Only fetch total results count and exit')
     .parse();
 
   const options = program.opts();
   const query = program.args[0];
+  const startPage = parseInt(options.startPage) || 0;
+  const startIndex = parseInt(options.startIndex) || 0;
 
   const scraper = new HittaRatsitScraper(options.apiUrl, options.apiToken);
 
   try {
-    // Scrape results (limit to 10 for testing)
-    const results = await scraper.scrapeSearchResults(query, 1000);
+    if (options.onlyTotals) {
+      // Lightweight mode: load first page, output total results, exit
+      const encodedQuery = encodeURIComponent(query);
+      const searchUrl = `${scraper.base_url}/s%C3%B6k?vad=${encodedQuery}&typ=prv`;
+      console.log(`Checking totals for: ${query}`);
+      const browser = await chromium.launch({
+        headless: true,
+        executablePath: '/usr/bin/google-chrome',
+        args: [
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--window-size=1920,1080',
+          '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        ]
+      });
+      const context = await browser.newContext();
+      const page = await context.newPage();
+      await page.goto(searchUrl);
+      // Detect special case: "Ingen träff på … visar utökat resultat." => no direct results
+      try {
+        await page.waitForLoadState('domcontentloaded', { timeout: 5000 });
+        const noDirectResults = await page.evaluate(() => {
+          try {
+            const t = (document.body?.innerText || '').toLowerCase();
+            return t.includes('ingen träff på') && t.includes('visar utökat resultat');
+          } catch { return false; }
+        });
+        if (noDirectResults) {
+          console.log('NO_DIRECT_RESULTS=1');
+          console.log('Total results: 0');
+          await browser.close();
+          return; // Exit early so caller can handle this condition
+        }
+      } catch {}
+      try {
+        await page.waitForSelector('span[data-test="search-results-count"]', { timeout: 10000 });
+        const countElement = await page.$('span[data-test="search-results-count"]');
+        let totalResults = null;
+        if (countElement) {
+          const countText = await countElement.textContent();
+          const totalMatch = countText.match(/\d+/);
+          if (totalMatch) {
+            totalResults = parseInt(totalMatch[0]);
+          }
+        }
+        if (totalResults !== null) {
+          console.log(`Total results: ${totalResults}`);
+        } else {
+          console.log('Total results: 0');
+        }
+      } catch (e) {
+        console.log('Total results: 0');
+      }
+      await browser.close();
+      return; // Exit early
+    }
+    // Scrape results (limit to 1000 for testing)
+    const results = await scraper.scrapeSearchResults(query, 1000, startPage, startIndex);
 
     if (results.length > 0) {
       console.log(`\nTotal results found: ${results.length}`);
+
+      // Aggregate phone & house counts
+      let phoneCount = 0;
+      let houseCount = 0;
+      for (const r of results) {
+        // Phone: count entries having at least one phone number array (ps_telefon or telefon)
+        const phones = Array.isArray(r.ps_telefon) ? r.ps_telefon : (Array.isArray(r.telefon) ? r.telefon : []);
+        if (phones && phones.length > 0) {
+          phoneCount += 1;
+        }
+        // House: simple heuristic on bostadstyp (villa, radhus, friliggande, kedjehus)
+        const type = (r.bo_bostadstyp || r.bostadstyp || '').toLowerCase();
+        if (type.match(/villa|radhus|friliggande|kedjehus/)) {
+          houseCount += 1;
+        }
+      }
+      console.log(`Phones: ${phoneCount}`);
+      console.log(`Houses: ${houseCount}`);
 
       // Save to CSV (include missing phone CSV by default)
       await scraper.saveToCsv(query, !options.noMissing);
@@ -1559,6 +1655,8 @@ async function main() {
       }
     } else {
       console.log('No results found');
+      console.log('Phones: 0');
+      console.log('Houses: 0');
     }
   } finally {
     // Always close database connection
