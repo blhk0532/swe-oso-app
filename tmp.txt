@@ -1,0 +1,63 @@
+in hitta_bolag - we have to changge a few column:
+
+personnummer to org_nr
+kon to juridiskt_namn
+alder to registreringsdatum
+
+and add columns
+
+bolagsform (string)
+sni_branch (array)
+
+and then create a resource and link in admin menu
+
+
+
+
+we have to make sure that when click run on post nummer admin teble - when script is checking results from hitta if result does not have "kon" then save that result to hitta_bolag instead of hitta_se 
+
+
+we have to make sure that counter logic is workig corrrectly, maybe issus occur if script was stopped, pleas check this
+
+............
+ 	
+10004
+	
+Stockholm
+	
+Stockholm
+	
+35
+	
+62
+	
+34
+	
+0
+	
+6
+	
+100%
+	
+Pending
+
+............
+
+ 	
+10012
+	
+Stockholm
+	
+Stockholm
+	
+544
+	
+550
+	
+168
+	
+1
+	
+8
+	
+100%

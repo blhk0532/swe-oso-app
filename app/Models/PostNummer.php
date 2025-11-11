@@ -18,6 +18,7 @@ class PostNummer extends Model
     protected $attributes = [
         'phone' => 0,
         'house' => 0,
+        'bolag' => 0,
     ];
 
     protected function casts(): array
@@ -31,6 +32,7 @@ class PostNummer extends Model
             'count' => 'integer',
             'phone' => 'integer',
             'house' => 'integer',
+            'bolag' => 'integer',
             'last_processed_page' => 'integer',
             'processed_count' => 'integer',
         ];
@@ -44,6 +46,7 @@ class PostNummer extends Model
         'count',
         'phone',
         'house',
+        'bolag',
         'status',
         'progress',
         'is_pending',

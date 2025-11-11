@@ -4,6 +4,8 @@ namespace App\Filament\Resources\PostNummers\Tables;
 
 use App\Jobs\CheckHittaTotals;
 use App\Jobs\ProcessPostNummer;
+use App\Jobs\RunHittaCountForPostNummer;
+use Exception;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
@@ -16,6 +18,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
+use Log;
+use Symfony\Component\Process\Process;
 
 class PostNummersTable
 {
@@ -46,7 +50,7 @@ class PostNummersTable
                     ->placeholder('—'),
 
                 TextColumn::make('total_count')
-                    ->label('Total')
+                    ->label('Tot')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -54,7 +58,7 @@ class PostNummersTable
                     ->placeholder('—'),
 
                 TextColumn::make('count')
-                    ->label('Count')
+                    ->label('Cnt')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -62,7 +66,7 @@ class PostNummersTable
                     ->placeholder('—'),
 
                 TextColumn::make('phone')
-                    ->label('Tele')
+                    ->label('Tel')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -77,8 +81,16 @@ class PostNummersTable
                     ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
                     ->placeholder('—'),
 
+                TextColumn::make('bolag')
+                    ->label('AB')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
                 TextColumn::make('computed_progress')
-                    ->label('Done')
+                    ->label('%')
                     ->html()
                     ->getStateUsing(function ($record): string {
                         $total = (int) ($record->total_count ?? 0);
@@ -93,6 +105,7 @@ class PostNummersTable
                             . '</div>';
                     })
                     ->alignCenter()
+                    ->sortable()
                     ->grow(false),
 
                 TextColumn::make('status')
@@ -110,7 +123,7 @@ class PostNummersTable
                     ->grow(false),
 
                 IconColumn::make('is_active')
-                    ->label('Active')
+                    ->label('OK')
                     ->boolean()
                     ->sortable(),
             ])
@@ -147,7 +160,7 @@ class PostNummersTable
 
                         Notification::make()
                             ->title('Job Queued')
-                            ->body("Update queued for post nummer: {$record->post_nummer}")
+                            ->body("Update queued for post nummer: {$record->post_nummer}. Start a queue worker to begin processing.")
                             ->success()
                             ->send();
                     })
@@ -177,9 +190,9 @@ class PostNummersTable
                     ->visible(fn ($record) => $record->status === 'running'),
 
                 Action::make('update')
-                    ->label('Update')
+                    ->label('Run')
                     ->icon('heroicon-o-arrow-path')
-                    ->color('primary')
+                    ->color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Re-run Complete Post Nummer')
                     ->modalDescription(fn ($record) => "This will re-run the scraper for post nummer: {$record->post_nummer}. The job will run in the background.")
@@ -193,6 +206,7 @@ class PostNummersTable
                             'count' => 0,
                             'phone' => 0,
                             'house' => 0,
+                            'bolag' => 0,
                             'last_processed_page' => 0,
                             'processed_count' => 0,
                         ]);
@@ -202,40 +216,105 @@ class PostNummersTable
 
                         Notification::make()
                             ->title('Job Queued')
-                            ->body("Update queued for post nummer: {$record->post_nummer}")
+                            ->body("Update queued for post nummer: {$record->post_nummer}. Start a queue worker to begin processing.")
                             ->success()
                             ->send();
                     })
                     ->visible(fn ($record) => $record->status === 'complete'),
 
+                Action::make('delete')
+                    ->label('xXx')
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Delete Post Nummer')
+                    ->modalDescription('This will permanently delete this post nummer record. This action cannot be undone.')
+                    ->modalSubmitActionLabel('Delete')
+                    ->action(function ($record) {
+                        $record->delete();
+
+                        Notification::make()
+                            ->title('Post Nummer Deleted')
+                            ->body("Post nummer {$record->post_nummer} has been deleted.")
+                            ->success()
+                            ->send();
+                    })
+                    ->visible(fn ($record) => $record->status === 'empty'),
+
+                EditAction::make(),
+
                 Action::make('checkTotals')
-                    ->label('Check')
+                    ->label('Scan')
                     ->icon('heroicon-o-magnifying-glass')
-                    ->color('info')
+                    ->color('warning')
                     ->requiresConfirmation()
                     ->modalHeading('Check Hitta Totals')
                     ->modalDescription(fn ($record) => "This will run a light check to fetch only total results for post nummer: {$record->post_nummer} without processing all pages.")
                     ->modalSubmitActionLabel('Run Check')
                     ->action(function ($record) {
                         CheckHittaTotals::dispatch($record->post_nummer);
+
+                        // Auto-start queue worker
+                        $workerProcess = new Process([
+                            'php',
+                            base_path('artisan'),
+                            'queue:work',
+                            'database',
+                            '--queue=postnummer',
+                            '--tries=3',
+                            '--timeout=0',
+                        ]);
+                        $workerProcess->start();
+
                         Notification::make()
-                            ->title('Totals Check Queued')
-                            ->body("Totals check queued for post nummer: {$record->post_nummer}")
+                            ->title('Totals Check Queued & Worker Started')
+                            ->body("Totals check queued for post nummer: {$record->post_nummer}. Queue worker started automatically.")
                             ->success()
                             ->send();
                     }),
 
-                EditAction::make(),
+                Action::make('checkCounts')
+                    ->label('Check')
+                    ->icon('heroicon-o-check')
+                    ->color('info')
+                    ->requiresConfirmation()
+                    ->modalHeading('Check Hitta Counts')
+                    ->modalDescription(fn ($record) => "This will run the hittaCount script to fetch Företag/Personer/Platser counts for post nummer: {$record->post_nummer} and update totals.")
+                    ->modalSubmitActionLabel('Run')
+                    ->action(function ($record) {
+                        RunHittaCountForPostNummer::dispatch($record);
+
+                        // Start a queue worker in the background (stops when empty)
+                        $command = 'php ' . base_path('artisan') . ' queue:work database --queue=postnummer --tries=3 --timeout=0 --stop-when-empty > /dev/null 2>&1 &';
+                        shell_exec($command);
+
+                        Notification::make()
+                            ->title('Hitta Counts Queued')
+                            ->body("Counts check queued for post nummer: {$record->post_nummer}. A background worker has been started and will stop when all jobs are done.")
+                            ->success()
+                            ->send();
+                    }),
+
             ])
             ->toolbarActions([
+
                 BulkActionGroup::make([
                     BulkAction::make('bulkResetValues')
                         ->label('Bulk Reset Values')
                         ->icon('heroicon-o-arrow-path')
                         ->requiresConfirmation()
                         ->modalHeading('Bulk Reset Selected Post Nummer Values')
-                        ->modalDescription('This will reset status, is_active, progress, count, total_count, phone, house, is_pending, is_complete for all selected post nummers.')
+                        ->modalDescription('This will stop all queue workers, clear all pending jobs, and reset status, is_active, progress, count, total_count, phone, house, last_processed_page, processed_count, is_pending, is_complete for all selected post nummers.')
                         ->action(function (Collection $records): void {
+                            // First, stop all queue workers
+                            $workerProcess = new Process(['pkill', '-f', 'artisan queue:work database']);
+                            $workerProcess->run();
+
+                            // Clear all pending jobs from the queue
+                            $clearProcess = new Process(['php', base_path('artisan'), 'queue:clear', 'database', '--queue=postnummer']);
+                            $clearProcess->run();
+
+                            // Reset all selected records
                             $reset = 0;
                             foreach ($records as $record) {
                                 $record->update([
@@ -246,14 +325,18 @@ class PostNummersTable
                                     'total_count' => 0,
                                     'phone' => 0,
                                     'house' => 0,
+                                    'bolag' => 0,
+                                    'last_processed_page' => 0,
+                                    'processed_count' => 0,
                                     'is_pending' => false,
                                     'is_complete' => false,
                                 ]);
                                 $reset++;
                             }
+
                             Notification::make()
                                 ->title('Bulk Reset Complete')
-                                ->body("Reset {$reset} post nummer row(s).")
+                                ->body("Stopped queue workers, cleared pending jobs, and reset {$reset} post nummer row(s).")
                                 ->success()
                                 ->send();
                         })
@@ -285,7 +368,7 @@ class PostNummersTable
 
                             Notification::make()
                                 ->title('Jobs Queued')
-                                ->body("Queued {$queued} job(s). They will process in the background.")
+                                ->body("Queued {$queued} job(s). Start a queue worker to begin processing.")
                                 ->success()
                                 ->send();
                         })
@@ -312,24 +395,118 @@ class PostNummersTable
                                 CheckHittaTotals::dispatch($record->post_nummer);
                                 $queued++;
                             }
+
                             Notification::make()
-                                ->title('Totals Check')
-                                ->body("Queued {$queued} check(s). Skipped {$skipped} empty row(s).")
+                                ->title('Totals Check Queued')
+                                ->body("Queued {$queued} check(s). Skipped {$skipped} empty row(s). Start a queue worker to begin processing.")
                                 ->success()
                                 ->send();
                         })
                         ->deselectRecordsAfterCompletion()
                         ->closeModalByClickingAway(false),
                 ]),
+                Action::make('startQueueWorkers')
+                    ->label('Start Queue')
+                    ->icon('heroicon-o-cpu-chip')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Start Multiple Queue Workers')
+                    ->modalDescription('This will start 1 queue worker in the background to process jobs sequentially. Worker will automatically stop when all jobs are completed.')
+                    ->modalSubmitActionLabel('Start Worker')
+                    ->action(function () {
+                        // Start queue worker that stops when empty using shell_exec for web context
+                        $command = 'php ' . base_path('artisan') . ' queue:work database --queue=postnummer --tries=3 --timeout=0 --stop-when-empty > /dev/null 2>&1 &';
+                        shell_exec($command);
+
+                        Notification::make()
+                            ->title('Queue Worker Started')
+                            ->body('Queue worker started in the background. It will automatically stop when all jobs are completed.')
+                            ->success()
+                            ->send();
+                    }),
+
+                Action::make('statusQueueWorkers')
+                    ->label('Status Queue')
+                    ->icon('heroicon-o-eye')
+                    ->color('info')
+                    ->action(function () {
+                        // Check if queue workers are running
+                        $checkProcess = new Process(['pgrep', '-f', 'artisan queue:work database']);
+                        $checkProcess->run();
+
+                        if ($checkProcess->isSuccessful()) {
+                            $output = trim($checkProcess->getOutput());
+                            $pids = explode("\n", $output);
+                            $workerCount = count(array_filter($pids)); // Filter out empty lines
+
+                            Notification::make()
+                                ->title('Queue Workers Status')
+                                ->body("{$workerCount} queue worker(s) are currently running and processing jobs.")
+                                ->info()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Queue Workers Status')
+                                ->body('No queue workers are currently running. Workers start automatically when jobs are queued and stop when all jobs are completed.')
+                                ->info()
+                                ->send();
+                        }
+                    }),
+
+                Action::make('clearQueueWorkers')
+                    ->label('Clear Queue')
+                    ->icon('heroicon-o-x-circle')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Stop All Queue Workers')
+                    ->modalDescription('This will stop all running queue workers. Any jobs currently being processed may be interrupted.')
+                    ->modalSubmitActionLabel('Stop Workers')
+                    ->action(function () {
+                        $process = new Process(['pkill', '-f', 'artisan queue:work database']);
+
+                        try {
+                            $process->run();
+
+                            // pkill returns 0 if processes were killed, 1 if no processes found
+                            // Both are acceptable outcomes
+                            if ($process->getExitCode() === 0) {
+                                Notification::make()
+                                    ->title('Queue Workers Stopped')
+                                    ->body('All queue workers have been stopped successfully.')
+                                    ->success()
+                                    ->send();
+                            } elseif ($process->getExitCode() === 1) {
+                                Notification::make()
+                                    ->title('No Workers Running')
+                                    ->body('No queue workers were found running.')
+                                    ->info()
+                                    ->send();
+                            } else {
+                                Notification::make()
+                                    ->title('Failed to Stop Workers')
+                                    ->body('Could not stop queue workers. There was an error: ' . $process->getErrorOutput())
+                                    ->warning()
+                                    ->send();
+                            }
+                        } catch (Exception $e) {
+                            Log::error('Failed to stop queue workers: ' . $e->getMessage());
+
+                            Notification::make()
+                                ->title('Error Stopping Workers')
+                                ->body('An error occurred while trying to stop queue workers.')
+                                ->danger()
+                                ->send();
+                        }
+                    }),
             ])
-            ->defaultSort('post_nummer', 'asc')
-            ->modifyQueryUsing(function ($query) {
-                return $query->orderByRaw("CASE 
+            ->defaultSort(function ($query) {
+                $query->orderByRaw("CASE 
                     WHEN status = 'running' THEN 0 
                     WHEN status = 'pending' THEN 1 
                     ELSE 2 
                 END")
                     ->orderBy('post_nummer', 'asc');
-            });
+            })
+            ->paginated([10, 25, 50, 100, 200, 500, 1000]);
     }
 }

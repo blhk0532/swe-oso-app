@@ -159,6 +159,7 @@ class HittaRatsitScraper {
       
       const dbData = {
         personnamn: hittaData.personnamn || null,
+        // For person records (hitta_se) we still capture alder & kon
         alder: hittaData.alder || null,
         kon: hittaData.kon || null,
         gatuadress: hittaData.gatuadress || null,
@@ -175,13 +176,30 @@ class HittaRatsitScraper {
       // Determine which table to use based on whether kon exists
       const tableName = dbData.kon ? 'hitta_se' : 'hitta_bolag';
 
+      // If we are saving a company (hitta_bolag), adapt field names to new schema.
+      if (tableName === 'hitta_bolag') {
+        // Move alder -> registreringsdatum
+        dbData.registreringsdatum = dbData.alder || null;
+        delete dbData.alder;
+        // Map juridiskt_namn: prefer personnamn scraped value
+        dbData.juridiskt_namn = dbData.personnamn || null;
+        // Initialize new columns if not scraped yet
+        dbData.org_nr = hittaData.org_nr || null; // placeholder, scraper may extend later
+        dbData.bolagsform = hittaData.bolagsform || null;
+        dbData.sni_branch = Array.isArray(hittaData.sni_branch) ? JSON.stringify(hittaData.sni_branch) : '[]';
+        // Remove kon column (should be null anyway for companies)
+        delete dbData.kon;
+      }
+
       // Check if record exists based on personnamn, gatuadress, and telefon
+      // Build uniqueness check; for companies use juridiskt_namn if available
+      const identityName = tableName === 'hitta_bolag' ? (dbData.juridiskt_namn || dbData.personnamn) : dbData.personnamn;
       const checkStmt = db.prepare(`
         SELECT id FROM ${tableName} 
-        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
+        WHERE ${tableName === 'hitta_bolag' ? 'juridiskt_namn' : 'personnamn'} = ? AND gatuadress = ? AND telefon = ?
       `);
       const existing = checkStmt.get(
-        dbData.personnamn,
+        identityName,
         dbData.gatuadress,
         dbData.telefon
       );

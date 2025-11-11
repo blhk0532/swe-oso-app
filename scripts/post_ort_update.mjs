@@ -137,6 +137,10 @@ class HittaRatsitScraper {
       
       if (result.changes > 0) {
         console.log(`  ✓ Ratsit data saved to ratsit_data table (${action})`);
+        
+        // Update is_ratsit flag in hitta_data table if this person exists there
+        this.updateHittaDataRatsitFlag(dbData);
+        
         return true;
       } else {
         console.log('  ⚠ No changes made to ratsit_data table');
@@ -150,9 +154,133 @@ class HittaRatsitScraper {
     }
   }
 
+  updateHittaDataRatsitFlag(ratsitData) {
+    /**
+     * Update is_ratsit flag in hitta_data table when Ratsit data is available
+     */
+    try {
+      const db = this.getDbConnection();
+      
+      // Update is_ratsit flag based on personnamn, gatuadress, and telefon match
+      const updateStmt = db.prepare(`
+        UPDATE hitta_data 
+        SET is_ratsit = 1, updated_at = datetime('now')
+        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
+      `);
+      
+      const result = updateStmt.run(
+        ratsitData.personnamn,
+        ratsitData.gatuadress,
+        ratsitData.telefon
+      );
+      
+      if (result.changes > 0) {
+        console.log(`  ✓ Updated is_ratsit flag in hitta_data table`);
+      }
+      
+    } catch (error) {
+      console.log('  ✗ Error updating hitta_data is_ratsit flag:', error.message);
+    }
+  }
+
   saveHittaToDatabase(hittaData) {
     /**
-     * Save Hitta data to hitta_se table
+     * Save Hitta data to hitta_se table (if kon exists) or hitta_bolag table (if kon doesn't exist)
+     */
+    try {
+      const db = this.getDbConnection();
+      
+      // Determine table based on kon presence (company if no kon)
+      const tableName = hittaData.kon ? 'hitta_se' : 'hitta_bolag';
+      
+      let dbData = {
+        personnamn: hittaData.personnamn || null,
+        alder: hittaData.alder || null,
+        kon: hittaData.kon || null,
+        gatuadress: hittaData.gatuadress || null,
+        postnummer: hittaData.postnummer || null,
+        postort: hittaData.postort || null,
+        telefon: Array.isArray(hittaData.telefon) ? JSON.stringify(hittaData.telefon) : '[]',
+        karta: hittaData.karta || null,
+        link: hittaData.link || null,
+        bostadstyp: hittaData.bostadstyp || null,
+        bostadspris: hittaData.bostadspris || null,
+        is_active: 1,
+      };
+
+      // If we are saving a company (hitta_bolag), adapt field names to new schema.
+      if (tableName === 'hitta_bolag') {
+        // Map fields for company schema
+        dbData.registreringsdatum = dbData.alder; // alder -> registreringsdatum
+        delete dbData.alder; // remove alder
+        dbData.juridiskt_namn = dbData.personnamn; // personnamn -> juridiskt_namn
+        delete dbData.personnamn; // remove personnamn
+        delete dbData.kon; // remove kon (companies don't have it)
+        // Initialize new columns
+        dbData.org_nr = hittaData.org_nr || null;
+        dbData.bolagsform = hittaData.bolagsform || null;
+        dbData.sni_branch = Array.isArray(hittaData.sni_branch) ? JSON.stringify(hittaData.sni_branch) : '[]';
+      }
+
+      // Check if record exists based on identity name, gatuadress, and telefon
+      const identityName = tableName === 'hitta_bolag' ? (dbData.juridiskt_namn || dbData.personnamn) : dbData.personnamn;
+      const checkStmt = db.prepare(`
+        SELECT id FROM ${tableName} 
+        WHERE ${tableName === 'hitta_bolag' ? 'juridiskt_namn' : 'personnamn'} = ? AND gatuadress = ? AND telefon = ?
+      `);
+      const existing = checkStmt.get(
+        identityName,
+        dbData.gatuadress,
+        dbData.telefon
+      );
+
+      let result;
+      let action;
+
+      if (existing) {
+        const updateFields = Object.keys(dbData).map(f => `${f} = ?`).join(', ');
+        const updateStmt = db.prepare(`
+          UPDATE ${tableName} 
+          SET ${updateFields}, updated_at = datetime('now')
+          WHERE id = ?
+        `);
+        result = updateStmt.run(...Object.values(dbData), existing.id);
+        action = 'updated';
+      } else {
+        const fields = Object.keys(dbData);
+        const placeholders = fields.map(() => '?').join(', ');
+        const insertStmt = db.prepare(`
+          INSERT INTO ${tableName} (${fields.join(', ')}, created_at, updated_at)
+          VALUES (${placeholders}, datetime('now'), datetime('now'))
+        `);
+        result = insertStmt.run(...Object.values(dbData));
+        action = 'created';
+      }
+      
+      if (result.changes > 0) {
+        console.log(`  ✓ Hitta data saved to ${tableName} table (${action})`);
+        
+        // Also save to hitta_data table if result has both telefon (with actual numbers) and kon
+        if (hittaData.telefon && Array.isArray(hittaData.telefon) && hittaData.telefon.length > 0 && hittaData.kon) {
+          this.saveHittaToDataTable(hittaData);
+        }
+        
+        return true;
+      } else {
+        console.log(`  ⚠ No changes made to ${tableName} table`);
+        return false;
+      }
+      
+    } catch (error) {
+      console.log('  ✗ Error saving Hitta data:', error.message);
+      return false;
+    }
+  }
+
+  saveHittaToDataTable(hittaData) {
+    /**
+     * Save Hitta data to hitta_data table (only if has telefon and kon)
+     * Uses the same structure as hitta_se table
      */
     try {
       const db = this.getDbConnection();
@@ -170,11 +298,13 @@ class HittaRatsitScraper {
         bostadstyp: hittaData.bostadstyp || null,
         bostadspris: hittaData.bostadspris || null,
         is_active: 1,
+        is_telefon: Array.isArray(hittaData.telefon) && hittaData.telefon.length > 0 ? 1 : 0,
+        is_ratsit: 0, // Will be updated if Ratsit data is available
       };
 
       // Check if record exists based on personnamn, gatuadress, and telefon
       const checkStmt = db.prepare(`
-        SELECT id FROM hitta_se 
+        SELECT id FROM hitta_data 
         WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
       `);
       const existing = checkStmt.get(
@@ -189,7 +319,7 @@ class HittaRatsitScraper {
       if (existing) {
         const updateFields = Object.keys(dbData).map(f => `${f} = ?`).join(', ');
         const updateStmt = db.prepare(`
-          UPDATE hitta_se 
+          UPDATE hitta_data 
           SET ${updateFields}, updated_at = datetime('now')
           WHERE id = ?
         `);
@@ -199,7 +329,7 @@ class HittaRatsitScraper {
         const fields = Object.keys(dbData);
         const placeholders = fields.map(() => '?').join(', ');
         const insertStmt = db.prepare(`
-          INSERT INTO hitta_se (${fields.join(', ')}, created_at, updated_at)
+          INSERT INTO hitta_data (${fields.join(', ')}, created_at, updated_at)
           VALUES (${placeholders}, datetime('now'), datetime('now'))
         `);
         result = insertStmt.run(...Object.values(dbData));
@@ -207,15 +337,15 @@ class HittaRatsitScraper {
       }
       
       if (result.changes > 0) {
-        console.log(`  ✓ Hitta data saved to hitta_se table (${action})`);
+        console.log(`  ✓ Hitta data also saved to hitta_data table (${action})`);
         return true;
       } else {
-        console.log('  ⚠ No changes made to hitta_se table');
+        console.log(`  ⚠ No changes made to hitta_data table`);
         return false;
       }
       
     } catch (error) {
-      console.log('  ✗ Error saving Hitta data:', error.message);
+      console.log('  ✗ Error saving Hitta data to hitta_data table:', error.message);
       return false;
     }
   }
@@ -1630,6 +1760,7 @@ async function main() {
       // Aggregate phone & house counts
       let phoneCount = 0;
       let houseCount = 0;
+      let bolagCount = 0;
       for (const r of results) {
         // Phone: count entries having at least one phone number array (ps_telefon or telefon)
         const phones = Array.isArray(r.ps_telefon) ? r.ps_telefon : (Array.isArray(r.telefon) ? r.telefon : []);
@@ -1641,9 +1772,14 @@ async function main() {
         if (type.match(/\bhus\b|villa|radhus|friliggande|kedjehus/)) {
           houseCount += 1;
         }
+        // Bolag: count entries that will be saved to hitta_bolag (companies without kon)
+        if (!r.kon) {
+          bolagCount += 1;
+        }
       }
       console.log(`Phones: ${phoneCount}`);
       console.log(`Houses: ${houseCount}`);
+      console.log(`Bolag: ${bolagCount}`);
 
       // Save to CSV (include missing phone CSV by default)
       await scraper.saveToCsv(query, !options.noMissing);
@@ -1657,6 +1793,7 @@ async function main() {
       console.log('No results found');
       console.log('Phones: 0');
       console.log('Houses: 0');
+      console.log('Bolag: 0');
     }
   } finally {
     // Always close database connection

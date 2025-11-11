@@ -40,8 +40,8 @@ class CheckHittaTotals implements ShouldQueue
             return;
         }
 
-        // Build search query: "post_nummer post_ort" (e.g., "11212 Stockholm")
-        $searchQuery = trim($this->postNummer . ' ' . ($record->post_ort ?? ''));
+        // Build search query: "post_nummer" (e.g., "11212")
+        $searchQuery = $this->postNummer;
         Log::info("[CheckHittaTotals {$this->postNummer}] Search query: {$searchQuery}");
 
         $result = Process::path(base_path('scripts'))
@@ -112,7 +112,7 @@ class CheckHittaTotals implements ShouldQueue
             if ($total > 0) {
                 $computed = (int) min(100, max(0, floor(($done / $total) * 100)));
                 $updates['progress'] = $computed;
-                
+
                 // If total is not 0, set status to pending (unless already complete)
                 if ($done < $total) {
                     $updates['status'] = 'pending';

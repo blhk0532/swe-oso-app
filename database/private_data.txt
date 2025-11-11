@@ -1,4 +1,6 @@
-id (int) (primary) (auto increment),
+create new convex table ratsit_hitta
+
+_id
 gatuadress (string/text) (default NULL) ,
 postnummer (string/text) (default NULL),
 postort (string/text) (default NULL),
@@ -38,5 +40,53 @@ bostad_typ (string/text) (default NULL),
 bostad_pris (string/text) (default NULL),
 is_active (boolean) (default TRUE),
 is_update (boolean) (default FALSE),
-created_at (date time) (default TIMESTAMP),
-updated_at (date time) (default TIMESTAMP),
+_creationTime,
+_updateTime
+
+
+
+
+create new primsa table ratsit_hitta
+
+_id
+gatuadress (string/text) (default NULL) ,
+postnummer (string/text) (default NULL),
+postort (string/text) (default NULL),
+forsamling (string/text) (default NULL),
+kommun (string/text) (default NULL),
+lan (string/text) (default NULL),
+adressandring (string/text) (default NULL),
+telfonnummer (array/json) (default EMPTY),
+stjarntacken (string/text) (default NULL)
+fodelsedag (string/text) (default NULL)
+personnummer (string/text) (default NULL),
+alder (string/text) (default NULL),
+kon (string/text) (default NULL),
+civilstand (string/text) (default NULL),
+fornamn (string/text) (default NULL)
+efternamn (string/text) (default NULL),
+personnamn (string/text) (default NULL),
+telefon (array/json) (default EMPTY),
+agandeform (string/text) (default NULL),
+bostadstyp (string/text) (default NULL),
+boarea (string/text) (default NULL),
+byggar (string/text) (default NULL),
+personer (array/json) (default EMPTY)
+foretag (array/json) (default EMPTY),
+grannar (array/json) (default EMPTY),
+fordon (array/json) (default EMPTY),
+hundar (array/json) (default EMPTY),
+bolagsengagemang (array/json) (default EMPTY),
+longitude (string/text) (default NULL),
+latitud (string/text) (default NULL),
+google_maps (string/text) (default NULL),
+google_streetview (string/text) (default NULL),
+ratsit_link (string/text) (default NULL),
+hitta_link  (string/text) (default NULL),
+hitta_karta (string/text) (default NULL),
+bostad_typ (string/text) (default NULL),
+bostad_pris (string/text) (default NULL),
+is_active (boolean) (default TRUE),
+is_update (boolean) (default FALSE),
+_creationTime,
+_updateTime

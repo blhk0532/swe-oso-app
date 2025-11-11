@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\SwedishDateCast;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ class RatsitData extends Model
     protected $table = 'ratsit_data';
 
     protected $casts = [
-        'fodelsedag' => 'date',
+        'fodelsedag' => SwedishDateCast::class,
         'telefon' => 'array',
         'epost_adress' => 'array',
         'bolagsengagemang' => 'array',

@@ -17,7 +17,7 @@ class ProcessPostNummer implements ShouldQueue
 
     public int $timeout = 3600; // 1 hour timeout
 
-    public int $tries = 1; // Only try once
+    public int $tries = 3; // Retry up to 3 times on failure
 
     /**
      * Create a new job instance.
@@ -55,8 +55,8 @@ class ProcessPostNummer implements ShouldQueue
             return;
         }
 
-        // Build search query: "post_nummer post_ort" (e.g., "11212 Stockholm")
-        $searchQuery = trim($this->postNummer . ' ' . ($record->post_ort ?? ''));
+        // Build search query: "post_nummer" (e.g., "11212")
+        $searchQuery = $this->postNummer;
         Log::info("[PostNummer {$this->postNummer}] Search query: {$searchQuery}");
 
         // PRE-FLIGHT CHECK: Run --onlyTotals first to detect "no direct match" case
@@ -116,16 +116,17 @@ class ProcessPostNummer implements ShouldQueue
             'status' => 'running',
             'is_active' => true,
             'progress' => $record->progress ?? 0,
-            // Ensure phone & house default to 0 when starting
-            'phone' => $record->phone ?? 0,
-            'house' => $record->house ?? 0,
+            // Preserve existing counters when resuming, only set to 0 for fresh starts
+            'phone' => $resumePage > 0 ? ($record->phone ?? 0) : 0,
+            'house' => $resumePage > 0 ? ($record->house ?? 0) : 0,
+            'bolag' => $resumePage > 0 ? ($record->bolag ?? 0) : 0,
         ]);
 
         event(new PostNummerStatusUpdated($record));
 
         Log::info("[PostNummer {$this->postNummer}] Invoking script post_ort_update.mjs");
 
-        // Run the script with the search query (post_nummer + post_ort) with resume args
+        // Run the script with the search query (post_nummer) with resume args
         $currentTotalCount = (int) ($record->total_count ?? 0);
         $currentCount = (int) max(0, $resumeCount);
         $result = Process::path(base_path('scripts'))
@@ -135,6 +136,7 @@ class ProcessPostNummer implements ShouldQueue
                 $lines = explode("\n", $buffer);
                 $phoneCount = (int) ($record->phone ?? 0);
                 $houseCount = (int) ($record->house ?? 0);
+                $bolagCount = (int) ($record->bolag ?? 0);
 
                 foreach ($lines as $line) {
                     $line = trim($line);
@@ -197,6 +199,12 @@ class ProcessPostNummer implements ShouldQueue
                         Log::info("[PostNummer {$record->post_nummer}] house={$houseCount}");
                         event(new PostNummerStatusUpdated($record->fresh()));
                     }
+                    if (preg_match('/^Bolag:\s*(\d+)/i', $line, $m)) {
+                        $bolagCount = (int) $m[1];
+                        $record->update(['bolag' => $bolagCount]);
+                        Log::info("[PostNummer {$record->post_nummer}] bolag={$bolagCount}");
+                        event(new PostNummerStatusUpdated($record->fresh()));
+                    }
                 }
             });
 
@@ -215,7 +223,7 @@ class ProcessPostNummer implements ShouldQueue
                 $record->update([
                     'status' => 'complete',
                     'progress' => 100,
-                    'is_active' => false,
+                    'is_active' => true,  // Mark as active for successfully completed rows
                     'is_complete' => true,
                 ]);
             } else {
@@ -232,11 +240,14 @@ class ProcessPostNummer implements ShouldQueue
         } else {
             Log::error("[PostNummer {$this->postNummer}] Script failed: {$result->errorOutput()}");
 
-            // Update status back to pending
+            // Update status back to pending - reset progress but keep other counters for resume
             $record->update([
                 'status' => 'pending',
                 'is_active' => false,
                 'progress' => 0,
+                // Keep count, total_count, phone, house, bolag for resume capability
+                // Only reset last_processed_page to allow restart from beginning of current page
+                'last_processed_page' => max(0, ($record->last_processed_page ?? 0) - 1),
             ]);
 
             event(new PostNummerStatusUpdated($record));
@@ -252,13 +263,20 @@ class ProcessPostNummer implements ShouldQueue
     {
         Log::error("[PostNummer {$this->postNummer}] Job failed: {$exception->getMessage()}");
 
-        // Update record status on failure
+        // Update record status on failure - reset all counters for clean retry
         $record = PostNummer::where('post_nummer', $this->postNummer)->first();
         if ($record) {
             $record->update([
                 'status' => 'pending',
                 'is_active' => false,
                 'progress' => 0,
+                'count' => 0,
+                'total_count' => 0,
+                'phone' => 0,
+                'house' => 0,
+                'bolag' => 0,
+                'last_processed_page' => 0,
+                'processed_count' => 0,
             ]);
 
             event(new PostNummerStatusUpdated($record));

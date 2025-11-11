@@ -25,7 +25,7 @@ class DataPrivateResource extends Resource
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUsers;
 
-    protected static ?string $navigationLabel = 'Uppgifter DB';
+    protected static ?string $navigationLabel = 'Ratsit Hus DB';
 
     //    protected static string | UnitEnum | null $navigationGroup = 'Databases';
 

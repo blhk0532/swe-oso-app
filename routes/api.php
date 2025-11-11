@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\DataPrivateController;
+use App\Http\Controllers\Api\HittaDataController;
 use App\Http\Controllers\Api\HittaSeController;
+use App\Http\Controllers\Api\PostNummerApiController;
 use App\Http\Controllers\Api\RatsitDataController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,8 +25,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('data-private', DataPrivateController::class);
-    Route::apiResource('ratsit-data', RatsitDataController::class);
 });
 
-// Public API routes (you can add auth:sanctum middleware if needed)
+// Public API routes (no authentication required)
+Route::apiResource('hitta-data', HittaDataController::class);
+Route::apiResource('ratsit-data', RatsitDataController::class);
+Route::apiResource('post-nummer', PostNummerApiController::class);
 Route::post('/hitta-se', [HittaSeController::class, 'store']);

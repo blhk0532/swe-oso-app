@@ -6,16 +6,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         // Rename existing ratsit_data to ratsit if it exists
-        if (Schema::hasTable('ratsit_data') && !Schema::hasTable('ratsit')) {
+        if (Schema::hasTable('ratsit_data') && ! Schema::hasTable('ratsit')) {
             Schema::rename('ratsit_data', 'ratsit');
         }
 
         // Create new ratsit_data table per specification in database/ratsit.txt
-        if (!Schema::hasTable('ratsit_data')) {
+        if (! Schema::hasTable('ratsit_data')) {
             Schema::create('ratsit_data', function (Blueprint $table): void {
                 $table->id();
 
@@ -45,11 +46,15 @@ return new class extends Migration {
                 // Phones
                 $table->json('telefon')->default(json_encode([]));
 
+                // Emails
+                $table->json('epost_adress')->default(json_encode([]));
+
                 // Dwelling
                 $table->text('agandeform')->nullable();
                 $table->text('bostadstyp')->nullable();
                 $table->text('boarea')->nullable();
                 $table->text('byggar')->nullable();
+                $table->text('fastighet')->nullable();
 
                 // Collections
                 $table->json('personer')->default(json_encode([]));
@@ -84,7 +89,7 @@ return new class extends Migration {
         }
 
         // Optionally, rename ratsit back to ratsit_data if desired (best-effort)
-        if (Schema::hasTable('ratsit') && !Schema::hasTable('ratsit_data')) {
+        if (Schema::hasTable('ratsit') && ! Schema::hasTable('ratsit_data')) {
             Schema::rename('ratsit', 'ratsit_data');
         }
     }

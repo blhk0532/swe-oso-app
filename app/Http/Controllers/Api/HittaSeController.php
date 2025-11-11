@@ -29,7 +29,7 @@ class HittaSeController extends Controller
         ]);
 
         // Check if record already exists by link (unique identifier)
-        if ($validated['link']) {
+        if (isset($validated['link']) && $validated['link']) {
             $existing = HittaSe::where('link', $validated['link'])->first();
             if ($existing) {
                 // Update existing record
