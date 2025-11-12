@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class MerinfoData extends Model
 {
+    protected $connection = 'sqlite';
+
     protected $table = 'merinfo_data';
 
     protected $fillable = [
@@ -23,13 +25,19 @@ class MerinfoData extends Model
         'is_active',
         'is_telefon',
         'is_ratsit',
+        'is_hus',
+        'merinfo_personer_total',
+        'merinfo_foretag_total',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'is_telefon' => 'boolean',
         'is_ratsit' => 'boolean',
+        'is_hus' => 'boolean',
         'telefon' => 'array',
+        'merinfo_personer_total' => 'integer',
+        'merinfo_foretag_total' => 'integer',
     ];
 
     /**

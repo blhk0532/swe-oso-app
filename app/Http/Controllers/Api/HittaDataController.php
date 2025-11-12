@@ -7,6 +7,7 @@ use App\Http\Requests\StoreHittaDataRequest;
 use App\Http\Requests\UpdateHittaDataRequest;
 use App\Http\Resources\HittaDataResource;
 use App\Models\HittaData;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -102,5 +103,70 @@ class HittaDataController extends Controller
         $hittaData->delete();
 
         return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    /**
+     * Bulk insert/update records.
+     */
+    public function bulkStore(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'records' => 'required|array|min:1|max:100',
+            'records.*.personnamn' => 'nullable|string',
+            'records.*.alder' => 'nullable|string',
+            'records.*.gatuadress' => 'nullable|string',
+            'records.*.postnummer' => 'nullable|string',
+            'records.*.postort' => 'nullable|string',
+            'records.*.telefon' => 'nullable|string',
+            'records.*.karta' => 'nullable|string',
+            'records.*.link' => 'nullable|string',
+            'records.*.bostadstyp' => 'nullable|string',
+            'records.*.is_active' => 'nullable|boolean',
+            'records.*.is_telefon' => 'nullable|boolean',
+            'records.*.is_ratsit' => 'nullable|boolean',
+        ]);
+
+        $created = 0;
+        $updated = 0;
+        $failed = 0;
+        $errors = [];
+
+        foreach ($validated['records'] as $index => $recordData) {
+            try {
+                if (! empty($recordData['personnamn'])) {
+                    $record = HittaData::updateOrCreate(
+                        ['personnamn' => $recordData['personnamn']],
+                        $recordData
+                    );
+
+                    if ($record->wasRecentlyCreated) {
+                        $created++;
+                    } else {
+                        $updated++;
+                    }
+                } else {
+                    $record = HittaData::create($recordData);
+                    $created++;
+                }
+            } catch (Exception $e) {
+                $failed++;
+                $errors[] = [
+                    'index' => $index,
+                    'personnamn' => $recordData['personnamn'] ?? 'unknown',
+                    'error' => $e->getMessage(),
+                ];
+            }
+        }
+
+        return response()->json([
+            'message' => 'Bulk operation completed',
+            'summary' => [
+                'total' => count($validated['records']),
+                'created' => $created,
+                'updated' => $updated,
+                'failed' => $failed,
+            ],
+            'errors' => $errors,
+        ]);
     }
 }

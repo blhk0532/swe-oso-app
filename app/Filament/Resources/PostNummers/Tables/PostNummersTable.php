@@ -5,6 +5,8 @@ namespace App\Filament\Resources\PostNummers\Tables;
 use App\Jobs\CheckHittaTotals;
 use App\Jobs\ProcessPostNummer;
 use App\Jobs\RunHittaCountForPostNummer;
+use App\Jobs\RunHittaRatsitScript;
+use App\Jobs\RunHittaScript;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
@@ -27,6 +29,7 @@ class PostNummersTable
     {
         return $table
             ->columns([
+
                 TextColumn::make('post_nummer')
                     ->label('Post Nr')
                     ->searchable()
@@ -42,31 +45,15 @@ class PostNummersTable
                     ->extraAttributes(['class' => 'whitespace-nowrap'])
                     ->placeholder('—'),
 
-                TextColumn::make('post_lan')
-                    ->label('Post Län')
-                    ->searchable()
-                    ->sortable()
-                    ->extraAttributes(['class' => 'whitespace-nowrap'])
-                    ->placeholder('—'),
-
-                TextColumn::make('total_count')
-                    ->label('Tot')
-                    ->numeric()
-                    ->sortable()
-                    ->grow(false)
-                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
-                    ->placeholder('—'),
-
-                TextColumn::make('count')
-                    ->label('Cnt')
-                    ->numeric()
-                    ->sortable()
-                    ->grow(false)
-                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
-                    ->placeholder('—'),
+                //    TextColumn::make('post_lan')
+                //        ->label('Post Län')
+                //        ->searchable()
+                //        ->sortable()
+                //        ->extraAttributes(['class' => 'whitespace-nowrap'])
+                //        ->placeholder('—'),
 
                 TextColumn::make('phone')
-                    ->label('Tel')
+                    ->label('TE')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -74,7 +61,32 @@ class PostNummersTable
                     ->placeholder('—'),
 
                 TextColumn::make('house')
-                    ->label('Hus')
+                    ->label('HS')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                //     TextColumn::make('platser')
+                //                   ->label('PL')
+                //                   ->numeric()
+                //                   ->sortable()
+                //                   ->grow(false)
+                //                   ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                //                   ->placeholder('—'),
+                //
+
+                TextColumn::make('count')
+                    ->label('CN')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                TextColumn::make('total_count')
+                    ->label('TT')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -83,6 +95,46 @@ class PostNummersTable
 
                 TextColumn::make('bolag')
                     ->label('AB')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                TextColumn::make('foretag')
+                    ->label('FÖ')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                TextColumn::make('personer')
+                    ->label('PE')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                TextColumn::make('merinfo_personer')
+                    ->label('MI PE')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                TextColumn::make('merinfo_foretag')
+                    ->label('MI FÖ')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                TextColumn::make('platser')
+                    ->label('PL')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -108,6 +160,11 @@ class PostNummersTable
                     ->sortable()
                     ->grow(false),
 
+                IconColumn::make('is_active')
+                    ->label('OK')
+                    ->boolean()
+                    ->sortable(),
+
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
@@ -122,10 +179,6 @@ class PostNummersTable
                     ->sortable()
                     ->grow(false),
 
-                IconColumn::make('is_active')
-                    ->label('OK')
-                    ->boolean()
-                    ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -304,7 +357,7 @@ class PostNummersTable
                         ->icon('heroicon-o-arrow-path')
                         ->requiresConfirmation()
                         ->modalHeading('Bulk Reset Selected Post Nummer Values')
-                        ->modalDescription('This will stop all queue workers, clear all pending jobs, and reset status, is_active, progress, count, total_count, phone, house, last_processed_page, processed_count, is_pending, is_complete for all selected post nummers.')
+                        ->modalDescription('This will stop all queue workers, clear all pending jobs, and reset status, is_active, progress, count, total_count, phone, house, bolag, foretag, personer, platser, last_processed_page, processed_count, is_pending, is_complete for all selected post nummers.')
                         ->action(function (Collection $records): void {
                             // First, stop all queue workers
                             $workerProcess = new Process(['pkill', '-f', 'artisan queue:work database']);
@@ -326,6 +379,9 @@ class PostNummersTable
                                     'phone' => 0,
                                     'house' => 0,
                                     'bolag' => 0,
+                                    'foretag' => 0,
+                                    'personer' => 0,
+                                    'platser' => 0,
                                     'last_processed_page' => 0,
                                     'processed_count' => 0,
                                     'is_pending' => false,
@@ -374,7 +430,136 @@ class PostNummersTable
                         })
                         ->deselectRecordsAfterCompletion()
                         ->closeModalByClickingAway(false),
+
+                    BulkAction::make('runHitta')
+                        ->label('Run Hitta')
+                        ->icon('heroicon-o-magnifying-glass')
+                        ->color('info')
+                        ->requiresConfirmation()
+                        ->modalHeading('Run Hitta Script')
+                        ->modalDescription('Run hitta.mjs scraper for all selected post nummers. This will scrape person data from hitta.se and save to database.')
+                        ->action(function (Collection $records): void {
+                            $queued = 0;
+
+                            foreach ($records as $record) {
+                                if ($record->status === 'running_hitta') {
+                                    continue;
+                                }
+
+                                RunHittaScript::dispatch($record->post_nummer);
+                                $queued++;
+
+                                // Optimistic UI update
+                                $record->update([
+                                    'status' => 'queued_hitta',
+                                    'is_active' => true,
+                                ]);
+                            }
+
+                            Notification::make()
+                                ->title('Hitta Jobs Queued')
+                                ->body("Queued {$queued} hitta job(s). Start a queue worker to begin processing.")
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->closeModalByClickingAway(false),
+
+                    BulkAction::make('runHittaRatsit')
+                        ->label('Run Hitta+Ratsit')
+                        ->icon('heroicon-o-document-magnifying-glass')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->modalHeading('Run Hitta+Ratsit Script')
+                        ->modalDescription('Run hitta_ratsit.mjs combined scraper for all selected post nummers. This will scrape from both hitta.se and ratsit.se.')
+                        ->action(function (Collection $records): void {
+                            $queued = 0;
+
+                            foreach ($records as $record) {
+                                if ($record->status === 'running_hitta_ratsit') {
+                                    continue;
+                                }
+
+                                RunHittaRatsitScript::dispatch($record->post_nummer);
+                                $queued++;
+
+                                // Optimistic UI update
+                                $record->update([
+                                    'status' => 'queued_hitta_ratsit',
+                                    'is_active' => true,
+                                ]);
+                            }
+
+                            Notification::make()
+                                ->title('Hitta+Ratsit Jobs Queued')
+                                ->body("Queued {$queued} hitta+ratsit job(s). Start a queue worker to begin processing.")
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->closeModalByClickingAway(false),
+
+                    BulkAction::make('addToQueue')
+                        ->label('Add to Queue')
+                        ->icon('heroicon-o-queue-list')
+                        ->color('gray')
+                        ->requiresConfirmation()
+                        ->modalHeading('Add to Post Ort Queue')
+                        ->modalDescription('Add selected post nummers to the post_ort_update.mjs processing queue.')
+                        ->action(function (Collection $records): void {
+                            $queued = 0;
+
+                            foreach ($records as $record) {
+                                if ($record->status === 'running') {
+                                    continue;
+                                }
+
+                                ProcessPostNummer::dispatch($record->post_nummer);
+                                $queued++;
+
+                                // Optimistic UI update
+                                $record->update([
+                                    'status' => 'running',
+                                    'is_active' => true,
+                                ]);
+                            }
+
+                            Notification::make()
+                                ->title('Added to Queue')
+                                ->body("Added {$queued} post nummer(s) to processing queue.")
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->closeModalByClickingAway(false),
+
                     DeleteBulkAction::make(),
+
+                    BulkAction::make('bulkCheckCounts')
+                        ->label('Check Counts')
+                        ->icon('heroicon-o-check')
+                        ->requiresConfirmation()
+                        ->modalHeading('Bulk Check Hitta Counts')
+                        ->modalDescription('Run hittaCounts for selected rows to update Företag, Personer, Platser. Rows will be queued and processed by a background worker.')
+                        ->action(function (Collection $records): void {
+                            $queued = 0;
+                            foreach ($records as $record) {
+                                RunHittaCountForPostNummer::dispatch($record);
+                                $queued++;
+                            }
+
+                            // Start a queue worker in the background (stops when empty)
+                            $command = 'php ' . base_path('artisan') . ' queue:work database --queue=postnummer --tries=3 --timeout=0 --stop-when-empty > /dev/null 2>&1 &';
+                            shell_exec($command);
+
+                            Notification::make()
+                                ->title('Counts Check Queued')
+                                ->body("Counts check queued for {$queued} row(s). A background worker has been started and will stop when all jobs are done.")
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->closeModalByClickingAway(false),
 
                     BulkAction::make('bulkCheckTotals')
                         ->label('Check Totals')

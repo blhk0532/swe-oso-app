@@ -14,18 +14,18 @@ use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
-
+  
 class HittaDataResource extends Resource
-{
+{ 
     protected static ?string $model = HittaData::class;
 
-    protected static ?string $navigationLabel = 'Hitta Data';
+    protected static ?string $navigationLabel = 'HittaData';
 
-    protected static ?string $modelLabel = 'Hitta Data';
+    protected static ?string $modelLabel = 'HittaData';
 
-    protected static ?string $pluralModelLabel = 'Hitta Data';
+    protected static ?string $pluralModelLabel = 'HittaData';
 
-    protected static UnitEnum | string | null $navigationGroup = 'Databases';
+    protected static UnitEnum | string | null $navigationGroup = 'PERSON DATABASER';
 
     protected static ?int $navigationSort = 3; // After Hitta Bolag
 
@@ -100,4 +100,5 @@ class HittaDataResource extends Resource
             'edit' => EditHittaData::route('/{record}/edit'),
         ];
     }
+    
 }

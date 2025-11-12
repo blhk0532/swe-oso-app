@@ -19,6 +19,9 @@ class PostNummer extends Model
         'phone' => 0,
         'house' => 0,
         'bolag' => 0,
+        'foretag' => 0,
+        'personer' => 0,
+        'platser' => 0,
     ];
 
     protected function casts(): array
@@ -33,8 +36,16 @@ class PostNummer extends Model
             'phone' => 'integer',
             'house' => 'integer',
             'bolag' => 'integer',
+            'foretag' => 'integer',
+            'personer' => 'integer',
+            'platser' => 'integer',
             'last_processed_page' => 'integer',
             'processed_count' => 'integer',
+            'merinfo_personer' => 'integer',
+            'merinfo_foretag' => 'integer',
+            'merinfo_personer_total' => 'integer',
+            'merinfo_foretag_total' => 'integer',
+            'status' => 'string',
         ];
     }
 
@@ -47,6 +58,9 @@ class PostNummer extends Model
         'phone',
         'house',
         'bolag',
+        'foretag',
+        'personer',
+        'platser',
         'status',
         'progress',
         'is_pending',
@@ -54,5 +68,9 @@ class PostNummer extends Model
         'is_active',
         'last_processed_page',
         'processed_count',
+        'merinfo_personer',
+        'merinfo_foretag',
+        'merinfo_personer_total',
+        'merinfo_foretag_total',
     ];
 }

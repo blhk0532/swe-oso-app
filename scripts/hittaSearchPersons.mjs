@@ -1,10 +1,198 @@
 #!/usr/bin/env node
 
+/**
+ * Hitta.se Person Search & Database Importer
+ * 
+ * This script scrapes person data from Hitta.se and saves it to the database
+ * after each page is completed. This ensures data persistence even if the 
+ * script is interrupted.
+ * 
+ * Features:
+ * - Page-by-page database persistence via batch API
+ * - CSV export for backup
+ * - Optional Ratsit integration with --ratsit flag
+ * - Robust error handling and retry logic
+ * 
+ * Usage:
+ *   node hittaSearchPersons.mjs "postal code"
+ *   node hittaSearchPersons.mjs "153 32" --ratsit
+ * 
+ * Requirements:
+ * - Laravel API server must be running (php artisan serve)
+ * - Batch API endpoint: /api/hitta-se/batch
+ */
+
 import { Command } from "commander";
 import axios from "axios";
 import { JSDOM } from "jsdom";
 import fs from "fs";
 import path from "path";
+import { execSync } from "child_process";
+
+// --- API Configuration ---
+const API_BASE = process.env.API_BASE || process.env.APP_URL || "http://127.0.0.1:8000";
+const BATCH_ENDPOINT = `${API_BASE.replace(/\/$/, "")}/api/hitta-se/batch`;
+
+// --- Helper Functions ---
+
+function mapPersonToApiPayload(person) {
+  const payload = {
+    personnamn: person.personnamn || null,
+    alder: person.alder || null,
+    kon: person.kon || null,
+    gatuadress: person.gatuadress || null,
+    postnummer: person.postnummer || null,
+    postort: person.postort || null,
+    karta: person.karta || null,
+    link: person.link || null,
+    bostadstyp: null,
+    bostadspris: null,
+    is_active: true,
+    is_telefon: false,
+    is_ratsit: false,
+  };
+
+  if (person.telefon && person.telefon !== "Lägg till telefonnummer") {
+    const clean = String(person.telefon).trim();
+    if (clean) {
+      payload.telefon = [clean];
+      payload.is_telefon = true;
+    } else {
+      payload.telefon = [];
+    }
+  } else {
+    payload.telefon = [];
+  }
+
+  return payload;
+}
+
+async function savePersonsViaApi(persons) {
+  if (!persons || persons.length === 0) {
+    console.log("⏭️  No persons to save");
+    return { created: 0, updated: 0, failed: 0 };
+  }
+
+  console.log(`💾 Saving ${persons.length} persons to database via API...`);
+
+  // Process in batches of 50
+  const batchSize = 50;
+  let totalCreated = 0;
+  let totalUpdated = 0;
+  let totalFailed = 0;
+
+  for (let i = 0; i < persons.length; i += batchSize) {
+    const batch = persons.slice(i, i + batchSize);
+    const payload = {
+      records: batch.map((p) => mapPersonToApiPayload(p)),
+    };
+
+    const batchNum = Math.floor(i / batchSize) + 1;
+    const totalBatches = Math.ceil(persons.length / batchSize);
+
+    try {
+      console.log(`📤 Batch ${batchNum}/${totalBatches} (${batch.length} records)...`);
+
+      const res = await axios.post(BATCH_ENDPOINT, payload, {
+        headers: { "Content-Type": "application/json" },
+        timeout: 30000,
+      });
+
+      if (res.status === 200 && res.data) {
+        totalCreated += res.data.created || 0;
+        totalUpdated += res.data.updated || 0;
+        totalFailed += res.data.failed || 0;
+        console.log(
+          `   ✅ Created: ${res.data.created}, Updated: ${res.data.updated}, Failed: ${res.data.failed}`,
+        );
+      } else {
+        totalFailed += batch.length;
+        console.log(`   ❌ Unexpected status ${res.status}`);
+      }
+    } catch (err) {
+      totalFailed += batch.length;
+      console.log(`   ❌ Batch ${batchNum} failed: ${err.message}`);
+      if (err.response?.data) {
+        console.log(`   📋 Error details: ${JSON.stringify(err.response.data).substring(0, 150)}`);
+      }
+      
+      // Check if it's a connection error
+      if (err.code === 'ECONNREFUSED' || err.code === 'ETIMEDOUT') {
+        console.log(`   ⚠️  Connection error. Make sure Laravel server is running (php artisan serve)`);
+      }
+    }
+
+    // Small delay between batches
+    if (i + batchSize < persons.length) {
+      await new Promise((r) => setTimeout(r, 300));
+    }
+  }
+
+  const summary = `Created: ${totalCreated}, Updated: ${totalUpdated}, Failed: ${totalFailed}`;
+  if (totalFailed > 0) {
+    console.log(`⚠️  Database save completed with errors. ${summary}`);
+  } else {
+    console.log(`✅ Database save complete. ${summary}`);
+  }
+  
+  return { created: totalCreated, updated: totalUpdated, failed: totalFailed };
+}
+
+async function runRatsitForPersons(persons) {
+  const personsWithPhone = persons.filter(
+    (p) => p.telefon && p.telefon !== "Lägg till telefonnummer",
+  );
+
+  if (personsWithPhone.length === 0) {
+    console.log("⏭️  No persons with phone numbers to process with Ratsit");
+    return;
+  }
+
+  console.log(`\n🔍 Running Ratsit for ${personsWithPhone.length} persons with phone numbers...`);
+
+  let processedCount = 0;
+  let successCount = 0;
+
+  for (const person of personsWithPhone) {
+    processedCount++;
+    console.log(`\n[${processedCount}/${personsWithPhone.length}] Processing: ${person.personnamn} (${person.telefon})`);
+
+    try {
+      // Use person name as search query for Ratsit
+      const searchQuery = person.personnamn;
+
+      // Build command to run ratsit.mjs script
+      const ratsitCommand = `node ratsit.mjs "${searchQuery}" --api-url "${process.env.LARAVEL_API_URL || 'http://localhost:8000'}" --api-token "${process.env.LARAVEL_API_TOKEN || ''}"`;
+
+      console.log(`   → Running: ${ratsitCommand}`);
+
+      // Execute ratsit script
+      const output = execSync(ratsitCommand, {
+        cwd: path.dirname(new URL(import.meta.url).pathname),
+        encoding: 'utf8',
+        timeout: 60000, // 60 second timeout per person
+        stdio: 'pipe'
+      });
+
+      console.log(`   ✓ Ratsit completed for ${person.personnamn}`);
+      if (output.trim()) {
+        console.log(`   Output: ${output.trim()}`);
+      }
+
+      successCount++;
+
+      // Small delay between requests to be respectful
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+    } catch (error) {
+      console.log(`   ✗ Failed to process ${person.personnamn}: ${error.message}`);
+      // Continue with next person instead of stopping
+    }
+  }
+
+  console.log(`\n📊 Ratsit processing complete: ${successCount}/${personsWithPhone.length} persons processed successfully`);
+}
+
 
 async function extractPersonDataFromPage(searchQuery, page) {
   const encodedQuery = encodeURIComponent(searchQuery);
@@ -82,19 +270,10 @@ async function extractPersonDataFromPage(searchQuery, page) {
             gatuadress = lines[1]?.trim() || "";
           }
           if (lines.length >= 3) {
-            const addressLine = lines[2]?.trim() || "";
-            // Postal code format is "XXX XX", so look for pattern with space
-            const postalMatch = addressLine.match(/^(\d{3}\s\d{2})\s+(.+)$/);
-            if (postalMatch) {
-              postnummer = postalMatch[1];
-              postort = postalMatch[2];
-            } else {
-              // Fallback: try splitting by space and assume first 2 parts are postal code
-              const addressParts = addressLine.split(" ") || [];
-              if (addressParts.length >= 3) {
-                postnummer = `${addressParts[0]} ${addressParts[1]}`;
-                postort = addressParts.slice(2).join(" ");
-              }
+            const addressParts = lines[2]?.trim().split(" ") || [];
+            if (addressParts.length >= 2) {
+              postnummer = addressParts.slice(0, 2).join(" ");
+              postort = addressParts.slice(2).join(" ");
             }
           }
         }
@@ -140,94 +319,62 @@ async function extractPersonDataFromPage(searchQuery, page) {
           }
         }
 
-        // Try to get complete phone number using revealNumber if we have personId and phone
+        // Try to get complete phone number from person detail page JSON-LD
         let completeTelefon = telefon;
-        if (personId && telefon && telefon.trim()) {
+        // Only fetch detail page if person has a phone number (to avoid unnecessary requests)
+        if (
+          personId &&
+          link &&
+          telefon &&
+          telefon.trim() &&
+          telefon !== "Lägg till telefonnummer"
+        ) {
           try {
-            // Extract partial number from display text (e.g., "070-977 19" from "070-977 19 Visa")
-            const partialMatch = telefon.match(/(\d[\d\s-]*)/);
-            if (partialMatch && personId) {
-              const partialNumber = partialMatch[1]
-                .replace(/\s/g, "")
-                .replace(/-/g, "");
+            const detailResponse = await axios.get(link, {
+              headers: {
+                "User-Agent":
+                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+              },
+              timeout: 10000,
+            });
 
-              // Construct revealNumber URL using person's link
-              const revealUrl = `${link}?revealNumber=46${partialNumber}`;
-              visa = revealUrl;
+            const detailDom = new JSDOM(detailResponse.data);
+            const detailDocument = detailDom.window.document;
 
-              // Only reveal phone numbers for first 5 people to avoid timeout
-              // Change this number to reveal more/less phone numbers
-              if (results.length < 5) {
+            // Extract complete phone number from JSON-LD structured data
+            const jsonLdScript = detailDocument.querySelector(
+              'script[type="application/ld+json"]',
+            );
+            if (jsonLdScript) {
               try {
-                  console.log(
-                    `Attempting to reveal number for ${personnamn}: ${revealUrl}`,
-                  );
-                  const revealResponse = await axios.get(revealUrl, {
-                    headers: {
-                      "User-Agent":
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-                    },
-                    timeout: 5000,
-                  });
-
-                  const revealDom = new JSDOM(revealResponse.data);
-                  const revealDocument = revealDom.window.document;
-
-                  // Look for complete phone number in revealed page
-                  // First try JSON-LD structured data
-                  const jsonLdScript = revealDocument.querySelector('script[type="application/ld+json"]');
-                  if (jsonLdScript) {
-                    try {
-                      const jsonLdData = JSON.parse(jsonLdScript.textContent);
-                      if (jsonLdData.telephone) {
-                        completeTelefon = jsonLdData.telephone;
-                        console.log(`Revealed complete phone from JSON-LD for ${personnamn}: ${completeTelefon}`);
-                      }
-                    } catch (e) {
-                      console.log(`Failed to parse JSON-LD for ${personnamn}: ${e.message}`);
-                    }
-                  }
-                  
-                  // If JSON-LD didn't work, try regular HTML elements
-                  if (completeTelefon === telefon) {
-                    const phoneSelectors = [
-                      'span[data-test="phone-numbers"]',
-                      'a[href^="tel:"]',
-                      ".phone-number",
-                      '[data-phone]',
-                      '[data-telephone]'
-                    ];
-                    
-                    for (const selector of phoneSelectors) {
-                      const phoneElement = revealDocument.querySelector(selector);
-                      if (phoneElement) {
-                        const phoneText = phoneElement.textContent || phoneElement.getAttribute('data-phone') || phoneElement.getAttribute('data-telephone') || "";
-                        const cleanPhone = phoneText.replace(/[^\d+]/g, "");
-                        if (cleanPhone.length >= 10 && !cleanPhone.includes("XX")) {
-                          completeTelefon = cleanPhone.startsWith("+")
-                            ? cleanPhone
-                            : `+46${cleanPhone.replace(/^0/, "")}`;
-                          console.log(
-                            `Revealed complete phone from HTML for ${personnamn}: ${completeTelefon}`,
-                          );
-                          break;
-                        }
-                      }
-                    }
-                  }
-                } catch (revealError) {
-                  console.log(
-                    `Could not reveal complete number for ${personnamn}: ${revealError.message}`,
-                  );
+                const jsonLdData = JSON.parse(jsonLdScript.textContent);
+                if (jsonLdData.telephone) {
+                  completeTelefon = jsonLdData.telephone;
                 }
+              } catch (e) {
+                console.log(
+                  `Failed to parse JSON-LD for ${personnamn}: ${e.message}`,
+                );
               }
-              } // End of phone reveal limit
-            } catch (error) {
+            }
+
+            // Also construct revealNumber URL for reference
+            if (telefon && telefon.trim()) {
+              const partialMatch = telefon.match(/(\d[\d\s-]*)/);
+              if (partialMatch) {
+                const partialNumber = partialMatch[1]
+                  .replace(/\s/g, "")
+                  .replace(/-/g, "");
+                visa = `${link}?revealNumber=46${partialNumber}`;
+              }
+            }
+          } catch (error) {
             console.log(
-              `Error processing phone number for ${personnamn}: ${error.message}`,
+              `Error getting detail page for ${personnamn}: ${error.message}`,
             );
           }
         }
+
         results.push({
           personnamn,
           alder,
@@ -260,8 +407,7 @@ async function extractPersonDataFromPage(searchQuery, page) {
       `Page ${page}: Found ${personItems.length} persons, hasNextPage: ${hasNextPage}, hasResults: ${hasResults}, isLastPageByCount: ${isLastPageByCount}`,
     );
 
-    // Continue if we have results AND there's a next page
-    // Stop when we hit a page with no results (even if HTTP 200)
+    // Only continue if we have results AND not on last page
     const shouldContinue = hasResults && hasNextPage && !isLastPageByCount;
 
     return { persons: results, hasNextPage: shouldContinue, hittaPersoner };
@@ -270,7 +416,7 @@ async function extractPersonDataFromPage(searchQuery, page) {
   }
 }
 
-async function extractAllPersonData(searchQuery) {
+async function extractAllPersonData(searchQuery, options = {}) {
   let allPersons = [];
   let currentPage = 1;
   let hasNextPage = true;
@@ -280,36 +426,65 @@ async function extractAllPersonData(searchQuery) {
 
   while (hasNextPage) {
     try {
+      console.log(`\n📄 Fetching page ${currentPage}...`);
+
       const {
         persons,
         hasNextPage: hasMore,
         hittaPersoner: count,
       } = await extractPersonDataFromPage(searchQuery, currentPage);
 
-      allPersons = allPersons.concat(persons);
-      hasNextPage = hasMore;
-
-      // Get hittaPersoner count from first page and display counts before first page fetch log
+      // Get hittaPersoner count from first page and display counts
       if (currentPage === 1 && count !== undefined) {
         hittaPersoner = count;
-        console.log(`Total persons count: ${hittaPersoner}`);
-        const totalPages = Math.floor(hittaPersoner / 25);
-        console.log(`Total pages count: ${totalPages}`);
+        console.log(`📊 Total persons count: ${hittaPersoner}`);
+        const totalPages = Math.ceil(hittaPersoner / 25);
+        console.log(`📄 Estimated pages: ${totalPages}`);
       }
 
-      console.log(`Fetching page ${currentPage}...`);
+      // Save persons from this page immediately to database
+      if (persons.length > 0) {
+        console.log(`\n💾 Saving page ${currentPage} data (${persons.length} persons)...`);
+        try {
+          const saveResult = await savePersonsViaApi(persons);
+          
+          if (saveResult.failed > 0) {
+            console.log(`⚠️  Warning: ${saveResult.failed} persons failed to save on page ${currentPage}`);
+          } else {
+            console.log(`✅ Page ${currentPage} saved successfully!`);
+          }
+
+          // If --ratsit flag is enabled, run ratsit for this page's data
+          if (options.runRatsit) {
+            try {
+              await runRatsitForPersons(persons);
+            } catch (ratsitError) {
+              console.log(`⚠️  Ratsit processing failed for page ${currentPage}: ${ratsitError.message}`);
+              // Continue anyway - don't fail the entire scrape
+            }
+          }
+        } catch (saveError) {
+          console.log(`❌ Failed to save page ${currentPage} to database: ${saveError.message}`);
+          console.log(`⚠️  Continuing with next page...`);
+          // Don't stop scraping just because one page failed to save
+        }
+      }
+
+      // Add to all persons array for final CSV export
+      allPersons = allPersons.concat(persons);
+      hasNextPage = hasMore;
 
       currentPage++;
 
       // Add a small delay to avoid overwhelming the server
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 300));
     } catch (error) {
-      console.error(`Error on page ${currentPage}:`, error);
+      console.error(`❌ Error on page ${currentPage}:`, error.message);
       break;
     }
   }
 
-  console.log(`Total persons found: ${allPersons.length}`);
+  console.log(`\n✅ Scraping complete! Total persons found: ${allPersons.length}`);
   return { persons: allPersons, hittaPersoner };
 }
 
@@ -395,25 +570,39 @@ const program = new Command();
 program
   .name("hittaSearchPersons")
   .description(
-    "Extract all person data from Hitta.se search results with pagination and save to CSV",
+    "Extract all person data from Hitta.se search results with pagination and save to database + CSV",
   )
-  .arguments("<search-query>", "Search query to look up")
-  .action(async (searchQuery) => {
+  .argument("<search-query>", "Search query to look up")
+  .option("--ratsit", "Run Ratsit scraper for persons with phone numbers after each page")
+  .action(async (searchQuery, options) => {
     try {
-      const result = await extractAllPersonData(searchQuery);
+      console.log("🚀 Starting Hitta.se person search...");
+      console.log(`📍 Query: ${searchQuery}`);
+      if (options.ratsit) {
+        console.log("✅ Ratsit mode: ENABLED");
+      }
+
+      const result = await extractAllPersonData(searchQuery, {
+        runRatsit: options.ratsit || false,
+      });
       const { persons: personData, hittaPersoner } = result;
 
       if (personData.length === 0) {
-        console.log("No results found");
+        console.log("❌ No results found");
         return;
       }
+
+      console.log("\n📊 Final Summary:");
+      console.log(`   Total persons scraped: ${personData.length}`);
+      console.log(`   Hitta.se total count: ${hittaPersoner || "N/A"}`);
 
       // Create filename with query and total count
       const sanitizedQuery = searchQuery.replace(/[^a-zA-Z0-9åäöÅÄÖ]/g, "_");
       const filename = `hitta_search_persons_${sanitizedQuery}_total_${personData.length}.csv`;
 
+      console.log("\n💾 Saving CSV files...");
       const filepath = saveToCSV(personData, filename);
-      console.log(`Saved ${personData.length} results to: ${filepath}`);
+      console.log(`✅ Saved all results to: ${filepath}`);
 
       // Save details CSV with phone number filter
       const detailsFilename = `hitta_search_persons_details_${sanitizedQuery}_total_${personData.length}.csv`;
@@ -422,55 +611,13 @@ program
         searchQuery,
         detailsFilename,
       );
-      console.log(`Saved details to: ${detailsFilepath}`);
+      console.log(`✅ Saved details to: ${detailsFilepath}`);
 
-      // Return all values as JSON
-      console.log(JSON.stringify(personData, null, 2));
-      
-      // Save to API in batches
-      try {
-        console.log(`Saving ${personData.length} persons to API in batches...`);
-        const batchSize = 50;
-        let totalSaved = 0;
-        
-        for (let i = 0; i < personData.length; i += batchSize) {
-          const batch = personData.slice(i, i + batchSize);
-          console.log(`Saving batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(personData.length/batchSize)} (${batch.length} persons)...`);
-          
-          try {
-            const apiResponse = await axios.post('http://localhost:3000/api/persons', {
-              persons: batch,
-              query: searchQuery,
-              source: 'hitta'
-            }, {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-            
-            if (apiResponse.data.success) {
-              totalSaved += apiResponse.data.data.savedCount;
-              console.log(`✅ Batch saved: ${apiResponse.data.data.savedCount} persons`);
-            } else {
-              console.log(`❌ Batch failed: ${apiResponse.data.error}`);
-            }
-          } catch (batchError) {
-            console.log(`❌ Batch error: ${batchError.message}`);
-          }
-          
-          // Small delay between batches
-          await new Promise(resolve => setTimeout(resolve, 500));
-        }
-        
-        console.log(`✅ Total saved to database: ${totalSaved}/${personData.length} persons`);
-      } catch (apiError) {
-        console.log(`❌ API Error: ${apiError.message}`);
-        console.log('Make sure the development server is running on localhost:3000');
-      }
+      console.log("\n✅ All operations completed successfully!");
     } catch (error) {
-      console.error("Error:", error);
+      console.error("❌ Fatal error:", error.message);
       process.exit(1);
     }
   });
 
-program.parse(process.argv);
+program.parse();

@@ -38,7 +38,8 @@ class RunHittaCountForPostNummer implements ShouldQueue
             return;
         }
 
-        $query = trim($postnummer->post_nummer . ' ' . $postnummer->post_ort);
+        // Use only post_nummer for broader search results
+        $query = trim($postnummer->post_nummer);
         $script = base_path('resources/scripts/hittaCounts.mjs');
 
         $process = Process::timeout(300)->run([
@@ -58,8 +59,14 @@ class RunHittaCountForPostNummer implements ShouldQueue
         }
 
         $postnummer->update([
+            // Preserve existing behavior for backward compatibility
             'total_count' => $counts['hittaForetag'] ?? 0,
             'bolag' => $counts['hittaForetag'] ?? 0,
+
+            // New dedicated columns
+            'foretag' => $counts['hittaForetag'] ?? 0,
+            'personer' => $counts['hittaPersoner'] ?? 0,
+            'platser' => $counts['hittaPlatser'] ?? 0,
         ]);
 
         event(new PostNummerStatusUpdated($postnummer));

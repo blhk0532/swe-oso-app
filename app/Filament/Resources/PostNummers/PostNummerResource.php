@@ -20,11 +20,11 @@ class PostNummerResource extends Resource
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedMapPin;
 
-    protected static ?string $navigationLabel = 'Post Nummer';
+    protected static ?string $navigationLabel = 'PostNummerData';
 
-    protected static ?string $modelLabel = 'Post Nummer';
+    protected static ?string $modelLabel = 'PostNummerDB';
 
-    protected static ?string $pluralModelLabel = 'Post Nummer';
+    protected static ?string $pluralModelLabel = 'PostNummerDB';
 
     public static function getNavigationBadge(): ?string
     {

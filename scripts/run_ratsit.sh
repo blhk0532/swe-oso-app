@@ -16,3 +16,4 @@ source "$VENV_DIR/bin/activate"
 # Run the script with all arguments
 exec python "$SCRIPT_DIR/ratsit_se.py" "$@"
 
+

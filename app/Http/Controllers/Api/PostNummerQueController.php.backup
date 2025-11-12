@@ -1,0 +1,181 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\PostNummerQue;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class PostNummerQueController extends Controller
+{
+    /**
+     * Get the first postnummer value from the queue.
+     */
+    public function getFirstPostNummer(Request $request): JsonResponse
+    {
+        $record = PostNummerQue::query()
+            ->where('is_pending', true)
+            ->where('is_active', true)
+            ->orderBy('created_at', 'asc')
+            ->first();
+
+        if (! $record) {
+            return response()->json([
+                'message' => 'No pending postnummer found in queue',
+                'data' => null,
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'First postnummer retrieved successfully',
+            'data' => [
+                'post_nummer' => $record->post_nummer,
+                'post_ort' => $record->post_ort,
+                'post_lan' => $record->post_lan,
+                'id' => $record->id,
+                'created_at' => $record->created_at,
+            ],
+        ]);
+    }
+
+    /**
+     * Update a postnummer que record.
+     */
+    public function update(Request $request, string $id): JsonResponse
+    {
+        $record = PostNummerQue::findOrFail($id);
+
+        $validated = $request->validate([
+            'post_nummer' => 'sometimes|string|size:5',
+            'post_ort' => 'nullable|string',
+            'post_lan' => 'nullable|string',
+            'total_count' => 'sometimes|integer|min:0',
+            'count' => 'sometimes|integer|min:0',
+            'phone' => 'sometimes|integer|min:0',
+            'house' => 'sometimes|integer|min:0',
+            'bolag' => 'sometimes|integer|min:0',
+            'foretag' => 'sometimes|integer|min:0',
+            'personer' => 'sometimes|integer|min:0',
+            'platser' => 'sometimes|integer|min:0',
+            'status' => 'nullable|string',
+            'progress' => 'sometimes|integer|min:0|max:100',
+            'is_pending' => 'sometimes|boolean',
+            'is_complete' => 'sometimes|boolean',
+            'is_active' => 'sometimes|boolean',
+            'last_processed_page' => 'nullable|integer|min:0',
+            'processed_count' => 'nullable|integer|min:0',
+        ]);
+
+        $record->update($validated);
+
+        return response()->json([
+            'message' => 'PostNummerQue record updated successfully',
+            'data' => $record,
+        ]);
+    }
+
+    /**
+     * Update postnummer que by post_nummer code.
+     */
+    public function updateByPostNummer(Request $request, string $postNummer): JsonResponse
+    {
+        $record = PostNummerQue::where('post_nummer', $postNummer)->firstOrFail();
+
+        $validated = $request->validate([
+            'post_ort' => 'nullable|string',
+            'post_lan' => 'nullable|string',
+            'total_count' => 'sometimes|integer|min:0',
+            'count' => 'sometimes|integer|min:0',
+            'phone' => 'sometimes|integer|min:0',
+            'house' => 'sometimes|integer|min:0',
+            'bolag' => 'sometimes|integer|min:0',
+            'foretag' => 'sometimes|integer|min:0',
+            'personer' => 'sometimes|integer|min:0',
+            'platser' => 'sometimes|integer|min:0',
+            'status' => 'nullable|string',
+            'progress' => 'sometimes|integer|min:0|max:100',
+            'is_pending' => 'sometimes|boolean',
+            'is_complete' => 'sometimes|boolean',
+            'is_active' => 'sometimes|boolean',
+            'last_processed_page' => 'nullable|integer|min:0',
+            'processed_count' => 'nullable|integer|min:0',
+        ]);
+
+        $record->update($validated);
+
+        return response()->json([
+            'message' => 'PostNummerQue record updated successfully',
+            'data' => $record,
+        ]);
+    }
+
+    /**
+     * Bulk update postnummer que records.
+     */
+    public function bulkUpdate(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'records' => 'required|array|min:1|max:50',
+            'records.*.post_nummer' => 'required|string|size:5',
+            'records.*.post_ort' => 'nullable|string',
+            'records.*.post_lan' => 'nullable|string',
+            'records.*.total_count' => 'sometimes|integer|min:0',
+            'records.*.count' => 'sometimes|integer|min:0',
+            'records.*.phone' => 'sometimes|integer|min:0',
+            'records.*.house' => 'sometimes|integer|min:0',
+            'records.*.bolag' => 'sometimes|integer|min:0',
+            'records.*.foretag' => 'sometimes|integer|min:0',
+            'records.*.personer' => 'sometimes|integer|min:0',
+            'records.*.platser' => 'sometimes|integer|min:0',
+            'records.*.status' => 'nullable|string',
+            'records.*.progress' => 'sometimes|integer|min:0|max:100',
+            'records.*.is_pending' => 'sometimes|boolean',
+            'records.*.is_complete' => 'sometimes|boolean',
+            'records.*.is_active' => 'sometimes|boolean',
+            'records.*.last_processed_page' => 'nullable|integer|min:0',
+            'records.*.processed_count' => 'nullable|integer|min:0',
+        ]);
+
+        $updated = 0;
+        $failed = 0;
+        $errors = [];
+
+        foreach ($validated['records'] as $index => $recordData) {
+            try {
+                $record = PostNummerQue::where('post_nummer', $recordData['post_nummer'])->first();
+
+                if ($record) {
+                    unset($recordData['post_nummer']); // Don't update the key field
+                    $record->update($recordData);
+                    $updated++;
+                } else {
+                    $failed++;
+                    $errors[] = [
+                        'index' => $index,
+                        'post_nummer' => $recordData['post_nummer'],
+                        'error' => 'Record not found',
+                    ];
+                }
+            } catch (Exception $e) {
+                $failed++;
+                $errors[] = [
+                    'index' => $index,
+                    'post_nummer' => $recordData['post_nummer'] ?? 'unknown',
+                    'error' => $e->getMessage(),
+                ];
+            }
+        }
+
+        return response()->json([
+            'message' => 'Bulk update completed',
+            'summary' => [
+                'total' => count($validated['records']),
+                'updated' => $updated,
+                'failed' => $failed,
+            ],
+            'errors' => $errors,
+        ]);
+    }
+}

@@ -21,6 +21,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.8",
         "pusher/pusher-php-server": "^7.2",
+        "saade/filament-fullcalendar": "^4.0@beta",
         "squirephp/countries-en": "^3.3",
         "squirephp/currencies-en": "^3.3"
     },
@@ -97,6 +98,6 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

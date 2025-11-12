@@ -113,7 +113,9 @@ foreach ($postNummers as $row) {
     foreach ($ratsitPhones as $phones) {
         if (is_string($phones)) {
             $arr = json_decode($phones, true);
-            if (is_array($arr)) $ratsitPhoneCount += count($arr);
+            if (is_array($arr)) {
+                $ratsitPhoneCount += count($arr);
+            }
         }
     }
 
@@ -124,7 +126,9 @@ foreach ($postNummers as $row) {
     foreach ($hittaPhones as $phones) {
         if (is_string($phones)) {
             $arr = json_decode($phones, true);
-            if (is_array($arr)) $hittaPhoneCount += count($arr);
+            if (is_array($arr)) {
+                $hittaPhoneCount += count($arr);
+            }
         }
     }
 

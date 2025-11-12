@@ -61,3 +61,25 @@ Stockholm
 8
 	
 100%
+
+
+please add merinfo_personer and merinfo_foretag columns to post_nummer table and crete api routes for them
+
+and the we have to write a small separete script to extract the following, here is example HTML
+
+<div class="mi-flex mi-w-fit mi-top-[-1rem] mi-left-4 mi-justify-between md:mi-absolute md:mi-relative md:mi-top-auto md:mi-left-auto"><a href="https://www.merinfo.se/search?d=p&amp;page=1&amp;q=15332&amp;hash=b875236e6f922ac5446edef0a49605681b3bed3ffdaa197eaef5061ec8fed9eae32cb0af61aac46d0bd0f52b685ae9ed608cbb0dd324740d6d9fa8804511d180" class="mi-flex mi-items-center mi-font-semibold mi-text-[13px] screen-370:mi-text-sm mi-h-10 mi-mr-2 screen-370:mi-mr-3 md:mi-mr-4 mi-border-b-2 mi-border-nd-primary-dark mi-text-nd-primary-800"><span>Personer</span> <span class="mi-ml-1 mi-text-xs mi-font-normal screen-370:mi-ml-2 mi-py-0.5 mi-px-1.5 mi-rounded-lg mi-bg-[#006D99] mi-text-[#DCF3FD]"><span class="mi-hidden screen-370:mi-inline-block">
+                128
+            </span> <span class="mi-inline-block screen-370:mi-hidden">
+                128
+            </span></span></a><a href="https://www.merinfo.se/search?d=c&amp;page=1&amp;q=15332&amp;hash=b875236e6f922ac5446edef0a49605681b3bed3ffdaa197eaef5061ec8fed9eae32cb0af61aac46d0bd0f52b685ae9ed608cbb0dd324740d6d9fa8804511d180" class="mi-flex mi-items-center mi-font-semibold mi-text-[13px] screen-370:mi-text-sm mi-h-10 mi-mr-2 screen-370:mi-mr-3 md:mi-mr-4 mi-border-b-2 mi-border-transparent mi-text-nd-dark-gray mi-opacity-60 hover:mi-opacity-100"><span>Företag</span> <span class="mi-ml-1 mi-text-xs mi-font-normal screen-370:mi-ml-2 mi-py-0.5 mi-px-1.5 mi-rounded-lg mi-bg-[#E1EEF6]"><span class="mi-hidden screen-370:mi-inline-block">
+                12
+            </span> <span class="mi-inline-block screen-370:mi-hidden">
+                12
+            </span></span></a></div>
+
+and we have to save the following:
+
+personer=128
+foretag=12
+
+and then script have to send data to the laravel api for update merinfo:personer and merinfo_foretag

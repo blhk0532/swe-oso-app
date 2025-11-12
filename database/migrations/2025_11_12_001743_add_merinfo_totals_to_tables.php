@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('ratsit_data', function (Blueprint $table) {
-            $table->json('epost_adress')->default(json_encode([]));
+        Schema::table('post_nummer', function (Blueprint $table) {
+            //
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('ratsit_data', function (Blueprint $table) {
-            $table->dropColumn('epost_adress');
+        Schema::table('post_nummer', function (Blueprint $table) {
+            //
         });
     }
 };

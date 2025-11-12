@@ -7,6 +7,7 @@ use App\Http\Requests\StoreDataPrivateRequest;
 use App\Http\Requests\UpdateDataPrivateRequest;
 use App\Http\Resources\DataPrivateResource;
 use App\Models\DataPrivate;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -99,5 +100,66 @@ class DataPrivateController extends Controller
         $dataPrivate->delete();
 
         return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    /**
+     * Bulk insert/update records.
+     */
+    public function bulkStore(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'records' => 'required|array|min:1|max:100',
+            'records.*.personnummer' => 'nullable|string',
+            'records.*.personnamn' => 'nullable|string',
+            'records.*.gatuadress' => 'nullable|string',
+            'records.*.postnummer' => 'nullable|string',
+            'records.*.postort' => 'nullable|string',
+            'records.*.kommun' => 'nullable|string',
+            'records.*.lan' => 'nullable|string',
+            'records.*.is_active' => 'nullable|boolean',
+        ]);
+
+        $created = 0;
+        $updated = 0;
+        $failed = 0;
+        $errors = [];
+
+        foreach ($validated['records'] as $index => $recordData) {
+            try {
+                if (! empty($recordData['personnummer'])) {
+                    $record = DataPrivate::updateOrCreate(
+                        ['personnummer' => $recordData['personnummer']],
+                        $recordData
+                    );
+
+                    if ($record->wasRecentlyCreated) {
+                        $created++;
+                    } else {
+                        $updated++;
+                    }
+                } else {
+                    $record = DataPrivate::create($recordData);
+                    $created++;
+                }
+            } catch (Exception $e) {
+                $failed++;
+                $errors[] = [
+                    'index' => $index,
+                    'personnummer' => $recordData['personnummer'] ?? 'unknown',
+                    'error' => $e->getMessage(),
+                ];
+            }
+        }
+
+        return response()->json([
+            'message' => 'Bulk operation completed',
+            'summary' => [
+                'total' => count($validated['records']),
+                'created' => $created,
+                'updated' => $updated,
+                'failed' => $failed,
+            ],
+            'errors' => $errors,
+        ]);
     }
 }

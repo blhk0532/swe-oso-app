@@ -467,7 +467,7 @@ class HittaSeScraper {
           headers['Authorization'] = `Bearer ${this.api_token}`;
         }
 
-        const response = await fetch(`${this.api_url}/api/hitta-se`, {
+        const response = await fetch(`${this.api_url}/api/hitta-data`, {
           method: 'POST',
           headers,
           body: JSON.stringify(dbData),

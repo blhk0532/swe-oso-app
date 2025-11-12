@@ -94,15 +94,37 @@ return new class extends Migration
         });
 
         // Add composite indexes for common search combinations (best-effort, ignore if not supported by driver)
-        try { DB::statement('CREATE INDEX idx_data_private_postnummer_postort ON data_private(bo_postnummer, bo_postort)'); } catch (Throwable $e) {}
-        try { DB::statement('CREATE INDEX idx_data_private_kommun_lan ON data_private(bo_kommun, bo_lan)'); } catch (Throwable $e) {}
+        try {
+            DB::statement('CREATE INDEX idx_data_private_postnummer_postort ON data_private(bo_postnummer, bo_postort)');
+        } catch (Throwable $e) {
+        }
+
+        try {
+            DB::statement('CREATE INDEX idx_data_private_kommun_lan ON data_private(bo_kommun, bo_lan)');
+        } catch (Throwable $e) {
+        }
 
         // PostgreSQL-specific indexes (GIN indexes, partial indexes, full-text search)
         if ($isPostgres) {
-            try { DB::statement('CREATE INDEX idx_data_private_ps_telefon_gin ON data_private USING GIN (ps_telefon)'); } catch (Throwable $e) {}
-            try { DB::statement('CREATE INDEX idx_data_private_ps_epost_gin ON data_private USING GIN (ps_epost_adress)'); } catch (Throwable $e) {}
-            try { DB::statement('CREATE INDEX idx_data_private_active ON data_private(is_active) WHERE is_active = true'); } catch (Throwable $e) {}
-            try { DB::statement('CREATE INDEX idx_data_private_personnamn_fts ON data_private USING GIN (to_tsvector(\'swedish\', ps_personnamn))'); } catch (Throwable $e) {}
+            try {
+                DB::statement('CREATE INDEX idx_data_private_ps_telefon_gin ON data_private USING GIN (ps_telefon)');
+            } catch (Throwable $e) {
+            }
+
+            try {
+                DB::statement('CREATE INDEX idx_data_private_ps_epost_gin ON data_private USING GIN (ps_epost_adress)');
+            } catch (Throwable $e) {
+            }
+
+            try {
+                DB::statement('CREATE INDEX idx_data_private_active ON data_private(is_active) WHERE is_active = true');
+            } catch (Throwable $e) {
+            }
+
+            try {
+                DB::statement('CREATE INDEX idx_data_private_personnamn_fts ON data_private USING GIN (to_tsvector(\'swedish\', ps_personnamn))');
+            } catch (Throwable $e) {
+            }
         }
     }
 
