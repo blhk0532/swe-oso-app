@@ -25,9 +25,9 @@ class RatsitDataResource extends Resource
 
     //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
 
-    protected static ?string $navigationLabel = 'RatsitData';
+    protected static ?string $navigationLabel = 'Ratsit Data';
 
-    protected static string | UnitEnum | null $navigationGroup = 'PERSON DATABASER';
+    protected static string | UnitEnum | null $navigationGroup = 'RATSIT DATABAS';
 
     protected static ?int $navigationSort = 3;
 

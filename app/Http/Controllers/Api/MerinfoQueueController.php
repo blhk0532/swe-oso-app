@@ -3,12 +3,52 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BulkUpdateMerinfoQueueRequest;
+use App\Http\Requests\UpdateMerinfoQueueRequest;
+use App\Http\Resources\MerinfoQueueResource;
 use App\Models\MerinfoQueue;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class MerinfoQueueController extends Controller
 {
+    /**
+     * List merinfo queue records with basic filtering & pagination.
+     */
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $query = MerinfoQueue::query();
+
+        if ($request->has('post_nummer')) {
+            $needle = str_replace(' ', '', $request->get('post_nummer'));
+            $query->whereRaw('REPLACE(post_nummer, " ", "") LIKE ?', ["%{$needle}%"]);
+        }
+
+        foreach ([
+            'foretag_queued', 'personer_queued', 'foretag_scraped', 'personer_scraped', 'is_active',
+        ] as $flag) {
+            if ($request->filled($flag)) {
+                $query->where($flag, $request->boolean($flag));
+            }
+        }
+
+        $perPage = min((int) $request->get('per_page', 25), 100);
+        $records = $query->orderBy('created_at', 'desc')->paginate($perPage);
+
+        return MerinfoQueueResource::collection($records);
+    }
+
+    /**
+     * Show a single queue record.
+     */
+    public function show(int $id): JsonResponse
+    {
+        $record = MerinfoQueue::findOrFail($id);
+
+        return response()->json(['data' => new MerinfoQueueResource($record)]);
+    }
+
     /**
      * Get the first merinfo queue record where personer_queued = 1 and personer_scraped = 0
      */
@@ -55,26 +95,9 @@ class MerinfoQueueController extends Controller
     /**
      * Bulk update merinfo queue records.
      */
-    public function bulkUpdate(Request $request): JsonResponse
+    public function bulkUpdate(BulkUpdateMerinfoQueueRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'records' => 'required|array|min:1|max:50',
-            'records.*.post_nummer' => 'required|string|max:10',
-            'records.*.post_ort' => 'nullable|string',
-            'records.*.post_lan' => 'nullable|string',
-            'records.*.foretag_total' => 'sometimes|integer|min:0',
-            'records.*.personer_total' => 'sometimes|integer|min:0',
-            'records.*.personer_house' => 'sometimes|integer|min:0',
-            'records.*.foretag_phone' => 'sometimes|integer|min:0',
-            'records.*.personer_phone' => 'sometimes|integer|min:0',
-            'records.*.foretag_saved' => 'sometimes|integer|min:0',
-            'records.*.personer_saved' => 'sometimes|integer|min:0',
-            'records.*.foretag_queued' => 'sometimes|integer|min:0',
-            'records.*.personer_queued' => 'sometimes|integer|min:0',
-            'records.*.foretag_scraped' => 'sometimes|boolean',
-            'records.*.personer_scraped' => 'sometimes|boolean',
-            'records.*.is_active' => 'sometimes|boolean',
-        ]);
+        $validated = $request->validated();
 
         $updated = 0;
         $failed = 0;
@@ -132,7 +155,7 @@ class MerinfoQueueController extends Controller
     /**
      * Update merinfo queue record by post_nummer.
      */
-    public function updateByPostNummer(Request $request, string $postNummer): JsonResponse
+    public function updateByPostNummer(UpdateMerinfoQueueRequest $request, string $postNummer): JsonResponse
     {
         // Normalize the post_nummer to Swedish postal code format (XXX XX)
         $digitsOnly = preg_replace('/[^0-9]/', '', $postNummer);
@@ -144,22 +167,7 @@ class MerinfoQueueController extends Controller
             $normalizedPostNummer = $digitsOnly;
         }
 
-        $validated = $request->validate([
-            'post_ort' => 'nullable|string',
-            'post_lan' => 'nullable|string',
-            'foretag_total' => 'sometimes|integer|min:0',
-            'personer_total' => 'sometimes|integer|min:0',
-            'personer_house' => 'sometimes|integer|min:0',
-            'foretag_phone' => 'sometimes|integer|min:0',
-            'personer_phone' => 'sometimes|integer|min:0',
-            'foretag_saved' => 'sometimes|integer|min:0',
-            'personer_saved' => 'sometimes|integer|min:0',
-            'foretag_queued' => 'sometimes|integer|min:0',
-            'personer_queued' => 'sometimes|integer|min:0',
-            'foretag_scraped' => 'sometimes|boolean',
-            'personer_scraped' => 'sometimes|boolean',
-            'is_active' => 'sometimes|boolean',
-        ]);
+        $validated = $request->validated();
 
         $record = MerinfoQueue::where('post_nummer', $normalizedPostNummer)->firstOrFail();
 
@@ -167,7 +175,7 @@ class MerinfoQueueController extends Controller
 
         return response()->json([
             'message' => 'MerinfoQueue record updated successfully',
-            'data' => $record,
+            'data' => new MerinfoQueueResource($record),
         ]);
     }
 }

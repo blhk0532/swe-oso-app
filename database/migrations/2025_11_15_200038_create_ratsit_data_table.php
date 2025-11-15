@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('adressandring')->nullable();
 
             // Arrays / JSON
-            $table->json('telfonnummer')->default(json_encode([])); // note: intentional column name per spec
+            $table->json('telfonnummer')->nullable(); // note: intentional column name per spec
 
             // Person fields
             $table->text('stjarntacken')->nullable();
@@ -37,10 +37,10 @@ return new class extends Migration
             $table->text('personnamn')->nullable();
 
             // Phones
-            $table->json('telefon')->default(json_encode([]));
+            $table->json('telefon')->nullable();
 
             // Emails
-            $table->json('epost_adress')->default(json_encode([]));
+            $table->json('epost_adress')->nullable();
 
             // Dwelling
             $table->text('agandeform')->nullable();
@@ -50,12 +50,12 @@ return new class extends Migration
             $table->text('fastighet')->nullable();
 
             // Collections
-            $table->json('personer')->default(json_encode([]));
-            $table->json('foretag')->default(json_encode([]));
-            $table->json('grannar')->default(json_encode([]));
-            $table->json('fordon')->default(json_encode([]));
-            $table->json('hundar')->default(json_encode([]));
-            $table->json('bolagsengagemang')->default(json_encode([]));
+            $table->json('personer')->nullable();
+            $table->json('foretag')->nullable();
+            $table->json('grannar')->nullable();
+            $table->json('fordon')->nullable();
+            $table->json('hundar')->nullable();
+            $table->json('bolagsengagemang')->nullable();
 
             // Geo / Links
             $table->text('longitude')->nullable();

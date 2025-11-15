@@ -6,6 +6,7 @@ use App\Filament\Widgets\CalendarWidget;
 use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Widgets\Widget;
+use UnitEnum;
 
 class Calendar extends Page
 {
@@ -13,7 +14,9 @@ class Calendar extends Page
 
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-calendar';
 
-    protected static ?string $navigationLabel = 'KalenderÖversikt';
+    protected static ?string $navigationLabel = 'Kalender Översikt';
+
+    protected static string | UnitEnum | null $navigationGroup = 'ADMINISTRATION';
 
     /**
      * Return header widgets for the page so Filament will render them

@@ -28,7 +28,8 @@ class DataPrivateResource extends JsonResource
                 'latitude' => $this->latitud,
             ],
             'person' => [
-                'first_name' => $this->fornamn,
+                // prefer ps_* fields when present because some legacy clients write there
+                'first_name' => $this->ps_fornamn ?? $this->fornamn,
                 'last_name' => $this->efternamn,
                 'full_name' => $this->personnamn,
                 'social_security_number' => $this->personnummer,

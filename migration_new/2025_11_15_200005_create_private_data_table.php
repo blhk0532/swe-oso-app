@@ -54,8 +54,10 @@ return new class extends Migration
             $table->text('ps_fornamn')->nullable();
             $table->text('ps_efternamn')->nullable();
             $table->text('ps_personnamn')->nullable();
-            $table->text('ps_telefon')->nullable();
-            $table->text('ps_epost_adress')->nullable();
+            // person phone numbers - store as JSON array (tests expect array)
+            $table->json('ps_telefon')->default(json_encode([]));
+            // person's email addresses - store as JSON array (tests expect array)
+            $table->json('ps_epost_adress')->default(json_encode([]));
             $table->json('ps_bolagsengagemang')->nullable();
 
             // Dwelling fields
@@ -72,6 +74,7 @@ return new class extends Migration
             $table->text('bo_fastighet')->nullable();
 
             // Collections (JSON arrays)
+            $table->json('epost_adress')->default(json_encode([]));
             $table->json('personer')->default(json_encode([]));
             $table->json('foretag')->default(json_encode([]));
             $table->json('grannar')->default(json_encode([]));

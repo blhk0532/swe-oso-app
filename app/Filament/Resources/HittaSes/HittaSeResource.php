@@ -14,22 +14,23 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
- 
+
 class HittaSeResource extends Resource
 {
     protected static ?string $model = HittaSe::class;
 
     //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUsers;
 
-    protected static ?string $navigationLabel = 'Databaser';
-    protected static string | UnitEnum | null $navigationGroup = 'PERSON DATABASER';
+    protected static ?string $navigationLabel = 'Hitta Alla';
+
+    protected static string | UnitEnum | null $navigationGroup = 'HITTA DATABAS';
 
     // Icon shown before the navigation group title (Filament v4+)
     protected static string | UnitEnum | null $navigationGroupIcon = Heroicon::OutlinedUsers;
 
-    protected static ?string $modelLabel = 'Hitta.se';
+    protected static ?string $modelLabel = 'Hitta';
 
-    protected static ?string $pluralModelLabel = 'Hitta.se data';
+    protected static ?string $pluralModelLabel = 'Hitta Alla';
 
     protected static ?int $navigationSort = 1;
 

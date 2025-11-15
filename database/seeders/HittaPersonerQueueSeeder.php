@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\MerinfoPersonerQueue;
+use App\Models\HittaPersonerQueue;
 use Illuminate\Database\Seeder;
 
-class MerinfoPersonerQueueSeeder extends Seeder
+class HittaPersonerQueueSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -58,6 +58,8 @@ class MerinfoPersonerQueueSeeder extends Seeder
                         'personer_phone' => 0,
                         'personer_house' => 0,
                         'personer_saved' => 0,
+                        'personer_page' => 0,
+                        'personer_pages' => 0,
                         'personer_status' => null,
                         'personer_scraped' => false,
                         'personer_queued' => false,
@@ -67,12 +69,12 @@ class MerinfoPersonerQueueSeeder extends Seeder
                     ];
                 }, $chunk);
 
-                MerinfoPersonerQueue::insert($insertData);
+                HittaPersonerQueue::insert($insertData);
             }
 
             $this->command->info("Completed processing part {$part}");
         }
 
-        $this->command->info('MerinfoPersonerQueue seeding completed!');
+        $this->command->info('HittaPersonerQueue seeding completed!');
     }
 }

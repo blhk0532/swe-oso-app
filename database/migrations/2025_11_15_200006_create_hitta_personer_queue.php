@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('merinfo_personer_queue', function (Blueprint $table) {
+        Schema::create('hitta_personer_queue', function (Blueprint $table) {
             $table->id();
             $table->string('post_nummer');
             $table->string('post_ort');
@@ -29,6 +29,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('merinfo_personer_queue');
+        Schema::dropIfExists('hitta_personer_queue');
     }
 };

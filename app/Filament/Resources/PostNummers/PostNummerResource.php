@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PostNummerResource extends Resource
 {
@@ -20,11 +21,13 @@ class PostNummerResource extends Resource
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedMapPin;
 
-    protected static ?string $navigationLabel = 'PostNummerData';
+    protected static ?string $navigationLabel = 'Post Nummer Data';
 
-    protected static ?string $modelLabel = 'PostNummerDB';
+    protected static ?string $modelLabel = 'Post Nummer DB';
 
-    protected static ?string $pluralModelLabel = 'PostNummerDB';
+    protected static ?string $pluralModelLabel = 'Post Nummer DB';
+
+    protected static UnitEnum | string | null $navigationGroup = 'POST NUMMER';
 
     public static function getNavigationBadge(): ?string
     {

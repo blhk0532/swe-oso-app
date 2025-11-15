@@ -15,9 +15,7 @@ class DataPrivate extends Model
     /**
      * @var string
      */
-    // Tests and many migrations operate on the `data_private` table.
-    // Use that table name so factories, controllers and tests align.
-    protected $table = 'data_private';
+    protected $table = 'private_data';
 
     /**
      * @var array<string, string>
@@ -27,6 +25,7 @@ class DataPrivate extends Model
         'telefon' => 'array',
         'telfonnummer' => 'array',
         'bolagsengagemang' => 'array',
+        'ps_telefon' => 'array',
         'ps_epost_adress' => 'array',
         'epost_adress' => 'array',
         'personer' => 'array',

@@ -19,13 +19,13 @@ class HittaDataResource extends Resource
 {
     protected static ?string $model = HittaData::class;
 
-    protected static ?string $navigationLabel = 'HittaData';
+    protected static ?string $navigationLabel = 'Hitta Data';
 
-    protected static ?string $modelLabel = 'HittaData';
+    protected static ?string $modelLabel = 'Hitta Data';
 
-    protected static ?string $pluralModelLabel = 'HittaData';
+    protected static ?string $pluralModelLabel = 'Hitta Data';
 
-    protected static UnitEnum | string | null $navigationGroup = 'PERSON DATABASER';
+    protected static UnitEnum | string | null $navigationGroup = 'HITTA DATABAS';
 
     protected static ?int $navigationSort = 3; // After Hitta Bolag
 

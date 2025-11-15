@@ -14,7 +14,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
- 
+
 class HittaBolagResource extends Resource
 {
     protected static ?string $model = HittaBolag::class;
@@ -89,9 +89,9 @@ class HittaBolagResource extends Resource
         ];
     }
 
-        public static function shouldRegisterNavigation(): bool
+    public static function shouldRegisterNavigation(): bool
     {
         // Hide Blog > Posts from sidebar navigation.
-        return true;
+        return false;
     }
 }

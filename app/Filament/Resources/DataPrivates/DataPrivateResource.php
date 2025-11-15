@@ -16,7 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use UnitEnum;
- 
+
 class DataPrivateResource extends Resource
 {
     protected static ?string $model = DataPrivate::class;
@@ -25,9 +25,9 @@ class DataPrivateResource extends Resource
 
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUsers;
 
-    protected static ?string $navigationLabel = 'PersonerDatabas';
+    protected static ?string $navigationLabel = 'Personer Databas';
 
-    //    protected static string | UnitEnum | null $navigationGroup = 'Databases';
+    protected static string | UnitEnum | null $navigationGroup = 'ADMINISTRATION';
 
     protected static ?int $navigationSort = 4;
 

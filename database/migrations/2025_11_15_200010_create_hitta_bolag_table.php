@@ -13,7 +13,7 @@ return new class extends Migration
             $table->text('personnamn')->nullable();
             $table->string('org_nr')->nullable();
             $table->string('bolagsform')->nullable();
-            $table->json('sni_branch')->default(json_encode([]));
+            $table->json('sni_branch')->nullable();
             $table->text('juridiskt_namn')->nullable();
             $table->text('registreringsdatum')->nullable();
             $table->text('gatuadress')->nullable();

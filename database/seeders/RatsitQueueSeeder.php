@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\MerinfoQueue;
+use App\Models\RatsitQueue;
 use Illuminate\Database\Seeder;
 
-class MerinfoQueueSeeder extends Seeder
+class RatsitQueueSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -73,12 +73,12 @@ class MerinfoQueueSeeder extends Seeder
                     ];
                 }, $chunk);
 
-                MerinfoQueue::insert($insertData);
+                RatsitQueue::insert($insertData);
             }
 
             $this->command->info("Completed processing part {$part}");
         }
 
-        $this->command->info('MerinfoQueue seeding completed!');
+        $this->command->info('RatsitQueue seeding completed!');
     }
 }

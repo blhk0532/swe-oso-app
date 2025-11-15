@@ -31,8 +31,8 @@ return new class extends Migration
             $table->text('bo_lan')->nullable();
 
             // Phone arrays
-            $table->json('telfonnummer')->default(json_encode([]));
-            $table->json('telefon')->default(json_encode([]));
+            $table->json('telfonnummer')->nullable();
+            $table->json('telefon')->nullable();
 
             // Person fields
             $table->text('stjarntacken')->nullable();
@@ -54,8 +54,12 @@ return new class extends Migration
             $table->text('ps_fornamn')->nullable();
             $table->text('ps_efternamn')->nullable();
             $table->text('ps_personnamn')->nullable();
-            $table->text('ps_telefon')->nullable();
-            $table->text('ps_epost_adress')->nullable();
+            // person phone numbers - store as JSON array
+            // Store person phone numbers as JSON (nullable to avoid MySQL default restriction)
+            $table->json('ps_telefon')->nullable();
+            // person's email addresses - store as JSON array
+            // Person email addresses as JSON (nullable to avoid default on JSON)
+            $table->json('ps_epost_adress')->nullable();
             $table->json('ps_bolagsengagemang')->nullable();
 
             // Dwelling fields
@@ -70,14 +74,19 @@ return new class extends Migration
             $table->text('bo_boarea')->nullable();
             $table->text('bo_byggar')->nullable();
             $table->text('bo_fastighet')->nullable();
+            // Modern plain fastighet field (mirrors Ratsit/Hitta fields) used by tests
+            $table->text('fastighet')->nullable();
 
             // Collections (JSON arrays)
-            $table->json('personer')->default(json_encode([]));
-            $table->json('foretag')->default(json_encode([]));
-            $table->json('grannar')->default(json_encode([]));
-            $table->json('fordon')->default(json_encode([]));
-            $table->json('hundar')->default(json_encode([]));
-            $table->json('bolagsengagemang')->default(json_encode([]));
+            $table->json('personer')->nullable();
+            $table->json('foretag')->nullable();
+            $table->json('grannar')->nullable();
+            $table->json('fordon')->nullable();
+            $table->json('hundar')->nullable();
+            $table->json('bolagsengagemang')->nullable();
+            // Modern email array storage for backward-compatible APIs and tests
+            // Modern email array storage (nullable for MySQL compatibility)
+            $table->json('epost_adress')->nullable();
 
             // BO_ prefixed collection/count mirrors
             $table->integer('bo_personer')->nullable();

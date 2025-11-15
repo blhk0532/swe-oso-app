@@ -46,16 +46,42 @@ class DatabaseSeeder extends Seeder
         ]));
         $this->command->info('Admin user created.');
 
+        // Queues
+        $this->command->warn(PHP_EOL . 'Seeding queue tables...');
+        $this->call([
+            // Base postnummer
+            PostNummerSeeder::class,
+
+            // Unified queues
+            MerinfoQueueSeeder::class,
+            HittaQueueSeeder::class,
+            RatsitQueueSeeder::class,
+
+            // Per-type queues
+            MerinfoForetagQueueSeeder::class,
+            MerinfoPersonerQueueSeeder::class,
+            HittaForetagQueueSeeder::class,
+            HittaPersonerQueueSeeder::class,
+            RatsitForetagQueueSeeder::class,
+            RatsitPersonerQueueSeeder::class,
+
+            // Postnummer summary queue tables
+            PostNummerQueueSeeder::class,
+            PostNummerForetagQueueSeeder::class,
+            PostNummerPersonerQueueSeeder::class,
+        ]);
+        $this->command->info('Queue tables seeded.');
+
         // Shop
         $this->command->warn(PHP_EOL . 'Creating shop brands...');
-        $brands = $this->withProgressBar(20, fn () => Brand::factory()->count(20)
+        $brands = $this->withProgressBar(3, fn () => Brand::factory()->count(20)
             ->has(Address::factory()->count(rand(1, 3)))
             ->create());
         Brand::query()->update(['sort' => new Expression('id')]);
         $this->command->info('Shop brands created.');
 
         $this->command->warn(PHP_EOL . 'Creating shop categories...');
-        $categories = $this->withProgressBar(20, fn () => ShopCategory::factory(1)
+        $categories = $this->withProgressBar(10, fn () => ShopCategory::factory(1)
             ->has(
                 ShopCategory::factory()->count(3),
                 'children'
@@ -63,13 +89,13 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Shop categories created.');
 
         $this->command->warn(PHP_EOL . 'Creating shop customers...');
-        $customers = $this->withProgressBar(1000, fn () => Customer::factory(1)
+        $customers = $this->withProgressBar(10, fn () => Customer::factory(1)
             ->has(Address::factory()->count(rand(1, 3)))
             ->create());
         $this->command->info('Shop customers created.');
 
         $this->command->warn(PHP_EOL . 'Creating shop products...');
-        $products = $this->withProgressBar(50, fn () => Product::factory(1)
+        $products = $this->withProgressBar(10, fn () => Product::factory(1)
             ->sequence(fn ($sequence) => ['shop_brand_id' => $brands->random(1)->first()->id])
             ->hasAttached($categories->random(rand(3, 6)), ['created_at' => now(), 'updated_at' => now()])
             ->has(
@@ -80,7 +106,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Shop products created.');
 
         $this->command->warn(PHP_EOL . 'Creating orders...');
-        $orders = $this->withProgressBar(1000, fn () => Order::factory(1)
+        $orders = $this->withProgressBar(10, fn () => Order::factory(1)
             ->sequence(fn ($sequence) => ['shop_customer_id' => $customers->random(1)->first()->id])
             ->has(Payment::factory()->count(rand(1, 3)))
             ->has(
@@ -105,17 +131,17 @@ class DatabaseSeeder extends Seeder
 
         // Blog
         $this->command->warn(PHP_EOL . 'Creating blog categories...');
-        $blogCategories = $this->withProgressBar(20, fn () => BlogCategory::factory(1)
-            ->count(20)
+        $blogCategories = $this->withProgressBar(10, fn () => BlogCategory::factory(1)
+            ->count(10)
             ->create());
         $this->command->info('Blog categories created.');
 
         $this->command->warn(PHP_EOL . 'Creating blog authors and posts...');
-        $this->withProgressBar(20, fn () => Author::factory(1)
+        $this->withProgressBar(3, fn () => Author::factory(1)
             ->has(
                 Post::factory()->count(5)
                     ->has(
-                        Comment::factory()->count(rand(5, 10))
+                        Comment::factory()->count(rand(1, 3))
                             ->state(fn (array $attributes, Post $post) => ['customer_id' => $customers->random(1)->first()->id]),
                     )
                     ->state(fn (array $attributes, Author $author) => ['blog_category_id' => $blogCategories->random(1)->first()->id]),
@@ -126,8 +152,9 @@ class DatabaseSeeder extends Seeder
 
         // Tasks for calendar widget
         $this->command->warn(PHP_EOL . 'Creating demo tasks for calendar...');
-        $tasks = Task::factory()->count(10)->create();
+        $tasks = Task::factory()->count(1)->create();
         $this->command->info('Demo tasks created.');
+
     }
 
     protected function withProgressBar(int $amount, Closure $createCollectionOfOne): Collection

@@ -27,6 +27,13 @@ class UpdateDataPrivateRequest extends FormRequest
             'gatuadress' => ['sometimes', 'nullable', 'string', 'max:65535'],
             'postnummer' => ['sometimes', 'nullable', 'string', 'max:255'],
             'postort' => ['sometimes', 'nullable', 'string', 'max:255'],
+            // legacy bo_ fields to support older clients
+            'bo_gatuadress' => ['sometimes', 'nullable', 'string', 'max:65535'],
+            'bo_postnummer' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'bo_postort' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'bo_forsamling' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'bo_kommun' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'bo_lan' => ['sometimes', 'nullable', 'string', 'max:255'],
             'forsamling' => ['sometimes', 'nullable', 'string', 'max:255'],
             'kommun' => ['sometimes', 'nullable', 'string', 'max:255'],
             'lan' => ['sometimes', 'nullable', 'string', 'max:255'],

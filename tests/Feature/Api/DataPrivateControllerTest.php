@@ -2,12 +2,15 @@
 
 use App\Models\DataPrivate;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
+
+uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -82,7 +85,7 @@ it('can create a data private record', function () {
             ],
         ]);
 
-    assertDatabaseHas('data_private', [
+    assertDatabaseHas('private_data', [
         'ps_fornamn' => 'John',
         'ps_efternamn' => 'Doe',
         'bo_postnummer' => '12345',
@@ -114,7 +117,7 @@ it('can update a data private record', function () {
         ->assertSuccessful()
         ->assertJsonPath('data.person.first_name', 'Jane');
 
-    assertDatabaseHas('data_private', [
+    assertDatabaseHas('private_data', [
         'id' => $record->id,
         'ps_fornamn' => 'Jane',
         'bo_postnummer' => '67890',
@@ -128,7 +131,7 @@ it('can delete a data private record', function () {
         ->deleteJson("/api/data-private/{$record->id}")
         ->assertSuccessful();
 
-    assertDatabaseMissing('data_private', [
+    assertDatabaseMissing('private_data', [
         'id' => $record->id,
     ]);
 });

@@ -23,8 +23,9 @@ class UserResource extends Resource
 
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-users';
 
-    // protected static string|UnitEnum|null $navigationGroup = 'Admin';
-    protected static ?string $navigationLabel = 'SystemAnvändare';
+    protected static string | UnitEnum | null $navigationGroup = 'ADMINISTRATION';
+
+    protected static ?string $navigationLabel = 'System Användare';
 
     public static function form(Schema $schema): Schema
     {
@@ -80,6 +81,11 @@ class UserResource extends Resource
             ->bulkActions([
                 Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 
     public static function getPages(): array

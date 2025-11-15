@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('post_nummer_queue', function (Blueprint $table) {
             $table->id();
-            $table->string('post_nummer', 5)->unique();
+            // Allow '12345' or '123 45' (with a space) - use 6 characters
+            $table->string('post_nummer', 6)->unique();
             $table->string('post_ort')->nullable();
             $table->string('post_lan')->nullable();
 

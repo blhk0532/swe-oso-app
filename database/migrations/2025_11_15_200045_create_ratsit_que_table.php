@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('adressandring')->nullable();
 
             // Phone fields (legacy and new)
-            $table->json('telfonnummer')->default('[]');
-            $table->json('telefon')->default('[]');
+            $table->json('telfonnummer')->nullable();
+            $table->json('telefon')->nullable();
 
             // Person fields
             $table->string('stjarntacken')->nullable();
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->text('personnamn')->nullable();
 
             // Contact
-            $table->json('epost_adress')->default('[]');
+            $table->json('epost_adress')->nullable();
 
             // Property fields
             $table->string('agandeform')->nullable();
@@ -50,12 +50,12 @@ return new class extends Migration
             $table->string('fastighet')->nullable();
 
             // JSON array fields
-            $table->json('personer')->default('[]');
-            $table->json('foretag')->default('[]');
-            $table->json('grannar')->default('[]');
-            $table->json('fordon')->default('[]');
-            $table->json('hundar')->default('[]');
-            $table->json('bolagsengagemang')->default('[]');
+            $table->json('personer')->nullable();
+            $table->json('foretag')->nullable();
+            $table->json('grannar')->nullable();
+            $table->json('fordon')->nullable();
+            $table->json('hundar')->nullable();
+            $table->json('bolagsengagemang')->nullable();
 
             // Geographic coordinates
             $table->string('longitude')->nullable();
@@ -80,7 +80,7 @@ return new class extends Migration
             $table->index('kommun');
             $table->index('lan');
             $table->index('personnummer');
-            $table->index('personnamn');
+            // Skip personnamn index - it's a TEXT column
             $table->index('is_active');
         });
 

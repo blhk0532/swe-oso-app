@@ -51,7 +51,8 @@ class PostNummerForetagQueueSeeder extends Seeder
             foreach ($chunks as $chunk) {
                 $insertData = array_map(function ($record) {
                     return [
-                        'post_nummer' => $record['post_nummer'],
+                        // Normalize to 5-digit format for queue tables (strip spaces)
+                        'post_nummer' => preg_replace('/\s+/', '', (string) $record['post_nummer']),
                         'post_ort' => $record['post_ort'],
                         'post_lan' => $record['post_lan'],
                         'merinfo_foretag_saved' => null,

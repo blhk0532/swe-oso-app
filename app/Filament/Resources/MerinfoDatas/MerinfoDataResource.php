@@ -21,11 +21,11 @@ class MerinfoDataResource extends Resource
 
     //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUserGroup;
 
-    protected static ?string $navigationLabel = 'MerinfoDB';
+    protected static ?string $navigationLabel = 'Merinfo Data';
 
-    protected static string | UnitEnum | null $navigationGroup = 'PERSON DATABASER';
+    protected static string | UnitEnum | null $navigationGroup = 'MERINFO DATABAS';
 
-    protected static ?string $modelLabel = 'Merinfo DB';
+    protected static ?string $modelLabel = 'Merinfo Data';
 
     protected static ?string $pluralModelLabel = 'Merinfo data';
 

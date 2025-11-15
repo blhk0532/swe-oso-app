@@ -58,6 +58,14 @@ class AdminPanelProvider extends PanelProvider
                 'Shop',
                 'Blog',
                 'Databases',
+                'POST NUMMER',
+                'HITTA DATABAS',
+                'MERINFO DATABAS',
+                'RATSIT DATABAS',
+                'UPPLYSNING DATA',
+                'ENIRO DATABAS',
+                'ADMINISTRATION',
+
             ])
             ->databaseNotifications()
             ->middleware([
@@ -96,8 +104,8 @@ class AdminPanelProvider extends PanelProvider
             )
             ->plugins([FilamentFullCalendarPlugin::make()])
             ->plugins([
-                FilamentLanguageSwitcherPlugin::make(),
-                BreezyCore::make()->myProfile(true, /* shouldRegisterUserMenu */ false, /* shouldRegisterNavigation */ true, /* hasAvatars */ true, /* slug */ 'my-profile', /* navigationGroup */ 'account', /* userMenuLabel */ null),
+                //    FilamentLanguageSwitcherPlugin::make(['code' => 'en', 'name' => 'English', 'flag' => 'gb']),
+                BreezyCore::make()->myProfile(true, /* shouldRegisterUserMenu */ false, /* shouldRegisterNavigation */ false, /* hasAvatars */ true, /* slug */ 'my-profile', /* navigationGroup */ 'account', /* userMenuLabel */ null),
             ])
             ->colors([
                 'primary' => Color::Blue,

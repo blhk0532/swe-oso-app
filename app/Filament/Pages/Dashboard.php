@@ -14,7 +14,7 @@ class Dashboard extends BaseDashboard
 {
     use BaseDashboard\Concerns\HasFiltersForm;
 
-    protected static ?string $navigationLabel = 'AdminiDashboard';
+    protected static ?string $navigationLabel = 'Admin Dashboards';
 
     protected static BackedEnum | string | null $navigationIcon = 'heroicon-o-chart-bar';
 

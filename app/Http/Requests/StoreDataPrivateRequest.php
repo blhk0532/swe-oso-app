@@ -26,6 +26,13 @@ class StoreDataPrivateRequest extends FormRequest
         return [
             'gatuadress' => ['nullable', 'string', 'max:65535'],
             'postnummer' => ['nullable', 'string', 'max:255'],
+            // 'bo_' legacy fields
+            'bo_gatuadress' => ['nullable', 'string', 'max:65535'],
+            'bo_postnummer' => ['nullable', 'string', 'max:255'],
+            'bo_postort' => ['nullable', 'string', 'max:255'],
+            'bo_forsamling' => ['nullable', 'string', 'max:255'],
+            'bo_kommun' => ['nullable', 'string', 'max:255'],
+            'bo_lan' => ['nullable', 'string', 'max:255'],
             'postort' => ['nullable', 'string', 'max:255'],
             'forsamling' => ['nullable', 'string', 'max:255'],
             'kommun' => ['nullable', 'string', 'max:255'],

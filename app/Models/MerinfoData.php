@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MerinfoData extends Model
 {
-    protected $connection = 'sqlite';
+    // Use default connection; previously forced 'sqlite' which broke API tests under mysql.
 
     protected $table = 'merinfo_data';
 

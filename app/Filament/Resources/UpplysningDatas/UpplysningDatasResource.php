@@ -126,4 +126,9 @@ class UpplysningDatasResource extends Resource
             'edit' => EditUpplysningData::route('/{record}/edit'),
         ];
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 }
