@@ -15,7 +15,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
- 
+
 class EniroDatasResource extends Resource
 {
     protected static ?string $model = EniroData::class;
@@ -29,6 +29,9 @@ class EniroDatasResource extends Resource
     protected static UnitEnum | string | null $navigationGroup = 'PERSON DATABASER';
 
     protected static ?int $navigationSort = 4;
+
+    // place resource under Databaser cluster
+    protected static ?string $slug = 'databaser/eniro-data';
 
     public static function getNavigationBadge(): ?string
     {

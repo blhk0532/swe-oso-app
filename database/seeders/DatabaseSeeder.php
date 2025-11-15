@@ -15,6 +15,7 @@ use App\Models\Shop\Order;
 use App\Models\Shop\OrderItem;
 use App\Models\Shop\Payment;
 use App\Models\Shop\Product;
+use App\Models\Task;
 use App\Models\User;
 use Closure;
 use Filament\Actions\Action;
@@ -39,9 +40,9 @@ class DatabaseSeeder extends Seeder
         // Admin
         $this->command->warn(PHP_EOL . 'Creating admin user...');
         $user = $this->withProgressBar(1, fn () => User::factory(1)->create([
-            'name' => 'Demo User',
-            'email' => 'admin@filamentphp.com',
-            'password' => Hash::make('demo.Filament@2021!'),
+            'name' => 'a',
+            'email' => 'a@a.a',
+            'password' => Hash::make('a'),
         ]));
         $this->command->info('Admin user created.');
 
@@ -122,6 +123,11 @@ class DatabaseSeeder extends Seeder
             )
             ->create());
         $this->command->info('Blog authors and posts created.');
+
+        // Tasks for calendar widget
+        $this->command->warn(PHP_EOL . 'Creating demo tasks for calendar...');
+        $tasks = Task::factory()->count(10)->create();
+        $this->command->info('Demo tasks created.');
     }
 
     protected function withProgressBar(int $amount, Closure $createCollectionOfOne): Collection

@@ -31,6 +31,9 @@ class RatsitDataResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
+    // place resource under Databaser cluster
+    protected static ?string $slug = 'databaser/ratsit-data';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();

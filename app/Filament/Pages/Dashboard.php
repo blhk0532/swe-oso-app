@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use BackedEnum;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Dashboard as BaseDashboard;
@@ -12,6 +13,10 @@ use Filament\Schemas\Schema;
 class Dashboard extends BaseDashboard
 {
     use BaseDashboard\Concerns\HasFiltersForm;
+
+    protected static ?string $navigationLabel = 'AdminiDashboard';
+
+    protected static BackedEnum | string | null $navigationIcon = 'heroicon-o-chart-bar';
 
     public function filtersForm(Schema $schema): Schema
     {

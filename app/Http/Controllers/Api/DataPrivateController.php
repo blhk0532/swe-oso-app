@@ -26,28 +26,35 @@ class DataPrivateController extends Controller
             $query->where('is_active', $request->boolean('is_active'));
         }
 
-        if ($request->has('postnummer')) {
-            $query->where('postnummer', 'like', "%{$request->postnummer}%");
+        // Accept both modern and legacy (bo_/ps_) filter keys used in tests/clients
+        if ($request->has('postnummer') || $request->has('bo_postnummer')) {
+            $val = $request->get('postnummer', $request->get('bo_postnummer'));
+            $query->where('postnummer', 'like', "%{$val}%")->orWhere('bo_postnummer', 'like', "%{$val}%");
         }
 
-        if ($request->has('postort')) {
-            $query->where('postort', 'like', "%{$request->postort}%");
+        if ($request->has('postort') || $request->has('bo_postort')) {
+            $val = $request->get('postort', $request->get('bo_postort'));
+            $query->where('postort', 'like', "%{$val}%")->orWhere('bo_postort', 'like', "%{$val}%");
         }
 
-        if ($request->has('kommun')) {
-            $query->where('kommun', 'like', "%{$request->kommun}%");
+        if ($request->has('kommun') || $request->has('bo_kommun')) {
+            $val = $request->get('kommun', $request->get('bo_kommun'));
+            $query->where('kommun', 'like', "%{$val}%")->orWhere('bo_kommun', 'like', "%{$val}%");
         }
 
-        if ($request->has('lan')) {
-            $query->where('lan', 'like', "%{$request->lan}%");
+        if ($request->has('lan') || $request->has('bo_lan')) {
+            $val = $request->get('lan', $request->get('bo_lan'));
+            $query->where('lan', 'like', "%{$val}%")->orWhere('bo_lan', 'like', "%{$val}%");
         }
 
-        if ($request->has('personnummer')) {
-            $query->where('personnummer', 'like', "%{$request->personnummer}%");
+        if ($request->has('personnummer') || $request->has('ps_personnummer')) {
+            $val = $request->get('personnummer', $request->get('ps_personnummer'));
+            $query->where('personnummer', 'like', "%{$val}%")->orWhere('ps_personnummer', 'like', "%{$val}%");
         }
 
-        if ($request->has('personnamn')) {
-            $query->searchByName($request->personnamn);
+        if ($request->has('personnamn') || $request->has('ps_personnamn')) {
+            $val = $request->get('personnamn', $request->get('ps_personnamn'));
+            $query->searchByName($val);
         }
 
         // Apply sorting

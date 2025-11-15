@@ -26,9 +26,11 @@ class CustomerResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Shop';
+    protected static ?string $navigationLabel = 'KunderDB';
 
-    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
+    protected static string | UnitEnum | null $navigationGroup = 'PERSON DATABASER';
+
+    //    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?int $navigationSort = 2;
 
@@ -73,6 +75,6 @@ class CustomerResource extends Resource
     public static function shouldRegisterNavigation(): bool
     {
         // Hide Shop > Customers from sidebar navigation.
-        return false;
+        return true;
     }
 }

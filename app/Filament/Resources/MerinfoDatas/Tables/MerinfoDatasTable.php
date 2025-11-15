@@ -72,8 +72,8 @@ class MerinfoDatasTable
                     })
                     ->tooltip(fn ($record) => is_array($record->telefon) ? implode(' | ', $record->telefon) : (string) ($record->telefon ?? '')),
 
-                IconColumn::make('is_ratsit')
-                    ->label('Ratsit')
+                IconColumn::make('is_hus')
+                    ->label('Hus')
                     ->boolean()
                     ->sortable(),
 

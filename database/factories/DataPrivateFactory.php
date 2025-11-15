@@ -23,61 +23,61 @@ class DataPrivateFactory extends Factory
         $lastName = $this->faker->lastName();
 
         return [
-            'bo_gatuadress' => $this->faker->streetAddress(),
-            'bo_postnummer' => $this->faker->postcode(),
-            'bo_postort' => $this->faker->city(),
-            'bo_forsamling' => $this->faker->optional()->word(),
-            'bo_kommun' => $this->faker->optional()->city(),
-            'bo_lan' => $this->faker->optional()->state(),
-            'ps_fodelsedag' => $this->faker->optional()->date(),
-            'ps_personnummer' => $this->faker->optional()->numerify('##########'),
-            'ps_alder' => $this->faker->optional()->numberBetween(18, 100),
-            'ps_kon' => $this->faker->optional()->randomElement(['M', 'F', 'O']),
-            'ps_civilstand' => $this->faker->optional()->randomElement(['single', 'married', 'divorced', 'widowed']),
-            'ps_fornamn' => $firstName,
-            'ps_efternamn' => $lastName,
-            'ps_personnamn' => "{$firstName} {$lastName}",
-            'ps_telefon' => $this->faker->optional()->randomElement([
+            'gatuadress' => $this->faker->streetAddress(),
+            'postnummer' => $this->faker->postcode(),
+            'postort' => $this->faker->city(),
+            'forsamling' => $this->faker->optional()->word(),
+            'kommun' => $this->faker->optional()->city(),
+            'lan' => $this->faker->optional()->state(),
+            'fodelsedag' => $this->faker->optional()->date(),
+            'personnummer' => $this->faker->optional()->numerify('##########'),
+            'alder' => $this->faker->optional()->numberBetween(18, 100),
+            'kon' => $this->faker->optional()->randomElement(['M', 'F', 'O']),
+            'civilstand' => $this->faker->optional()->randomElement(['single', 'married', 'divorced', 'widowed']),
+            'fornamn' => $firstName,
+            'efternamn' => $lastName,
+            'personnamn' => "{$firstName} {$lastName}",
+            'telefon' => $this->faker->optional()->randomElement([
                 [$this->faker->phoneNumber()],
                 [$this->faker->phoneNumber(), $this->faker->phoneNumber()],
                 [],
             ]),
-            'ps_epost_adress' => $this->faker->optional()->randomElement([
+            'epost_adress' => $this->faker->optional()->randomElement([
                 [$this->faker->email()],
                 [$this->faker->email(), $this->faker->email()],
                 [],
             ]),
-            'ps_bolagsengagemang' => $this->faker->optional()->randomElement([
+            'bolagsengagemang' => $this->faker->optional()->randomElement([
                 [],
                 [['company' => $this->faker->company(), 'role' => $this->faker->jobTitle()]],
             ]),
-            'bo_agandeform' => $this->faker->optional()->randomElement(['Owned', 'Rented', 'Leased']),
-            'bo_bostadstyp' => $this->faker->optional()->randomElement(['Apartment', 'House', 'Condo']),
-            'bo_boarea' => $this->faker->optional()->numberBetween(30, 300),
-            'bo_byggar' => $this->faker->optional()->year(),
-            'bo_fastighet' => $this->faker->optional()->bothify('??? ###'),
-            'bo_personer' => $this->faker->optional()->randomElement([
+            'agandeform' => $this->faker->optional()->randomElement(['Owned', 'Rented', 'Leased']),
+            'bostadstyp' => $this->faker->optional()->randomElement(['Apartment', 'House', 'Condo']),
+            'boarea' => $this->faker->optional()->numberBetween(30, 300),
+            'byggar' => $this->faker->optional()->year(),
+            'fastighet' => $this->faker->optional()->bothify('??? ###'),
+            'personer' => $this->faker->optional()->randomElement([
                 [],
                 [$this->faker->name()],
                 [$this->faker->name(), $this->faker->name()],
             ]),
-            'bo_foretag' => $this->faker->optional()->randomElement([
+            'foretag' => $this->faker->optional()->randomElement([
                 [],
                 [$this->faker->company()],
             ]),
-            'bo_grannar' => $this->faker->optional()->randomElement([
+            'grannar' => $this->faker->optional()->randomElement([
                 [],
                 [$this->faker->name()],
             ]),
-            'bo_fordon' => $this->faker->optional()->randomElement([
+            'fordon' => $this->faker->optional()->randomElement([
                 [],
                 [['type' => 'Car', 'registration' => $this->faker->bothify('???###')]],
             ]),
-            'bo_hundar' => $this->faker->optional()->randomElement([
+            'hundar' => $this->faker->optional()->randomElement([
                 [],
                 [$this->faker->name()],
             ]),
-            'bo_longitude' => $this->faker->optional()->longitude(),
+            'longitude' => $this->faker->optional()->longitude(),
             'bo_latitud' => $this->faker->optional()->latitude(),
             'is_active' => $this->faker->boolean(90), // 90% chance of being active
         ];

@@ -15,7 +15,9 @@ class DataPrivate extends Model
     /**
      * @var string
      */
-    protected $table = 'private_data';
+    // Tests and many migrations operate on the `data_private` table.
+    // Use that table name so factories, controllers and tests align.
+    protected $table = 'data_private';
 
     /**
      * @var array<string, string>
@@ -25,6 +27,8 @@ class DataPrivate extends Model
         'telefon' => 'array',
         'telfonnummer' => 'array',
         'bolagsengagemang' => 'array',
+        'ps_epost_adress' => 'array',
+        'epost_adress' => 'array',
         'personer' => 'array',
         'foretag' => 'array',
         'grannar' => 'array',
@@ -40,6 +44,7 @@ class DataPrivate extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        // modern names
         'gatuadress',
         'postnummer',
         'postort',
@@ -78,6 +83,36 @@ class DataPrivate extends Model
         'bostad_pris',
         'is_active',
         'is_update',
+
+        // legacy / prefixed names used by tests and legacy clients
+        'bo_gatuadress',
+        'bo_postnummer',
+        'bo_postort',
+        'bo_forsamling',
+        'bo_kommun',
+        'bo_lan',
+        'ps_fodelsedag',
+        'ps_personnummer',
+        'ps_alder',
+        'ps_kon',
+        'ps_civilstand',
+        'ps_fornamn',
+        'ps_efternamn',
+        'ps_personnamn',
+        'ps_telefon',
+        'ps_epost_adress',
+        'epost_adress',
+        'ps_bolagsengagemang',
+        'bo_agandeform',
+        'bo_bostadstyp',
+        'bo_boarea',
+        'bo_byggar',
+        'bo_fastighet',
+        'bo_personer',
+        'bo_foretag',
+        'bo_grannar',
+        'bo_fordon',
+        'bo_hundar',
     ];
 
     /**

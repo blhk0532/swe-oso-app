@@ -14,9 +14,9 @@ use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
-  
+
 class HittaDataResource extends Resource
-{ 
+{
     protected static ?string $model = HittaData::class;
 
     protected static ?string $navigationLabel = 'HittaData';
@@ -28,6 +28,9 @@ class HittaDataResource extends Resource
     protected static UnitEnum | string | null $navigationGroup = 'PERSON DATABASER';
 
     protected static ?int $navigationSort = 3; // After Hitta Bolag
+
+    // place resource under Databaser cluster
+    protected static ?string $slug = 'databaser/hitta-data';
 
     public static function getNavigationBadge(): ?string
     {
@@ -100,5 +103,4 @@ class HittaDataResource extends Resource
             'edit' => EditHittaData::route('/{record}/edit'),
         ];
     }
-    
 }

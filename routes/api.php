@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\EniroDataController;
 use App\Http\Controllers\Api\HittaDataController;
 use App\Http\Controllers\Api\HittaSeController;
 use App\Http\Controllers\Api\MerinfoDataController;
+use App\Http\Controllers\Api\MerinfoQueueController;
 use App\Http\Controllers\Api\PostNummerApiController;
 use App\Http\Controllers\Api\PostNummerQueController;
 use App\Http\Controllers\Api\RatsitDataController;
@@ -55,10 +56,17 @@ Route::post('/merinfo-data/bulk-update-totals', [MerinfoDataController::class, '
 // Alias route for legacy client scripts expecting /merinfo/import
 Route::post('/merinfo/import', [MerinfoDataController::class, 'bulkStore']);
 
+Route::get('/merinfo-queue/run-personer', [MerinfoQueueController::class, 'runPersoner']);
+Route::post('/merinfo-queue/bulk-update', [MerinfoQueueController::class, 'bulkUpdate']);
+Route::put('/merinfo-queue/update/{postNummer}', [MerinfoQueueController::class, 'updateByPostNummer'])->where('postNummer', '[a-zA-Z0-9\s%]+');
+
 Route::apiResource('post-nummer', PostNummerApiController::class);
 Route::put('/post-nummer/by-code/{postnummer}', [PostNummerApiController::class, 'updateByPostnummer']);
 Route::post('/post-nummer/bulk-update', [PostNummerApiController::class, 'bulkUpdateByPostnummer']);
 Route::post('/post-nummer/bulk-update-totals', [PostNummerApiController::class, 'bulkUpdateTotals']);
+Route::post('/post-nummer/increment-counters/{postnummer}', [PostNummerApiController::class, 'incrementCounters']);
+Route::get('/post-nummer/resume-info/{postnummer}', [PostNummerApiController::class, 'getResumeInfo']);
+Route::post('/post-nummer/reset-counters/{postnummer}', [PostNummerApiController::class, 'resetCounters']);
 
 Route::get('/postnummer-que/first', [PostNummerQueController::class, 'getFirstPostNummer']);
 Route::post('/postnummer-que/first-next', [PostNummerQueController::class, 'firstNext']);

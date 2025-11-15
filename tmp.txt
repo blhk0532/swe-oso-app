@@ -83,3 +83,16 @@ personer=128
 foretag=12
 
 and then script have to send data to the laravel api for update merinfo:personer and merinfo_foretag
+
+            we have to screate a script to update progress 
+
+            http://localhost:8000/api/merinfo-queue/update/{post_nummer}
+
+            $table->string('post_nummer') = automaRefData('variables', 'post_nummer') 
+            $table->integer('foretag_total') = automaRefData('variables', 'foretag_total') 
+            $table->integer('personer_total') = automaRefData('variables', 'personer_total') 
+            $table->integer('foretag_phone') = automaRefData('variables', 'foretag_phone') 
+            $table->integer('personer_phone') = automaRefData('variables', 'personer_phone') 
+            $table->integer('personer_saved') = automaRefData('variables', 'savedCount') 
+            $table->integer('personer_queued') = 0
+            $table->boolean('personer_scraped') = 0

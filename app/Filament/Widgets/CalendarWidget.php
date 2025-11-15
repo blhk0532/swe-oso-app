@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Filament\Widgets;
- 
+
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Model;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
- 
+
 class CalendarWidget extends FullCalendarWidget
 {
     public Model | string | null $model = Task::class;
- 
+
     public function fetchEvents(array $fetchInfo): array
     {
         return Task::where('start', '>=', $fetchInfo['start'])
@@ -16,17 +17,19 @@ class CalendarWidget extends FullCalendarWidget
             ->get()
             ->map(function (Task $task) {
                 return [
-                    'id'    => $task->id,
+                    'id' => $task->id,
                     'title' => $task->name,
                     'start' => $task->start,
-                    'end'   => $task->end,
+                    'end' => $task->end,
                 ];
             })
             ->toArray();
     }
- 
+
     public static function canView(): bool
     {
-        return false;
+        // Allow viewing the calendar widget. Change this to a permission check
+        // if you want to restrict access (e.g. auth()->user()->can('view calendar')).
+        return true;
     }
 }

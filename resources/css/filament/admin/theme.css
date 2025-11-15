@@ -1,0 +1,12 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@source '../../../../vendor/jeffgreco13/filament-breezy/resources/**/*';
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+@source '../../../../app/Filament';
+@source '../../../../resources/views/filament';
+@import '../../../../vendor/saade/filament-fullcalendar/resources/css/filament-fullcalendar.css';
+@import '../../../../vendor/pxlrbt/filament-activity-log/resources/css/styles.css';
+@source '../../../../vendor/saade/filament-fullcalendar/resources/views/**/*.blade.php';
+@source '../../../../vendor/guava/calendar/resources/**/*';
+@import '../../../../vendor/guava/calendar/resources/css/theme.css';
+@source '../../../../vendor/wire-elements/**/*.blade.php';

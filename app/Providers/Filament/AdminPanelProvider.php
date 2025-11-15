@@ -4,7 +4,9 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Dashboard;
+use App\Filament\Pages\HealthCheckResults;
 use App\Http\Middleware\Authenticate;
+use CraftForge\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
@@ -19,7 +21,13 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin; 
+use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
+use Muazzam\SlickScrollbar\SlickScrollbarPlugin;
+// use App\Filament\AvatarProviders\UserAvatarProvider;
+use pxlrbt\FilamentSpotlight\SpotlightPlugin;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -27,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+//            ->defaultAvatarProvider(UserAvatarProvider::class)
             ->id('admin')
             ->login(Login::class)
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
@@ -40,6 +49,7 @@ class AdminPanelProvider extends PanelProvider
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
+
             ->unsavedChangesAlerts()
             ->brandLogo(fn () => view('filament.app.logo'))
             ->brandName('fireflow')
@@ -64,11 +74,31 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+          //  ->defaultAvatarProvider(BoringAvatarsProvider::class)
             ->spa()
+        //    ->viteTheme('resources/css/filament/admin/theme.css')
         //    ->plugins([
         //        FilamentFullCalendarPlugin::class,
         //    ])
-            ->plugins([FilamentFullCalendarPlugin::make()]) 
+            ->plugins([
+                SlickScrollbarPlugin::make(),
+            ])
+            ->plugins([
+                FilamentApexChartsPlugin::make(),
+            ])
+            ->plugins([
+                SpotlightPlugin::make(),
+            ])
+            ->plugin(
+                FilamentSpatieLaravelHealthPlugin::make()
+                    ->authorize(fn (): bool => auth()->user()->email === 'admin@example.com')
+                    ->usingPage(HealthCheckResults::class)
+            )
+            ->plugins([FilamentFullCalendarPlugin::make()])
+            ->plugins([
+                FilamentLanguageSwitcherPlugin::make(),
+                BreezyCore::make()->myProfile(true, /* shouldRegisterUserMenu */ false, /* shouldRegisterNavigation */ true, /* hasAvatars */ true, /* slug */ 'my-profile', /* navigationGroup */ 'account', /* userMenuLabel */ null),
+            ])
             ->colors([
                 'primary' => Color::Blue,
             ]);

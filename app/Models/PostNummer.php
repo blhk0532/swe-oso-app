@@ -21,6 +21,7 @@ class PostNummer extends Model
         'bolag' => 0,
         'foretag' => 0,
         'personer' => 0,
+        'personer_house' => 0,
         'platser' => 0,
     ];
 
@@ -38,6 +39,7 @@ class PostNummer extends Model
             'bolag' => 'integer',
             'foretag' => 'integer',
             'personer' => 'integer',
+            'personer_house' => 'integer',
             'platser' => 'integer',
             'last_processed_page' => 'integer',
             'processed_count' => 'integer',
@@ -73,4 +75,100 @@ class PostNummer extends Model
         'merinfo_personer_total',
         'merinfo_foretag_total',
     ];
+
+    /**
+     * Increment counter safely with atomic operations
+     * This prevents race conditions when multiple processes update counters
+     */
+    public function incrementCounter(string $field, int $amount = 1): bool
+    {
+        if (! in_array($field, $this->fillable)) {
+            return false;
+        }
+
+        // Use database atomic increment to prevent race conditions
+        $this->increment($field, $amount);
+
+        return true;
+    }
+
+    /**
+     * Set counter value safely
+     */
+    public function setCounter(string $field, int $value): bool
+    {
+        if (! in_array($field, $this->fillable)) {
+            return false;
+        }
+
+        $this->update([$field => $value]);
+
+        return true;
+    }
+
+    /**
+     * Get current counter value
+     */
+    public function getCounter(string $field): ?int
+    {
+        return $this->getAttribute($field);
+    }
+
+    /**
+     * Reset counters for a fresh start
+     */
+    public function resetCounters(): bool
+    {
+        $counterFields = [
+            'count', 'phone', 'house', 'bolag', 'foretag', 'personer', 'platser',
+            'processed_count', 'merinfo_personer', 'merinfo_foretag',
+        ];
+
+        $resetData = array_fill_keys($counterFields, 0);
+        $resetData['progress'] = 0;
+        $resetData['last_processed_page'] = 0;
+        $resetData['is_pending'] = false;
+        $resetData['is_complete'] = false;
+
+        $this->update($resetData);
+
+        return true;
+    }
+
+    /**
+     * Mark as completed and calculate final progress
+     */
+    public function markCompleted(): bool
+    {
+        $this->update([
+            'is_complete' => true,
+            'is_pending' => false,
+            'progress' => 100,
+            'status' => 'completed',
+        ]);
+
+        return true;
+    }
+
+    /**
+     * Check if processing can resume from last state
+     */
+    public function canResume(): bool
+    {
+        return $this->is_pending && ! $this->is_complete && $this->last_processed_page > 0;
+    }
+
+    /**
+     * Get resume information for scripts
+     */
+    public function getResumeInfo(): array
+    {
+        return [
+            'post_nummer' => $this->post_nummer,
+            'last_processed_page' => $this->last_processed_page,
+            'processed_count' => $this->processed_count,
+            'progress' => $this->progress,
+            'can_resume' => $this->canResume(),
+        ];
+    }
 }
