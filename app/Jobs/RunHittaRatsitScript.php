@@ -57,7 +57,7 @@ class RunHittaRatsitScript implements ShouldQueue
             // Run the script from the scripts directory
             $process = Process::path(base_path('scripts'))
                 ->timeout(7200)
-                ->run(['node', 'hitta_ratsit.mjs', $this->postNummer, '--api-url', config('app.url')]);
+                ->run(['node', 'post_ort_update.mjs', $this->postNummer, '--api-url', config('app.url')]);
 
             if ($process->successful()) {
                 Log::info("[Hitta+Ratsit Script {$this->postNummer}] Script completed successfully");

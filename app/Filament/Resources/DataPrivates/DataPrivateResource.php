@@ -27,7 +27,7 @@ class DataPrivateResource extends Resource
 
     protected static ?string $navigationLabel = 'Personer Databas';
 
-    protected static string | UnitEnum | null $navigationGroup = 'ADMINISTRATION';
+    //    protected static string | UnitEnum | null $navigationGroup = 'ADMINISTRATION';
 
     protected static ?int $navigationSort = 4;
 

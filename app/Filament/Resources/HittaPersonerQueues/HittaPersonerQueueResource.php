@@ -29,6 +29,8 @@ class HittaPersonerQueueResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Hitta Personer Queues';
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $recordTitleAttribute = 'post_nummer';
 
     protected static UnitEnum | string | null $navigationGroup = 'HITTA DATABAS';
@@ -73,5 +75,10 @@ class HittaPersonerQueueResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return 'primary';
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 }

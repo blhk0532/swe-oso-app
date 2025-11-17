@@ -5,7 +5,9 @@ namespace App\Filament\Resources\RatsitDatas;
 use App\Filament\Resources\RatsitDatas\Pages\CreateRatsitData;
 use App\Filament\Resources\RatsitDatas\Pages\EditRatsitData;
 use App\Filament\Resources\RatsitDatas\Pages\ListRatsitDatas;
+use App\Filament\Resources\RatsitDatas\Pages\ViewRatsitData;
 use App\Filament\Resources\RatsitDatas\Schemas\RatsitDataForm;
+use App\Filament\Resources\RatsitDatas\Schemas\RatsitDataInfolist;
 use App\Filament\Resources\RatsitDatas\Tables\RatsitDatasTable;
 use App\Models\RatsitData;
 use BackedEnum;
@@ -29,7 +31,7 @@ class RatsitDataResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'RATSIT DATABAS';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 1;
 
     // place resource under Databaser cluster
     protected static ?string $slug = 'databaser/ratsit-data';
@@ -42,6 +44,11 @@ class RatsitDataResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return RatsitDataForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return RatsitDataInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -59,6 +66,7 @@ class RatsitDataResource extends Resource
         return [
             'index' => ListRatsitDatas::route('/'),
             'create' => CreateRatsitData::route('/create'),
+            'view' => ViewRatsitData::route('/{record}'),
             'edit' => EditRatsitData::route('/{record}/edit'),
         ];
     }

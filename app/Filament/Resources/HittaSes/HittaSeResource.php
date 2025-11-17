@@ -23,7 +23,7 @@ class HittaSeResource extends Resource
 
     protected static ?string $navigationLabel = 'Hitta Alla';
 
-    protected static string | UnitEnum | null $navigationGroup = 'HITTA DATABAS';
+    protected static UnitEnum | string | null $navigationGroup = 'HITTA DATABAS';
 
     // Icon shown before the navigation group title (Filament v4+)
     protected static string | UnitEnum | null $navigationGroupIcon = Heroicon::OutlinedUsers;
@@ -32,7 +32,7 @@ class HittaSeResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Hitta Alla';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 7;
 
     public static function getNavigationBadge(): ?string
     {

@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\RatsitPersonerDatas\Pages;
 
 use App\Filament\Resources\RatsitPersonerDatas\RatsitPersonerDataResource;
-use Filament\Pages\Actions\CreateAction;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListRatsitPersonerDatas extends ListRecords

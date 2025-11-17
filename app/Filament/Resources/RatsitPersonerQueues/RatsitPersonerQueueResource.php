@@ -21,6 +21,8 @@ class RatsitPersonerQueueResource extends Resource
 {
     protected static ?string $model = RatsitPersonerQueue::class;
 
+    protected static ?int $navigationSort = 2;
+
     protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $navigationLabel = 'Ratsit Personer Queue';
@@ -73,5 +75,10 @@ class RatsitPersonerQueueResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return 'primary';
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 }

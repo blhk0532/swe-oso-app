@@ -88,7 +88,7 @@ class RatsitQueResource extends Resource
         return $details;
     }
 
-        public static function shouldRegisterNavigation(): bool
+    public static function shouldRegisterNavigation(): bool
     {
         // Hide Blog > Posts from sidebar navigation.
         return false;

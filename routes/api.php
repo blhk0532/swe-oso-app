@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\HittaDataController;
 use App\Http\Controllers\Api\HittaForetagQueueController;
 use App\Http\Controllers\Api\HittaQueueController;
 use App\Http\Controllers\Api\HittaSeController;
-use App\Http\Controllers\Api\MerinfoDataController;
 use App\Http\Controllers\Api\MerinfoForetagQueueController;
 use App\Http\Controllers\Api\MerinfoQueueController;
 use App\Http\Controllers\Api\PostNummerApiController;
@@ -60,21 +59,17 @@ Route::post('/upplysning-data/bulk', [UpplysningDataController::class, 'bulkStor
 // Ratsit data - requires authentication (private/scraped data)
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('ratsit-data', RatsitDataController::class);
-    Route::post('/ratsit-data/bulk', [RatsitDataController::class, 'bulkStore']);
 });
 Route::post('/ratsit-data/bulk', [RatsitDataController::class, 'bulkStore']);
 // Alias route for person-level ratsit
 Route::apiResource('ratsit-personer-data', RatsitDataController::class);
 Route::post('/ratsit-personer-data/bulk', [RatsitDataController::class, 'bulkStore']);
 
-Route::apiResource('merinfo-data', MerinfoDataController::class);
-Route::post('/merinfo-data/bulk', [MerinfoDataController::class, 'bulkStore']);
-Route::post('/merinfo-data/bulk-update-totals', [MerinfoDataController::class, 'bulkUpdateTotals']);
-// Alias route for merinfo person-level data
-Route::apiResource('merinfo-personer-data', MerinfoDataController::class);
-Route::post('/merinfo-personer-data/bulk', [MerinfoDataController::class, 'bulkStore']);
-// Alias route for legacy client scripts expecting /merinfo/import
-Route::post('/merinfo/import', [MerinfoDataController::class, 'bulkStore']);
+// Data private - requires authentication for individual operations but bulk is public for scraping
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('data-private', DataPrivateController::class);
+});
+Route::post('/data-private/bulk', [DataPrivateController::class, 'bulkStore']);
 
 // Merinfo Queue REST + helpers
 Route::get('/merinfo-queue', [MerinfoQueueController::class, 'index']);

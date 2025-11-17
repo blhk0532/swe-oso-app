@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MerinfoQueues\Tables;
 
+use App\Support\QueueAutostart;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -108,6 +109,9 @@ class MerinfoQueuesTable
                                 ->body(count($records) . ' records have been queued for företag scraping.')
                                 ->success()
                                 ->send();
+
+                            // Autostart merinfo worker if not running and autostart is enabled
+                            QueueAutostart::attempt('merinfo');
                         }),
                     BulkAction::make('queuePersoner')
                         ->label('Queue for Personer Scraping')
@@ -127,6 +131,9 @@ class MerinfoQueuesTable
                                 ->body(count($records) . ' records have been queued for personer scraping.')
                                 ->success()
                                 ->send();
+
+                            // Autostart merinfo worker if not running and autostart is enabled
+                            QueueAutostart::attempt('merinfo');
                         }),
                     DeleteBulkAction::make(),
                 ]),

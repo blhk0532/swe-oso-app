@@ -34,6 +34,49 @@ class RatsitDatasTable
                     ->sortable()
                     ->toggleable(),
 
+                TextColumn::make('fornamn')
+                    ->label('First Name')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('efternamn')
+                    ->label('Last Name')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('alder')
+                    ->label('Age')
+                    ->sortable()
+                    ->toggleable(),
+
+                TextColumn::make('kon')
+                    ->label('Gender')
+                    ->sortable()
+                    ->toggleable(),
+
+                TextColumn::make('fodelsedag')
+                    ->label('Date of Birth')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('civilstand')
+                    ->label('Civil Status')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('stjarntacken')
+                    ->label('Star Sign')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
                 TextColumn::make('gatuadress')
                     ->label('Address')
                     ->searchable()
@@ -51,6 +94,13 @@ class RatsitDatasTable
                     ->searchable()
                     ->sortable(),
 
+                TextColumn::make('forsamling')
+                    ->label('Parish')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
                 TextColumn::make('kommun')
                     ->label('Municipality')
                     ->searchable()
@@ -58,24 +108,33 @@ class RatsitDatasTable
                     ->toggleable(),
 
                 TextColumn::make('lan')
-                    ->label('State')
+                    ->label('County')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make('telefon')
-                    ->label('Phone')
-                    ->formatStateUsing(fn ($state) => is_array($state) && count($state) > 0 ? implode(', ', array_slice($state, 0, 2)) : '-')
-                    ->searchable(query: function ($query, $state) {
-                        return $query->whereJsonContains('telefon', $state);
-                    })
+                TextColumn::make('adressandring')
+                    ->label('Address Change')
+                    ->date()
+                    ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
 
-                TextColumn::make('fodelsedag')
-                    ->label('Date of Birth')
-                    ->date()
-                    ->sortable()
+                TextColumn::make('telefon')
+                    ->label('Phone')
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('telfonnummer')
+                    ->label('Alt Phone')
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('epost_adress')
+                    ->label('Email')
+                    ->searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
 
@@ -93,6 +152,94 @@ class RatsitDatasTable
                     ->toggleable()
                     ->toggledHiddenByDefault(),
 
+                TextColumn::make('boarea')
+                    ->label('Living Area')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('byggar')
+                    ->label('Build Year')
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('fastighet')
+                    ->label('Property')
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('personer')
+                    ->label('People')
+                    ->limit(50)
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('foretag')
+                    ->label('Companies')
+                    ->limit(50)
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('grannar')
+                    ->label('Neighbors')
+                    ->limit(50)
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('fordon')
+                    ->label('Vehicles')
+                    ->limit(50)
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('hundar')
+                    ->label('Dogs')
+                    ->limit(50)
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('bolagsengagemang')
+                    ->label('Board Positions')
+                    ->limit(50)
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('latitud')
+                    ->label('Latitude')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('longitude')
+                    ->label('Longitude')
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('google_maps')
+                    ->label('Google Maps')
+                    ->url(fn ($record) => $record->google_maps)
+                    ->openUrlInNewTab()
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->formatStateUsing(fn ($state) => $state ? '🗺️ Map' : '-'),
+
+                TextColumn::make('google_streetview')
+                    ->label('Street View')
+                    ->url(fn ($record) => $record->google_streetview)
+                    ->openUrlInNewTab()
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->formatStateUsing(fn ($state) => $state ? '📸 View' : '-'),
+
+                TextColumn::make('ratsit_se')
+                    ->label('Ratsit Link')
+                    ->url(fn ($record) => $record->ratsit_se)
+                    ->openUrlInNewTab()
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
+                    ->formatStateUsing(fn ($state) => $state ? '🔗 Ratsit' : '-'),
+
                 IconColumn::make('is_active')
                     ->label('Active')
                     ->boolean()
@@ -101,6 +248,13 @@ class RatsitDatasTable
 
                 TextColumn::make('created_at')
                     ->label('Created')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+
+                TextColumn::make('updated_at')
+                    ->label('Updated')
                     ->dateTime()
                     ->sortable()
                     ->toggleable()

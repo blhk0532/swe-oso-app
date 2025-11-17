@@ -74,4 +74,9 @@ class PostNummerPersonerQueueResource extends Resource
     {
         return 'primary';
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 }

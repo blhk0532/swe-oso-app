@@ -15,6 +15,7 @@ import { URL } from 'url';
 import { chromium } from 'playwright';
 import { spawn } from 'child_process';
 import Database from 'better-sqlite3';
+import axios from 'axios';
 
 class HittaRatsitScraper {
   constructor(api_url, api_token) {
@@ -24,6 +25,11 @@ class HittaRatsitScraper {
     this.data_dir = path.join(process.cwd(), 'scripts', 'data');
     this.results = [];
     this.base_url = 'https://www.hitta.se';
+    // Configurable behavior flags (override defaults via env vars)
+    // RATSIT_REQUIRE_HUS=1   -> only scrape Ratsit for Hus (house) types
+    // RATSIT_REQUIRE_PHONE=0 -> allow Ratsit scrape even when phone missing
+    this.requireHouseType = process.env.RATSIT_REQUIRE_HUS === '1';
+    this.requirePhone = process.env.RATSIT_REQUIRE_PHONE !== '0';
     
     // SQLite database connection - go up one level from scripts/ to project root
     this.db = null;
@@ -53,16 +59,12 @@ class HittaRatsitScraper {
     return this.db;
   }
 
-  saveRatsitToDatabase(ratsitData) {
+  async saveRatsitToDatabase(ratsitData) {
     /**
-     * Save Ratsit data to ratsit_data table (unprefixed schema)
-     * Uses INSERT or UPDATE based on existing record
+     * Save Ratsit data via API
      */
     try {
-      const db = this.getDbConnection();
-      
-      // Prepare data for database insertion (matching new ratsit_data schema - no prefixes)
-      const dbData = {
+      const apiData = {
         gatuadress: ratsitData.bo_gatuadress || null,
         postnummer: ratsitData.bo_postnummer || null,
         postort: ratsitData.bo_postort || null,
@@ -70,7 +72,7 @@ class HittaRatsitScraper {
         kommun: ratsitData.bo_kommun || null,
         lan: ratsitData.bo_lan || null,
         adressandring: ratsitData.adressandring || null,
-        telfonnummer: Array.isArray(ratsitData.telefonnummer) ? JSON.stringify(ratsitData.telefonnummer) : '[]',
+        telfonnummer: Array.isArray(ratsitData.telefonnummer) ? ratsitData.telefonnummer.join(' | ') : null,
         stjarntacken: ratsitData.stjarntacken || null,
         fodelsedag: ratsitData.ps_fodelsedag || null,
         personnummer: ratsitData.ps_personnummer || null,
@@ -80,76 +82,41 @@ class HittaRatsitScraper {
         fornamn: ratsitData.ps_fornamn || null,
         efternamn: ratsitData.ps_efternamn || null,
         personnamn: ratsitData.ps_personnamn || null,
-        telefon: Array.isArray(ratsitData.ps_telefon) ? JSON.stringify(ratsitData.ps_telefon) : '[]',
+        telefon: Array.isArray(ratsitData.ps_telefon) ? ratsitData.ps_telefon.join(' | ') : null,
         agandeform: ratsitData.bo_agandeform || null,
         bostadstyp: ratsitData.bo_bostadstyp || null,
         boarea: ratsitData.bo_boarea || null,
         byggar: ratsitData.bo_byggar || null,
-        personer: Array.isArray(ratsitData.bo_personer) ? JSON.stringify(ratsitData.bo_personer) : '[]',
-        foretag: Array.isArray(ratsitData.bo_foretag) ? JSON.stringify(ratsitData.bo_foretag) : '[]',
-        grannar: Array.isArray(ratsitData.bo_grannar) ? JSON.stringify(ratsitData.bo_grannar) : '[]',
-        fordon: Array.isArray(ratsitData.bo_fordon) ? JSON.stringify(ratsitData.bo_fordon) : '[]',
-        hundar: Array.isArray(ratsitData.bo_hundar) ? JSON.stringify(ratsitData.bo_hundar) : '[]',
-        bolagsengagemang: Array.isArray(ratsitData.ps_bolagsengagemang) ? JSON.stringify(ratsitData.ps_bolagsengagemang) : '[]',
+        personer: Array.isArray(ratsitData.bo_personer) ? ratsitData.bo_personer.join(' | ') : null,
+        foretag: Array.isArray(ratsitData.bo_foretag) ? ratsitData.bo_foretag.join(' | ') : null,
+        grannar: Array.isArray(ratsitData.bo_grannar) ? ratsitData.bo_grannar.join(' | ') : null,
+        fordon: Array.isArray(ratsitData.bo_fordon) ? ratsitData.bo_fordon.join(' | ') : null,
+        hundar: Array.isArray(ratsitData.bo_hundar) ? ratsitData.bo_hundar.join(' | ') : null,
+        bolagsengagemang: Array.isArray(ratsitData.ps_bolagsengagemang) ? ratsitData.ps_bolagsengagemang.join(' | ') : null,
         longitude: ratsitData.bo_longitude || null,
         latitud: ratsitData.latitud || null,
         google_maps: ratsitData.google_maps || null,
         google_streetview: ratsitData.google_streetview || null,
         ratsit_se: ratsitData.ratsit_se || null,
-        is_active: 1,
+        is_active: true,
       };
 
-      // Check if record already exists based on personnamn, gatuadress, and telefon
-      const checkStmt = db.prepare(`
-        SELECT id FROM ratsit_data 
-        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
-      `);
-      const existing = checkStmt.get(
-        dbData.personnamn,
-        dbData.gatuadress,
-        dbData.telefon
-      );
+      // Use API to save
+      const response = await axios.post(`${this.api_url}/api/ratsit-data/bulk`, { records: [apiData] }, {
+        headers: {
+          'Content-Type': 'application/json',
+          // Authorization may not be required for bulk but include if token supplied
+          'Authorization': this.api_token ? `Bearer ${this.api_token}` : undefined,
+        },
+      });
 
-      let result;
-      let action;
-
-      if (existing) {
-        // Update existing record
-        const updateFields = Object.keys(dbData).map(f => `${f} = ?`).join(', ');
-        const updateStmt = db.prepare(`
-          UPDATE ratsit_data 
-          SET ${updateFields}, updated_at = datetime('now')
-          WHERE id = ?
-        `);
-        result = updateStmt.run(...Object.values(dbData), existing.id);
-        action = 'updated';
-      } else {
-        // Insert new record
-        const fields = Object.keys(dbData);
-        const placeholders = fields.map(() => '?').join(', ');
-        const insertStmt = db.prepare(`
-          INSERT INTO ratsit_data (${fields.join(', ')}, created_at, updated_at)
-          VALUES (${placeholders}, datetime('now'), datetime('now'))
-        `);
-        result = insertStmt.run(...Object.values(dbData));
-        action = 'created';
-      }
-      
-      if (result.changes > 0) {
-        console.log(`  ✓ Ratsit data saved to ratsit_data table (${action})`);
-        
-        // Update is_ratsit flag in hitta_data table if this person exists there
-        this.updateHittaDataRatsitFlag(dbData);
-        
-        return true;
-      } else {
-        console.log('  ⚠ No changes made to ratsit_data table');
-        return false;
-      }
-      
+      console.log(`  ✓ Saved Ratsit data for ${ratsitData.ps_personnamn} via API`);
+      // Attempt to flag matching hitta_data record as having ratsit
+      try { this.updateHittaDataRatsitFlag(ratsitData); } catch (e) { console.log('  ⚠ Failed to update hitta_data flag:', e.message); }
+      return true;
     } catch (error) {
-      console.log('  ✗ Error saving Ratsit data:', error.message);
-      console.log('  ✗ Stack:', error.stack);
+      const status = error.response?.status;
+      console.log(`  ✗ Error saving Ratsit data via API${status ? ` (HTTP ${status})` : ''}:`, error.response?.data || error.message);
       return false;
     }
   }
@@ -161,21 +128,27 @@ class HittaRatsitScraper {
     try {
       const db = this.getDbConnection();
       
-      // Update is_ratsit flag based on personnamn, gatuadress, and telefon match
+      const personnamn = ratsitData.ps_personnamn || ratsitData.personnamn || null;
+      const gatuadress = ratsitData.bo_gatuadress || ratsitData.gatuadress || null;
+      if (!personnamn || !gatuadress) {
+        console.log('  ⚠ Skipping hitta_data flag update (missing personnamn or gatuadress)');
+        return;
+      }
+
+      // Phone matching was unreliable due to formatting differences (JSON vs joined string).
+      // Update on personnamn + gatuadress only.
       const updateStmt = db.prepare(`
-        UPDATE hitta_data 
+        UPDATE hitta_data
         SET is_ratsit = 1, updated_at = datetime('now')
-        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
+        WHERE personnamn = ? AND gatuadress = ?
       `);
-      
-      const result = updateStmt.run(
-        ratsitData.personnamn,
-        ratsitData.gatuadress,
-        ratsitData.telefon
-      );
+
+      const result = updateStmt.run(personnamn, gatuadress);
       
       if (result.changes > 0) {
         console.log(`  ✓ Updated is_ratsit flag in hitta_data table`);
+      } else {
+        console.log('  ⚠ No matching hitta_data record found to update (personnamn + gatuadress)');
       }
       
     } catch (error) {
@@ -183,96 +156,40 @@ class HittaRatsitScraper {
     }
   }
 
-  saveHittaToDatabase(hittaData) {
+  async saveHittaToDatabase(hittaData) {
     /**
-     * Save Hitta data to hitta_se table (if kon exists) or hitta_bolag table (if kon doesn't exist)
+     * Save Hitta data via API
      */
     try {
-      const db = this.getDbConnection();
-      
-      // Determine table based on kon presence (company if no kon)
-      const tableName = hittaData.kon ? 'hitta_se' : 'hitta_bolag';
-      
-      let dbData = {
+      const apiData = {
         personnamn: hittaData.personnamn || null,
         alder: hittaData.alder || null,
         kon: hittaData.kon || null,
         gatuadress: hittaData.gatuadress || null,
         postnummer: hittaData.postnummer || null,
         postort: hittaData.postort || null,
-        telefon: Array.isArray(hittaData.telefon) ? JSON.stringify(hittaData.telefon) : '[]',
+        telefon: Array.isArray(hittaData.telefon) ? hittaData.telefon.join(' | ') : null,
         karta: hittaData.karta || null,
         link: hittaData.link || null,
         bostadstyp: hittaData.bostadstyp || null,
         bostadspris: hittaData.bostadspris || null,
-        is_active: 1,
+        is_active: true,
+        is_telefon: Array.isArray(hittaData.telefon) && hittaData.telefon.length > 0,
+        is_ratsit: false,
       };
 
-      // If we are saving a company (hitta_bolag), adapt field names to new schema.
-      if (tableName === 'hitta_bolag') {
-        // Map fields for company schema
-        dbData.registreringsdatum = dbData.alder; // alder -> registreringsdatum
-        delete dbData.alder; // remove alder
-        dbData.juridiskt_namn = dbData.personnamn; // personnamn -> juridiskt_namn
-        delete dbData.personnamn; // remove personnamn
-        delete dbData.kon; // remove kon (companies don't have it)
-        // Initialize new columns
-        dbData.org_nr = hittaData.org_nr || null;
-        dbData.bolagsform = hittaData.bolagsform || null;
-        dbData.sni_branch = Array.isArray(hittaData.sni_branch) ? JSON.stringify(hittaData.sni_branch) : '[]';
-      }
+      // Use API to save
+      const response = await axios.post(`${this.api_url}/api/hitta-data`, apiData, {
+        headers: {
+          'Authorization': this.api_token ? `Bearer ${this.api_token}` : undefined,
+          'Content-Type': 'application/json',
+        },
+      });
 
-      // Check if record exists based on identity name, gatuadress, and telefon
-      const identityName = tableName === 'hitta_bolag' ? (dbData.juridiskt_namn || dbData.personnamn) : dbData.personnamn;
-      const checkStmt = db.prepare(`
-        SELECT id FROM ${tableName} 
-        WHERE ${tableName === 'hitta_bolag' ? 'juridiskt_namn' : 'personnamn'} = ? AND gatuadress = ? AND telefon = ?
-      `);
-      const existing = checkStmt.get(
-        identityName,
-        dbData.gatuadress,
-        dbData.telefon
-      );
-
-      let result;
-      let action;
-
-      if (existing) {
-        const updateFields = Object.keys(dbData).map(f => `${f} = ?`).join(', ');
-        const updateStmt = db.prepare(`
-          UPDATE ${tableName} 
-          SET ${updateFields}, updated_at = datetime('now')
-          WHERE id = ?
-        `);
-        result = updateStmt.run(...Object.values(dbData), existing.id);
-        action = 'updated';
-      } else {
-        const fields = Object.keys(dbData);
-        const placeholders = fields.map(() => '?').join(', ');
-        const insertStmt = db.prepare(`
-          INSERT INTO ${tableName} (${fields.join(', ')}, created_at, updated_at)
-          VALUES (${placeholders}, datetime('now'), datetime('now'))
-        `);
-        result = insertStmt.run(...Object.values(dbData));
-        action = 'created';
-      }
-      
-      if (result.changes > 0) {
-        console.log(`  ✓ Hitta data saved to ${tableName} table (${action})`);
-        
-        // Also save to hitta_data table if result has both telefon (with actual numbers) and kon
-        if (hittaData.telefon && Array.isArray(hittaData.telefon) && hittaData.telefon.length > 0 && hittaData.kon) {
-          this.saveHittaToDataTable(hittaData);
-        }
-        
-        return true;
-      } else {
-        console.log(`  ⚠ No changes made to ${tableName} table`);
-        return false;
-      }
-      
+      console.log(`  ✓ Saved ${hittaData.personnamn} via API:`, response.data);
+      return true;
     } catch (error) {
-      console.log('  ✗ Error saving Hitta data:', error.message);
+      console.log(`  ✗ Error saving ${hittaData.personnamn} via API:`, error.response?.data || error.message);
       return false;
     }
   }
@@ -350,9 +267,9 @@ class HittaRatsitScraper {
     }
   }
 
-  saveToPrivateData(hittaData, ratsitData) {
+  async saveToPrivateData(hittaData, ratsitData) {
     /**
-     * Save combined Hitta + Ratsit data to private_data table
+     * Save combined Hitta + Ratsit data to private_data table via API
      * Only saves if BOTH hitta and ratsit data are available
      */
     if (!hittaData || !ratsitData) {
@@ -361,10 +278,8 @@ class HittaRatsitScraper {
     }
 
     try {
-      const db = this.getDbConnection();
-      
       // Combine data from both sources
-      const dbData = {
+      const apiData = {
         // Address fields (prefer Ratsit)
         gatuadress: ratsitData.bo_gatuadress || hittaData.gatuadress || null,
         postnummer: ratsitData.bo_postnummer || hittaData.postnummer || null,
@@ -374,9 +289,8 @@ class HittaRatsitScraper {
         lan: ratsitData.bo_lan || null,
         adressandring: ratsitData.adressandring || null,
         
-        // Phone arrays
-        telfonnummer: Array.isArray(ratsitData.telefonnummer) ? JSON.stringify(ratsitData.telefonnummer) : '[]',
-        telefon: Array.isArray(ratsitData.ps_telefon) ? JSON.stringify(ratsitData.ps_telefon) : (Array.isArray(hittaData.telefon) ? JSON.stringify(hittaData.telefon) : '[]'),
+        // Phone arrays (send as arrays, not JSON strings)
+        telefon: Array.isArray(ratsitData.ps_telefon) ? ratsitData.ps_telefon : (Array.isArray(hittaData.telefon) ? hittaData.telefon : []),
         
         // Person fields (Ratsit)
         stjarntacken: ratsitData.stjarntacken || null,
@@ -395,20 +309,19 @@ class HittaRatsitScraper {
         boarea: ratsitData.bo_boarea || null,
         byggar: ratsitData.bo_byggar || null,
         
-        // Collections (Ratsit)
-        personer: Array.isArray(ratsitData.bo_personer) ? JSON.stringify(ratsitData.bo_personer) : '[]',
-        foretag: Array.isArray(ratsitData.bo_foretag) ? JSON.stringify(ratsitData.bo_foretag) : '[]',
-        grannar: Array.isArray(ratsitData.bo_grannar) ? JSON.stringify(ratsitData.bo_grannar) : '[]',
-        fordon: Array.isArray(ratsitData.bo_fordon) ? JSON.stringify(ratsitData.bo_fordon) : '[]',
-        hundar: Array.isArray(ratsitData.bo_hundar) ? JSON.stringify(ratsitData.bo_hundar) : '[]',
-        bolagsengagemang: Array.isArray(ratsitData.ps_bolagsengagemang) ? JSON.stringify(ratsitData.ps_bolagsengagemang) : '[]',
+        // Collections (Ratsit) - send as arrays
+        personer: Array.isArray(ratsitData.bo_personer) ? ratsitData.bo_personer : [],
+        foretag: Array.isArray(ratsitData.bo_foretag) ? ratsitData.bo_foretag : [],
+        grannar: Array.isArray(ratsitData.bo_grannar) ? ratsitData.bo_grannar : [],
+        fordon: Array.isArray(ratsitData.bo_fordon) ? ratsitData.bo_fordon : [],
+        hundar: Array.isArray(ratsitData.bo_hundar) ? ratsitData.bo_hundar : [],
+        bolagsengagemang: Array.isArray(ratsitData.ps_bolagsengagemang) ? ratsitData.ps_bolagsengagemang : [],
         
         // Geo & Links (combined)
         longitude: ratsitData.bo_longitude || null,
         latitud: ratsitData.latitud || null,
         google_maps: ratsitData.google_maps || null,
         google_streetview: ratsitData.google_streetview || null,
-        ratsit_link: ratsitData.ratsit_se || null,
         
         // Hitta specific fields
         hitta_link: hittaData.link || null,
@@ -417,55 +330,21 @@ class HittaRatsitScraper {
         bostad_pris: hittaData.bostadspris || null,
         
         // Flags
-        is_active: 1,
-        is_update: 0,
+        is_active: true,
       };
 
-      // Check if record exists based on personnamn, gatuadress, and telefon
-      const checkStmt = db.prepare(`
-        SELECT id FROM private_data 
-        WHERE personnamn = ? AND gatuadress = ? AND telefon = ?
-      `);
-      const existing = checkStmt.get(
-        dbData.personnamn,
-        dbData.gatuadress,
-        dbData.telefon
-      );
+      // Use API to save
+      const response = await axios.post(`${this.api_url}/api/data-private/bulk`, { records: [apiData] }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.api_token ? `Bearer ${this.api_token}` : undefined,
+        },
+      });
 
-      let result;
-      let action;
-
-      if (existing) {
-        const updateFields = Object.keys(dbData).map(f => `${f} = ?`).join(', ');
-        const updateStmt = db.prepare(`
-          UPDATE private_data 
-          SET ${updateFields}, updated_at = datetime('now'), is_update = 1
-          WHERE id = ?
-        `);
-        result = updateStmt.run(...Object.values(dbData), existing.id);
-        action = 'updated';
-      } else {
-        const fields = Object.keys(dbData);
-        const placeholders = fields.map(() => '?').join(', ');
-        const insertStmt = db.prepare(`
-          INSERT INTO private_data (${fields.join(', ')}, created_at, updated_at)
-          VALUES (${placeholders}, datetime('now'), datetime('now'))
-        `);
-        result = insertStmt.run(...Object.values(dbData));
-        action = 'created';
-      }
-      
-      if (result.changes > 0) {
-        console.log(`  ✓ Combined data saved to private_data table (${action})`);
-        return true;
-      } else {
-        console.log('  ⚠ No changes made to private_data table');
-        return false;
-      }
-      
+      console.log(`  ✓ Combined data saved to private_data via API:`, response.data);
+      return true;
     } catch (error) {
-      console.log('  ✗ Error saving to private_data:', error.message);
-      console.log('  ✗ Stack:', error.stack);
+      console.log(`  ✗ Error saving combined data via API:`, error.response?.data || error.message);
       return false;
     }
   }
@@ -632,6 +511,9 @@ class HittaRatsitScraper {
             console.log(`  → ✓ Extracted data for ${cleanData.ps_personnamn || 'Unknown'}`);
           }
           
+  console.table(personData);
+  console.log(JSON.stringify(personData, null, 2)); 
+
           await page.waitForTimeout(1000);
           
         } catch (error) {
@@ -1088,16 +970,20 @@ class HittaRatsitScraper {
                 }
 
                 // Run ratsit immediately only for house owners with required args present
-                const hasFullAddress = !!(personData.personnamn && personData.gatuadress && personData.postort);
-                const isHouse = personData.bostadstyp === 'Hus';
-                if (!isHouse) {
-                  console.log('  → Skipping ratsit (bostadstyp is not Hus or not detected)');
-                } else if (hasFullAddress) {
-                  console.log(`  → Running ratsit now for ${personData.personnamn} (Hus)`);
-                  await this.runRatsitForPerson(personData);
-                } else {
-                  console.log('  → Skipping ratsit (missing required fields for immediate run)');
-                }
+                  const hasFullAddress = !!(personData.personnamn && personData.gatuadress && personData.postort);
+                  const requiresHouse = this.requireHouseType;
+                  const requiresPhone = this.requirePhone;
+                  const isHouse = personData.bostadstyp === 'Hus';
+                  if (!hasFullAddress) {
+                    console.log('  → Skipping ratsit (missing required address fields)');
+                  } else if (requiresHouse && !isHouse) {
+                    console.log(`  → Skipping ratsit (house-only mode enabled, type: ${personData.bostadstyp || 'N/A'})`);
+                  } else if (requiresPhone && !hasPhone) {
+                    console.log('  → Skipping ratsit (phone required but missing)');
+                  } else {
+                    console.log(`  → Running ratsit now for ${personData.personnamn}${isHouse ? ' (Hus)' : ''}`);
+                    await this.runRatsitForPerson(personData);
+                  }
               }
             }
           } catch (error) {
@@ -1436,6 +1322,12 @@ class HittaRatsitScraper {
       return null;
     }
 
+    // Map kon to valid values
+    const konMap = { 'man': 'M', 'kvinna': 'F', 'kvinno': 'F' };
+    if (data.kon) {
+      data.kon = konMap[data.kon.toLowerCase()] || data.kon;
+    }
+
     return data;
   }
 
@@ -1457,7 +1349,7 @@ class HittaRatsitScraper {
       
       // First, save Hitta data to hitta_se table
       console.log(`  → Saving Hitta data for ${personData.personnamn}`);
-      this.saveHittaToDatabase(personData);
+      await this.saveHittaToDatabase(personData);
       
       // Build search query for ratsit: "personnamn gatuadress postort"
       const ratsitQuery = `${personData.personnamn} ${personData.gatuadress} ${personData.postort}`;
@@ -1472,10 +1364,10 @@ class HittaRatsitScraper {
         
         for (const ratsitData of ratsitResults) {
           // Save to ratsit_data table
-          this.saveRatsitToDatabase(ratsitData);
+          await this.saveRatsitToDatabase(ratsitData);
           
           // Save combined data to private_data table (only if both Hitta and Ratsit data exist)
-          this.saveToPrivateData(personData, ratsitData);
+          await this.saveToPrivateData(personData, ratsitData);
         }
         
         console.log(`  → ✓ Completed processing for ${personData.personnamn}`);
@@ -1612,6 +1504,7 @@ class HittaRatsitScraper {
   async saveToDatabase(records = this.results) {
     /**
      * Save Hitta search results to hitta_se database table
+     * Also run Ratsit scraping for each person to get combined data
      */
     if (!records || records.length === 0) {
       console.log('No results to save to database');
@@ -1623,9 +1516,13 @@ class HittaRatsitScraper {
     for (const record of records) {
       try {
         // Save directly to hitta_se table
-        const success = this.saveHittaToDatabase(record);
+        const success = await this.saveHittaToDatabase(record);
         if (success) {
           savedCount++;
+          
+          // Also run Ratsit scraping for this person to get combined data
+          console.log(`\n  → Running Ratsit scraping for ${record.personnamn}...`);
+          await this.runRatsitForPerson(record);
         }
       } catch (error) {
         console.log(`  ⚠ Error saving ${record.personnamn}:`, error.message);

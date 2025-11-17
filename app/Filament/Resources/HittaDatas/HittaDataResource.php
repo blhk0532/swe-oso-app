@@ -27,7 +27,7 @@ class HittaDataResource extends Resource
 
     protected static UnitEnum | string | null $navigationGroup = 'HITTA DATABAS';
 
-    protected static ?int $navigationSort = 3; // After Hitta Bolag
+    protected static ?int $navigationSort = 1;
 
     // place resource under Databaser cluster
     protected static ?string $slug = 'databaser/hitta-data';

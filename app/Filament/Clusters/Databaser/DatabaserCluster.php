@@ -13,7 +13,7 @@ class DatabaserCluster extends Cluster
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     // Place the cluster inside a higher-level navigation group if desired
-    protected static string | UnitEnum | null $navigationGroup = 'Databaser';
+    protected static UnitEnum | string | null $navigationGroup = 'Databaser';
 
     protected static ?int $navigationSort = 1;
 

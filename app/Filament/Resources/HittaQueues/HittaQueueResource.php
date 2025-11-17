@@ -31,6 +31,8 @@ class HittaQueueResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'post_nummer';
 
+    protected static ?int $navigationSort = 6;
+
     protected static UnitEnum | string | null $navigationGroup = 'HITTA DATABAS';
 
     public static function form(Schema $schema): Schema
@@ -85,5 +87,10 @@ class HittaQueueResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return 'primary';
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 }

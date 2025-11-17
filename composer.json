@@ -38,7 +38,8 @@
         "tonegabes/filament-better-options": "^1.2",
         "tonegabes/filament-phosphor-icons": "^1.2",
         "webbingbrasil/filament-copyactions": "^4.0",
-        "ysfkaya/filament-phone-input": "^4.0"
+        "ysfkaya/filament-phone-input": "^4.0",
+        "zpmlabs/filament-api-docs-builder": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

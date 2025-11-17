@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('count')->default(0);
 
             // Status & progress
-            $table->enum('status', ['pending', 'running', 'complete'])->nullable()->default(null);
+            $table->string('status', 50)->nullable()->default(null);
             $table->unsignedTinyInteger('progress')->default(0);
             $table->unsignedInteger('last_processed_page')->nullable();
             $table->unsignedInteger('processed_count')->nullable();

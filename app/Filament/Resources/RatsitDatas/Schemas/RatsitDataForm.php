@@ -4,12 +4,12 @@ namespace App\Filament\Resources\RatsitDatas\Schemas;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class RatsitDataForm
@@ -63,42 +63,94 @@ class RatsitDataForm
                                         'widowed' => 'Widowed',
                                     ]),
 
-                                Repeater::make('telefon')
-                                    ->label('Phone Numbers')
+                                TextInput::make('telefon')
+                                    ->label('Phone Number')
+                                    ->maxLength(255),
+
+                                Repeater::make('telfonnummer')
+                                    ->label('Additional Phone Numbers')
                                     ->schema([
-                                        TextInput::make('number')
+                                        TextInput::make('value')
                                             ->label('Phone Number')
                                             ->required(),
                                     ])
-                                    ->defaultItems(0)
+                                    ->default([])
+                                    ->formatStateUsing(function ($state) {
+                                        if (is_array($state)) {
+                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                        }
+                                        if (is_string($state)) {
+                                            $decoded = json_decode($state, true);
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                            }
+                                            $parts = array_filter(array_map('trim', explode('|', $state)));
+
+                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                        }
+
+                                        return [];
+                                    })
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
                                     ->collapsible()
-                                    ->itemLabel(fn (array $state): ?string => $state['number'] ?? null),
+                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
 
                                 Repeater::make('epost_adress')
                                     ->label('Email Addresses')
                                     ->schema([
-                                        TextInput::make('email')
+                                        TextInput::make('value')
                                             ->label('Email')
                                             ->email()
                                             ->required(),
                                     ])
-                                    ->defaultItems(0)
+                                    ->default([])
+                                    ->formatStateUsing(function ($state) {
+                                        if (is_array($state)) {
+                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                        }
+                                        if (is_string($state)) {
+                                            $decoded = json_decode($state, true);
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                            }
+                                            $parts = array_filter(array_map('trim', explode('|', $state)));
+
+                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                        }
+
+                                        return [];
+                                    })
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
                                     ->collapsible()
-                                    ->itemLabel(fn (array $state): ?string => $state['email'] ?? null),
+                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
 
                                 Repeater::make('bolagsengagemang')
                                     ->label('Corporate Commitments')
                                     ->schema([
-                                        TextInput::make('company')
-                                            ->label('Company')
+                                        TextInput::make('value')
+                                            ->label('Engagement')
                                             ->required(),
-                                        TextInput::make('role')
-                                            ->label('Role')
-                                            ->maxLength(255),
                                     ])
-                                    ->defaultItems(0)
+                                    ->default([])
+                                    ->formatStateUsing(function ($state) {
+                                        if (is_array($state)) {
+                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                        }
+                                        if (is_string($state)) {
+                                            $decoded = json_decode($state, true);
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                            }
+                                            $parts = array_filter(array_map('trim', explode('|', $state)));
+
+                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                        }
+
+                                        return [];
+                                    })
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
                                     ->collapsible()
-                                    ->columns(2),
+                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
                             ])
                             ->columns(2)
                             ->collapsible(),
@@ -150,11 +202,11 @@ class RatsitDataForm
 
                         Section::make('Address Property Details')
                             ->schema([
-                                Select::make('agandeform')
+                                TextInput::make('agandeform')
                                     ->label('Form of Ownership')
                                     ->maxLength(255),
 
-                                Select::make('bostadstyp')
+                                TextInput::make('bostadstyp')
                                     ->label('Housing Type')
                                     ->maxLength(255),
 
@@ -169,61 +221,147 @@ class RatsitDataForm
                                 Repeater::make('personer')
                                     ->label('Persons at Address')
                                     ->schema([
-                                        TextInput::make('name')
+                                        TextInput::make('value')
                                             ->label('Name')
                                             ->required(),
                                     ])
-                                    ->defaultItems(0)
+                                    ->default([])
+                                    ->formatStateUsing(function ($state) {
+                                        if (is_array($state)) {
+                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                        }
+                                        if (is_string($state)) {
+                                            $decoded = json_decode($state, true);
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                            }
+                                            $parts = array_filter(array_map('trim', explode('|', $state)));
+
+                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                        }
+
+                                        return [];
+                                    })
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
                                     ->collapsible()
-                                    ->columnSpanFull(),
+                                    ->columnSpanFull()
+                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
 
                                 Repeater::make('foretag')
                                     ->label('Companies at Address')
                                     ->schema([
-                                        TextInput::make('name')
+                                        TextInput::make('value')
                                             ->label('Company Name')
                                             ->required(),
                                     ])
-                                    ->defaultItems(0)
+                                    ->default([])
+                                    ->formatStateUsing(function ($state) {
+                                        if (is_array($state)) {
+                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                        }
+                                        if (is_string($state)) {
+                                            $decoded = json_decode($state, true);
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                            }
+                                            $parts = array_filter(array_map('trim', explode('|', $state)));
+
+                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                        }
+
+                                        return [];
+                                    })
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
                                     ->collapsible()
-                                    ->columnSpanFull(),
+                                    ->columnSpanFull()
+                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
 
                                 Repeater::make('grannar')
                                     ->label('Neighbors')
                                     ->schema([
-                                        TextInput::make('name')
+                                        TextInput::make('value')
                                             ->label('Name')
                                             ->required(),
                                     ])
-                                    ->defaultItems(0)
+                                    ->default([])
+                                    ->formatStateUsing(function ($state) {
+                                        if (is_array($state)) {
+                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                        }
+                                        if (is_string($state)) {
+                                            $decoded = json_decode($state, true);
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                            }
+                                            $parts = array_filter(array_map('trim', explode('|', $state)));
+
+                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                        }
+
+                                        return [];
+                                    })
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
                                     ->collapsible()
-                                    ->columnSpanFull(),
+                                    ->columnSpanFull()
+                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
 
                                 Repeater::make('fordon')
                                     ->label('Vehicles')
                                     ->schema([
-                                        TextInput::make('type')
-                                            ->label('Vehicle Type')
+                                        TextInput::make('value')
+                                            ->label('Vehicle')
                                             ->required(),
-                                        TextInput::make('registration')
-                                            ->label('Registration')
-                                            ->maxLength(255),
                                     ])
-                                    ->defaultItems(0)
+                                    ->default([])
+                                    ->formatStateUsing(function ($state) {
+                                        if (is_array($state)) {
+                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                        }
+                                        if (is_string($state)) {
+                                            $decoded = json_decode($state, true);
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                            }
+                                            $parts = array_filter(array_map('trim', explode('|', $state)));
+
+                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                        }
+
+                                        return [];
+                                    })
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
                                     ->collapsible()
-                                    ->columns(2)
-                                    ->columnSpanFull(),
+                                    ->columnSpanFull()
+                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
 
                                 Repeater::make('hundar')
                                     ->label('Dogs')
                                     ->schema([
-                                        TextInput::make('name')
+                                        TextInput::make('value')
                                             ->label('Dog Name')
                                             ->required(),
                                     ])
-                                    ->defaultItems(0)
+                                    ->default([])
+                                    ->formatStateUsing(function ($state) {
+                                        if (is_array($state)) {
+                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                        }
+                                        if (is_string($state)) {
+                                            $decoded = json_decode($state, true);
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                            }
+                                            $parts = array_filter(array_map('trim', explode('|', $state)));
+
+                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                        }
+
+                                        return [];
+                                    })
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
                                     ->collapsible()
-                                    ->columnSpanFull(),
+                                    ->columnSpanFull()
+                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
                             ])
                             ->columns(2)
                             ->collapsible(),

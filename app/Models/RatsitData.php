@@ -16,7 +16,8 @@ class RatsitData extends Model
 
     protected $casts = [
         'fodelsedag' => SwedishDateCast::class,
-        'telefon' => 'array',
+        'telefon' => 'string',
+        'telfonnummer' => 'array',
         'epost_adress' => 'array',
         'bolagsengagemang' => 'array',
         'personer' => 'array',
@@ -45,6 +46,7 @@ class RatsitData extends Model
         'efternamn',
         'personnamn',
         'telefon',
+        'telfonnummer',
         'epost_adress',
         'bolagsengagemang',
         'agandeform',

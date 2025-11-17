@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Dashboard;
 use App\Filament\Pages\HealthCheckResults;
+use App\Filament\Widgets\QueueWorkerBadge;
 use App\Http\Middleware\Authenticate;
 use CraftForge\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -23,11 +24,12 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
-use Muazzam\SlickScrollbar\SlickScrollbarPlugin;
 // use App\Filament\AvatarProviders\UserAvatarProvider;
+use Muazzam\SlickScrollbar\SlickScrollbarPlugin;
 use pxlrbt\FilamentSpotlight\SpotlightPlugin;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
+use ZPMLabs\FilamentApiDocsBuilder\FilamentApiDocsBuilderPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -48,6 +50,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
+                QueueWorkerBadge::class,
             ])
 
             ->unsavedChangesAlerts()
@@ -102,6 +105,8 @@ class AdminPanelProvider extends PanelProvider
                     ->authorize(fn (): bool => auth()->user()->email === 'admin@example.com')
                     ->usingPage(HealthCheckResults::class)
             )
+            ->plugin(FilamentApiDocsBuilderPlugin::make())
+
             ->plugins([FilamentFullCalendarPlugin::make()])
             ->plugins([
                 //    FilamentLanguageSwitcherPlugin::make(['code' => 'en', 'name' => 'English', 'flag' => 'gb']),

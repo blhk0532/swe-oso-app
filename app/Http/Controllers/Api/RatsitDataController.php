@@ -113,8 +113,36 @@ class RatsitDataController extends Controller
             'records.*.gatuadress' => 'nullable|string',
             'records.*.postnummer' => 'nullable|string',
             'records.*.postort' => 'nullable|string',
+            'records.*.forsamling' => 'nullable|string',
             'records.*.kommun' => 'nullable|string',
             'records.*.lan' => 'nullable|string',
+            'records.*.adressandring' => 'nullable|string',
+            'records.*.telfonnummer' => 'nullable|string',
+            'records.*.stjarntacken' => 'nullable|string',
+            'records.*.fodelsedag' => 'nullable|string',
+            'records.*.alder' => 'nullable|string',
+            'records.*.kon' => 'nullable|string',
+            'records.*.civilstand' => 'nullable|string',
+            'records.*.fornamn' => 'nullable|string',
+            'records.*.efternamn' => 'nullable|string',
+            'records.*.telefon' => 'nullable|string',
+            'records.*.epost_adress' => 'nullable',
+            'records.*.agandeform' => 'nullable|string',
+            'records.*.bostadstyp' => 'nullable|string',
+            'records.*.boarea' => 'nullable|string',
+            'records.*.byggar' => 'nullable|string',
+            'records.*.fastighet' => 'nullable|string',
+            'records.*.personer' => 'nullable',
+            'records.*.foretag' => 'nullable',
+            'records.*.grannar' => 'nullable',
+            'records.*.fordon' => 'nullable',
+            'records.*.hundar' => 'nullable',
+            'records.*.bolagsengagemang' => 'nullable',
+            'records.*.longitude' => 'nullable|string',
+            'records.*.latitud' => 'nullable|string',
+            'records.*.google_maps' => 'nullable|string',
+            'records.*.google_streetview' => 'nullable|string',
+            'records.*.ratsit_se' => 'nullable|string',
             'records.*.is_active' => 'nullable|boolean',
         ]);
 
@@ -125,6 +153,16 @@ class RatsitDataController extends Controller
 
         foreach ($validated['records'] as $index => $recordData) {
             try {
+                // Convert pipe-separated strings to arrays for fields that should be arrays
+                $arrayFields = ['telfonnummer', 'epost_adress', 'bolagsengagemang', 'personer', 'foretag', 'grannar', 'fordon', 'hundar'];
+                foreach ($arrayFields as $field) {
+                    if (isset($recordData[$field]) && is_string($recordData[$field])) {
+                        // Split by pipe and filter out empty values
+                        $parts = array_filter(array_map('trim', explode('|', $recordData[$field])));
+                        $recordData[$field] = array_values($parts);
+                    }
+                }
+
                 if (! empty($recordData['personnummer'])) {
                     $record = RatsitData::updateOrCreate(
                         ['personnummer' => $recordData['personnummer']],

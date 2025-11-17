@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\HittaPersonerDatas\Pages;
 
 use App\Filament\Resources\HittaPersonerDatas\HittaPersonerDataResource;
-use Filament\Pages\Actions\CreateAction;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListHittaPersonerDatas extends ListRecords

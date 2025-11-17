@@ -2,6 +2,10 @@
 
 namespace App\Filament\Resources\HittaPersonerQueues\Tables;
 
+use App\Jobs\RunHittaCountsForPersonerQueue;
+use App\Jobs\RunHittaPersonsDataForQueue;
+use App\Jobs\RunHittaRatsitForPersonerQueue;
+use App\Support\QueueAutostart;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -54,6 +58,86 @@ class HittaPersonerQueuesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    BulkAction::make('bulkRunHittaCount')
+                        ->label('Bulk Run Hitta Count')
+                        ->icon('heroicon-o-calculator')
+                        ->color('info')
+                        ->requiresConfirmation()
+                        ->modalHeading('Bulk Run Hitta Count')
+                        ->modalDescription('Run hittaCounts.mjs script for all selected records to fetch person counts.')
+                        ->modalSubmitActionLabel('Run Counts')
+                        ->action(function (Collection $records) {
+                            $queued = 0;
+                            foreach ($records as $record) {
+                                if ($record->personer_status === 'running') {
+                                    continue;
+                                }
+                                RunHittaCountsForPersonerQueue::dispatch($record);
+                                $queued++;
+                            }
+
+                            Notification::make()
+                                ->title('Hitta Counts Queued')
+                                ->body("Queued {$queued} count extraction job(s)")
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion(),
+
+                    BulkAction::make('bulkRunHittaPersonsData')
+                        ->label('Bulk Run Persons Data')
+                        ->icon('heroicon-o-users')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->modalHeading('Bulk Run Persons Data')
+                        ->modalDescription('Run hittaSearchPersons.mjs script for all selected records to scrape person data.')
+                        ->modalSubmitActionLabel('Run Scrapers')
+                        ->action(function (Collection $records) {
+                            $queued = 0;
+                            foreach ($records as $record) {
+                                if ($record->personer_status === 'running') {
+                                    continue;
+                                }
+                                RunHittaPersonsDataForQueue::dispatch($record);
+                                $queued++;
+                            }
+
+                            Notification::make()
+                                ->title('Persons Data Queued')
+                                ->body("Queued {$queued} person data scraping job(s)")
+                                ->success()
+                                ->send();
+                        })
+                        ->deselectRecordsAfterCompletion(),
+
+                    BulkAction::make('bulkRunHittaRatsit')
+                        ->label('Bulk Run Hitta+Ratsit')
+                        ->icon('heroicon-o-document-magnifying-glass')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->modalHeading('Bulk Run Hitta+Ratsit Script')
+                        ->modalDescription('Run hitta_ratsit.mjs script for all selected records to scrape person data from both hitta.se and ratsit.se.')
+                        ->modalSubmitActionLabel('Run Combined Scrapers')
+                        ->action(function (Collection $records) {
+                            $queued = 0;
+                            foreach ($records as $record) {
+                                if ($record->personer_status === 'running') {
+                                    continue;
+                                }
+                                RunHittaRatsitForPersonerQueue::dispatch($record);
+                                $queued++;
+                            }
+
+                            Notification::make()
+                                ->title('Hitta+Ratsit Scrapers Queued')
+                                ->body("Queued {$queued} combined scraping job(s)")
+                                ->success()
+                                ->send();
+
+                            QueueAutostart::attempt('filament');
+                        })
+                        ->deselectRecordsAfterCompletion(),
+
                     BulkAction::make('queuePersoner')
                         ->label('Queue Personer')
                         ->icon('heroicon-o-queue-list')

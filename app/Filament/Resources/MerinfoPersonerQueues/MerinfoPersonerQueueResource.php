@@ -31,6 +31,8 @@ class MerinfoPersonerQueueResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'post_nummer';
 
+    protected static ?int $navigationSort = 2;
+
     protected static UnitEnum | string | null $navigationGroup = 'MERINFO DATABAS';
 
     public static function form(Schema $schema): Schema
@@ -73,5 +75,10 @@ class MerinfoPersonerQueueResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return 'primary';
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 }

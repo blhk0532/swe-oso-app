@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\RatsitQueues\Tables;
 
+use App\Support\QueueAutostart;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -56,6 +57,9 @@ class RatsitQueuesTable
                         ->action(function (Collection $records) {
                             $records->each(fn ($record) => $record->update(['foretag_queued' => true]));
                             Notification::make()->title('Queued')->body(count($records) . ' företag queued.')->success()->send();
+
+                            // Autostart ratsit worker if not running and autostart is enabled
+                            QueueAutostart::attempt('ratsit');
                         }),
                     BulkAction::make('queuePersoner')
                         ->label('Queue Personer')
@@ -68,6 +72,9 @@ class RatsitQueuesTable
                         ->action(function (Collection $records) {
                             $records->each(fn ($record) => $record->update(['personer_queued' => true]));
                             Notification::make()->title('Queued')->body(count($records) . ' personer queued.')->success()->send();
+
+                            // Autostart ratsit worker if not running and autostart is enabled
+                            QueueAutostart::attempt('ratsit');
                         }),
                     DeleteBulkAction::make(),
                 ]),

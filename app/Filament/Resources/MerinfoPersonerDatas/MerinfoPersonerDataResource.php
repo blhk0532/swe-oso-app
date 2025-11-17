@@ -7,7 +7,7 @@ use App\Filament\Resources\MerinfoDatas\Tables\MerinfoDatasTable;
 use App\Filament\Resources\MerinfoPersonerDatas\Pages\CreateMerinfoPersonerData;
 use App\Filament\Resources\MerinfoPersonerDatas\Pages\EditMerinfoPersonerData;
 use App\Filament\Resources\MerinfoPersonerDatas\Pages\ListMerinfoPersonerDatas;
-use App\Models\MerinfoData;
+use App\Models\MerinfoPersonerData;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
@@ -15,7 +15,7 @@ use UnitEnum;
 
 class MerinfoPersonerDataResource extends Resource
 {
-    protected static ?string $model = MerinfoData::class;
+    protected static ?string $model = MerinfoPersonerData::class;
 
     protected static ?string $navigationLabel = 'Merinfo Personer Data';
 
@@ -23,9 +23,9 @@ class MerinfoPersonerDataResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Merinfo Personer Data';
 
-    protected static string | UnitEnum | null $navigationGroup = 'MERINFO DATABAS';
+    protected static UnitEnum | string | null $navigationGroup = 'MERINFO DATABAS';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $slug = 'databaser/merinfo-personer-data';
 
@@ -46,5 +46,20 @@ class MerinfoPersonerDataResource extends Resource
             'create' => CreateMerinfoPersonerData::route('/create'),
             'edit' => EditMerinfoPersonerData::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'primary';
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 }

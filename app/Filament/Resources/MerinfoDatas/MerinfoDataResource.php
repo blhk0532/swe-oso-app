@@ -29,7 +29,7 @@ class MerinfoDataResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Merinfo data';
 
-    protected static ?int $navigationSort = 10;
+    protected static ?int $navigationSort = 1;
 
     // place resource under Databaser cluster
     protected static ?string $slug = 'databaser/merinfo-data';

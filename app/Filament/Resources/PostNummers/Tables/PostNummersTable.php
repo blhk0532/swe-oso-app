@@ -173,9 +173,16 @@ class PostNummersTable
                         'running' => 'warning',
                         'complete' => 'success',
                         'empty' => 'danger',
+                        'queued_hitta' => 'info',
+                        'running_hitta' => 'warning',
+                        'failed_hitta' => 'danger',
+                        'error_hitta' => 'danger',
+                        'Checked' => 'success',
+                        'queued_hitta_ratsit' => 'info',
+                        'running_hitta_ratsit' => 'warning',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn (?string $state): string => $state ? ucfirst($state) : '—')
+                    ->formatStateUsing(fn (?string $state): string => $state ? ucfirst(str_replace('_', ' ', $state)) : '—')
                     ->sortable()
                     ->grow(false),
 
@@ -187,6 +194,13 @@ class PostNummersTable
                         'running' => 'Running',
                         'complete' => 'Complete',
                         'empty' => 'Empty',
+                        'queued_hitta' => 'Queued Hitta',
+                        'running_hitta' => 'Running Hitta',
+                        'failed_hitta' => 'Failed Hitta',
+                        'error_hitta' => 'Error Hitta',
+                        'Checked' => 'Checked',
+                        'queued_hitta_ratsit' => 'Queued Hitta+Ratsit',
+                        'running_hitta_ratsit' => 'Running Hitta+Ratsit',
                     ]),
 
                 TernaryFilter::make('is_active')

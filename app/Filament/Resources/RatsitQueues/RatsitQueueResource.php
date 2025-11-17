@@ -29,6 +29,8 @@ class RatsitQueueResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Ratsit Queues';
 
+    protected static ?int $navigationSort = 0;
+
     protected static ?string $recordTitleAttribute = 'post_nummer';
 
     protected static UnitEnum | string | null $navigationGroup = 'RATSIT DATABAS';
@@ -85,5 +87,10 @@ class RatsitQueueResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return 'primary';
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
     }
 }
