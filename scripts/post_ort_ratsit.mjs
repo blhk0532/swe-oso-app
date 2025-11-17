@@ -4,7 +4,7 @@
  * Ratsit.se scraper script (Ratsit-only)
  * - Scrapes person data from Ratsit.se based on a query string
  * - Saves results to ratsit_data via the Laravel API
- * - Optionally flags matching hitta_data rows as having Ratsit data
+ * - Does NOT update hitta_data records (is_ratsit flags)
  */
 
 import { program } from 'commander';
@@ -36,6 +36,7 @@ class RatsitScraper {
         postort: ratsitData.bo_postort || null,
         forsamling: ratsitData.bo_forsamling || null,
         kommun: ratsitData.bo_kommun || null,
+        kommun_ratsit: ratsitData.kommun_ratsit || null,
         lan: ratsitData.bo_lan || null,
         adressandring: ratsitData.adressandring || null,
         telfonnummer: Array.isArray(ratsitData.telefonnummer) ? ratsitData.telefonnummer.join(' | ') : null,
@@ -53,12 +54,12 @@ class RatsitScraper {
         bostadstyp: ratsitData.bo_bostadstyp || null,
         boarea: ratsitData.bo_boarea || null,
         byggar: ratsitData.bo_byggar || null,
-        personer: Array.isArray(ratsitData.bo_personer) ? ratsitData.bo_personer.join(' | ') : null,
-        foretag: Array.isArray(ratsitData.bo_foretag) ? ratsitData.bo_foretag.join(' | ') : null,
-        grannar: Array.isArray(ratsitData.bo_grannar) ? ratsitData.bo_grannar.join(' | ') : null,
-        fordon: Array.isArray(ratsitData.bo_fordon) ? ratsitData.bo_fordon.join(' | ') : null,
-        hundar: Array.isArray(ratsitData.bo_hundar) ? ratsitData.bo_hundar.join(' | ') : null,
-        bolagsengagemang: Array.isArray(ratsitData.ps_bolagsengagemang) ? ratsitData.ps_bolagsengagemang.join(' | ') : null,
+        personer: Array.isArray(ratsitData.bo_personer) ? ratsitData.bo_personer : null,
+        foretag: Array.isArray(ratsitData.bo_foretag) ? ratsitData.bo_foretag : null,
+        grannar: Array.isArray(ratsitData.bo_grannar) ? ratsitData.bo_grannar : null,
+        fordon: Array.isArray(ratsitData.bo_fordon) ? ratsitData.bo_fordon : null,
+        hundar: Array.isArray(ratsitData.bo_hundar) ? ratsitData.bo_hundar : null,
+        bolagsengagemang: Array.isArray(ratsitData.ps_bolagsengagemang) ? ratsitData.ps_bolagsengagemang : null,
         longitude: ratsitData.bo_longitude || null,
         latitud: ratsitData.latitud || null,
         google_maps: ratsitData.google_maps || null,
@@ -72,7 +73,22 @@ class RatsitScraper {
       const nonNullFields = Object.entries(apiData).filter(([k, v]) => v !== null);
       console.log(`     Sending ${nonNullFields.length} non-null fields out of ${Object.keys(apiData).length} total`);
       nonNullFields.forEach(([key, value]) => {
-        const display = typeof value === 'string' && value.length > 60 ? value.substring(0, 60) + '...' : value;
+        let display;
+        if (Array.isArray(value)) {
+          if (value.length === 0) {
+            display = '[]';
+          } else if (typeof value[0] === 'object' && value[0] !== null) {
+            // Array of objects - show count and sample
+            display = `[${value.length} objects: ${value.slice(0, 2).map(obj => obj.text || '[object]').join(', ')}${value.length > 2 ? '...' : ''}]`;
+          } else {
+            // Array of primitives
+            display = JSON.stringify(value);
+          }
+        } else if (typeof value === 'string' && value.length > 60) {
+          display = value.substring(0, 60) + '...';
+        } else {
+          display = value;
+        }
         console.log(`     ${key}: ${display}`);
       });
       console.log('');
@@ -89,8 +105,8 @@ class RatsitScraper {
       console.log(`  ✓ Saved Ratsit data for ${ratsitData.ps_personnamn} via API`);
       console.log(`  ✓ API Response:`, JSON.stringify(response.data, null, 2));
       
-      // Attempt to flag matching hitta_data record as having ratsit
-      try { await this.updateHittaDataRatsitFlag(ratsitData); } catch (e) { console.log('  ⚠ Failed to update hitta_data flag:', e.message); }
+      // NOTE: We do NOT update hitta_data records with Ratsit flags (method commented out)
+
       return true;
     } catch (error) {
       const status = error.response?.status;
@@ -99,33 +115,34 @@ class RatsitScraper {
     }
   }
 
-  async updateHittaDataRatsitFlag(ratsitData) {
-    /**
-     * Update is_ratsit flag in hitta_data via API (no local SQLite dependency)
-     */
-    try {
-      const personnamn = ratsitData.ps_personnamn || ratsitData.personnamn || null;
-      const gatuadress = ratsitData.bo_gatuadress || ratsitData.gatuadress || null;
-      if (!personnamn || !gatuadress) {
-        console.log('  ⚠ Skipping hitta_data flag update (missing personnamn or gatuadress)');
-        return;
-      }
+  // async updateHittaDataRatsitFlag(ratsitData) {
+  //   /**
+  //    * Update is_ratsit flag in hitta_data via API (no local SQLite dependency)
+  //    * COMMENTED OUT: This method saves data to hitta_data table, which we don't want
+  //    */
+  //   try {
+  //     const personnamn = ratsitData.ps_personnamn || ratsitData.personnamn || null;
+  //     const gatuadress = ratsitData.bo_gatuadress || ratsitData.gatuadress || null;
+  //     if (!personnamn || !gatuadress) {
+  //       console.log('  ⚠ Skipping hitta_data flag update (missing personnamn or gatuadress)');
+  //       return;
+  //     }
 
-      // Use bulk upsert by personnamn; include gatuadress for better matching and set is_ratsit
-      const payload = { records: [{ personnamn, gatuadress, is_ratsit: true }] };
-      await axios.post(`${this.api_url}/api/hitta-data/bulk`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': this.api_token ? `Bearer ${this.api_token}` : undefined,
-        },
-      });
+  //     // Use bulk upsert by personnamn; include gatuadress for better matching and set is_ratsit
+  //     const payload = { records: [{ personnamn, gatuadress, is_ratsit: true }] };
+  //     await axios.post(`${this.api_url}/api/hitta-data/bulk`, payload, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': this.api_token ? `Bearer ${this.api_token}` : undefined,
+  //       },
+  //     });
 
-      console.log(`  ✓ Updated is_ratsit flag in hitta_data via API`);
-    } catch (error) {
-      const status = error.response?.status;
-      console.log(`  ✗ Error updating hitta_data is_ratsit flag via API${status ? ` (HTTP ${status})` : ''}:`, error.response?.data || error.message);
-    }
-  }
+  //     console.log(`  ✓ Updated is_ratsit flag in hitta_data via API`);
+  //   } catch (error) {
+  //     const status = error.response?.status;
+  //     console.log(`  ✗ Error updating hitta_data is_ratsit flag via API${status ? ` (HTTP ${status})` : ''}:`, error.response?.data || error.message);
+  //   }
+  // }
 
   async saveToPrivateData(hittaData, ratsitData) {
     /**
@@ -146,6 +163,7 @@ class RatsitScraper {
         postort: ratsitData.bo_postort || hittaData.postort || null,
         forsamling: ratsitData.bo_forsamling || null,
         kommun: ratsitData.bo_kommun || null,
+        kommun_ratsit: ratsitData.kommun_ratsit || null,
         lan: ratsitData.bo_lan || null,
         adressandring: ratsitData.adressandring || null,
 
@@ -295,6 +313,7 @@ class RatsitScraper {
             // Additional labels
             bo_forsamling: await this.extractRatsitTextAfterLabel(page, 'Församling:'),
             bo_kommun: await this.extractRatsitTextAfterLabel(page, 'Kommun:'),
+            kommun_ratsit: await this.extractRatsitKommunLink(page),
             bo_lan: await this.extractRatsitTextAfterLabel(page, 'Län:'),
             ps_civilstand: await this.extractRatsitCivilstand(page),
             adressandring: await this.extractRatsitTextAfterLabel(page, 'Adressändring:'),
@@ -493,6 +512,37 @@ class RatsitScraper {
     } catch { return null; }
   }
 
+  async extractRatsitKommunLink(page) {
+    // Extract the kommun link from the kommun field
+    try {
+      const labelSelector = 'span.color--gray5:has-text("Kommun:")';
+      const labelElement = await page.$(labelSelector);
+
+      if (!labelElement) {
+        return null;
+      }
+
+      const kommunLink = await labelElement.evaluate((el) => {
+        const p = el.closest('p');
+        if (!p) return null;
+        const link = p.querySelector('a[href]');
+        return link ? link.getAttribute('href') : null;
+      });
+
+      if (kommunLink) {
+        // Convert relative URL to absolute URL
+        if (kommunLink.startsWith('/')) {
+          return 'https://www.ratsit.se' + kommunLink;
+        }
+        return kommunLink;
+      }
+
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async extractSectionTelefonnummer(page) {
     try {
       // Find heading by text (h3 preferred)
@@ -529,7 +579,24 @@ class RatsitScraper {
         if (!root) return [];
         const arr = [];
         root.querySelectorAll('strong').forEach((el) => {
-          const t = el.textContent?.trim(); if (t) arr.push(t);
+          const text = el.textContent?.trim();
+          if (text) {
+            // Look for a link within or as a parent of this strong element
+            let link = null;
+            let linkElement = el.querySelector('a[href]');
+            if (!linkElement) {
+              // Check if the strong element itself is inside a link
+              linkElement = el.closest('a[href]');
+            }
+            if (linkElement) {
+              link = linkElement.getAttribute('href');
+              // Convert relative URLs to absolute
+              if (link && link.startsWith('/')) {
+                link = 'https://www.ratsit.se' + link;
+              }
+            }
+            arr.push({ text, link });
+          }
         });
         return arr;
       }, container);
@@ -546,8 +613,27 @@ class RatsitScraper {
         const out = [];
         if (!tbl) return out;
         tbl.querySelectorAll('tbody tr').forEach((tr) => {
-          const cells = Array.from(tr.querySelectorAll('td')).map((td) => td.innerText.trim());
-          if (cells.length) out.push(cells.join(' | '));
+          const cells = Array.from(tr.querySelectorAll('td'));
+          if (cells.length) {
+            // Look for links in the cells
+            let text = cells.map((td) => td.innerText.trim()).join(' | ');
+            let link = null;
+
+            // Check for links in any cell
+            for (const cell of cells) {
+              const linkElement = cell.querySelector('a[href]');
+              if (linkElement) {
+                link = linkElement.getAttribute('href');
+                // Convert relative URLs to absolute
+                if (link && link.startsWith('/')) {
+                  link = 'https://www.ratsit.se' + link;
+                }
+                break; // Use the first link found
+              }
+            }
+
+            out.push({ text, link });
+          }
         });
         return out;
       }, container);
@@ -565,8 +651,20 @@ class RatsitScraper {
       }
       const rows = await page.$$('div .accordion-neighbours__title ~ div table tbody tr');
       for (const tr of rows) {
-        const text = await tr.evaluate((el) => el.innerText.replace(/\s+/g, ' ').trim());
-        if (text) out.push(text);
+        const result = await tr.evaluate((el) => {
+          const text = el.innerText.replace(/\s+/g, ' ').trim();
+          let link = null;
+          const linkElement = el.querySelector('a[href]');
+          if (linkElement) {
+            link = linkElement.getAttribute('href');
+            // Convert relative URLs to absolute
+            if (link && link.startsWith('/')) {
+              link = 'https://www.ratsit.se' + link;
+            }
+          }
+          return { text, link };
+        });
+        if (result.text) out.push(result);
       }
       return out;
     } catch { return []; }
@@ -588,7 +686,23 @@ class RatsitScraper {
             const year = tds[2]?.innerText.trim();
             const color = tds[3]?.innerText.trim();
             const owner = tds[4]?.innerText.trim();
-            out.push([brand, model, year, color, owner].filter(Boolean).join(', '));
+            const text = [brand, model, year, color, owner].filter(Boolean).join(', ');
+
+            // Look for links in any cell
+            let link = null;
+            for (const td of tds) {
+              const linkElement = td.querySelector('a[href]');
+              if (linkElement) {
+                link = linkElement.getAttribute('href');
+                // Convert relative URLs to absolute
+                if (link && link.startsWith('/')) {
+                  link = 'https://www.ratsit.se' + link;
+                }
+                break; // Use the first link found
+              }
+            }
+
+            out.push({ text, link });
           }
         });
         return out;
@@ -616,8 +730,20 @@ class RatsitScraper {
           // Skip header rows
           const headerLike = cells.join(' ').match(/^(Ras|Hund|Födelsedatum|Ålder|Ägare|Namn)/i);
           if (headerLike) return;
-          const line = cells.filter(Boolean).join(', ');
-          if (line) out.push(line);
+          const text = cells.filter(Boolean).join(', ');
+
+          // Look for links in any cell
+          let link = null;
+          const linkElements = tr.querySelectorAll('a[href]');
+          if (linkElements.length) {
+            link = linkElements[0].getAttribute('href');
+            // Convert relative URLs to absolute
+            if (link && link.startsWith('/')) {
+              link = 'https://www.ratsit.se' + link;
+            }
+          }
+
+          if (text) out.push({ text, link });
         });
         return out;
       }, table);
@@ -631,7 +757,7 @@ class RatsitScraper {
           .split('\n')
           .map((l) => l.trim())
           .filter(Boolean)
-          .filter((l) => !/^Hundar$/i.test(l) && !/Visa mer|Visa mindre/i.test(l));
+          .filter((l) => !/^Hundar$/i.test(l) && !/Visa mer|Visa mindre/i.test(l) && !/DOLT - Bli validerad medlem för att se/i.test(l));
 
         const isDateAge = (s) => /\d{4}-\d{2}-\d{2}/.test(s) || /\(\d+\s*år\)/i.test(s);
         for (let i = 0; i < rawLines.length; i++) {
@@ -639,11 +765,13 @@ class RatsitScraper {
           const dateAge = rawLines[i];
           const breed = rawLines[i - 1] && !isDateAge(rawLines[i - 1]) ? rawLines[i - 1] : null;
           const owner = rawLines[i + 1] && !isDateAge(rawLines[i + 1]) ? rawLines[i + 1] : null;
-          const composed = [breed, dateAge, owner].filter(Boolean).join(', ');
-          if (composed) out.push(composed);
+          const text = [breed, dateAge, owner].filter(Boolean).join(', ');
+
+          // For fallback strategy, we don't have easy access to links, so link will be null
+          if (text) out.push({ text, link: null });
         }
         // Deduplicate while preserving order
-        return Array.from(new Set(out));
+        return Array.from(new Set(out.map(item => JSON.stringify(item)))).map(item => JSON.parse(item));
       }, container);
       return lines;
     } catch { return []; }
@@ -669,7 +797,20 @@ class RatsitScraper {
           rows.forEach((tr) => {
             const cells = Array.from(tr.querySelectorAll('td, th')).map(c => c.innerText.replace(/\s+/g,' ').trim());
             if (cells.length && !cells[0].match(/^(Företagsnamn|Typ|Status|Befattning)/i)) {
-              out.push(cells.join(', '));
+              const text = cells.join(', ');
+
+              // Look for links in any cell
+              let link = null;
+              const linkElements = tr.querySelectorAll('a[href]');
+              if (linkElements.length) {
+                link = linkElements[0].getAttribute('href');
+                // Convert relative URLs to absolute
+                if (link && link.startsWith('/')) {
+                  link = 'https://www.ratsit.se' + link;
+                }
+              }
+
+              out.push({ text, link });
             }
           });
           return out;
@@ -696,7 +837,20 @@ class RatsitScraper {
               rows.forEach((tr) => {
                 const cells = Array.from(tr.querySelectorAll('td, th')).map(c => c.innerText.replace(/\s+/g,' ').trim());
                 if (cells.length && !cells[0].match(/^(Företagsnamn|Typ|Status|Befattning)/i)) {
-                  out.push(cells.join(', '));
+                  const text = cells.join(', ');
+
+                  // Look for links in any cell
+                  let link = null;
+                  const linkElements = tr.querySelectorAll('a[href]');
+                  if (linkElements.length) {
+                    link = linkElements[0].getAttribute('href');
+                    // Convert relative URLs to absolute
+                    if (link && link.startsWith('/')) {
+                      link = 'https://www.ratsit.se' + link;
+                    }
+                  }
+
+                  out.push({ text, link });
                 }
               });
               return out;

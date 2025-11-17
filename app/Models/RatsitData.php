@@ -36,6 +36,7 @@ class RatsitData extends Model
         'postort',
         'forsamling',
         'kommun',
+        'kommun_ratsit',
         'lan',
         'fodelsedag',
         'personnummer',

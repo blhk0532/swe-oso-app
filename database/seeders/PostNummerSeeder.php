@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\PostNummer;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use PDO;
 
 class PostNummerSeeder extends Seeder
 {
@@ -12,60 +14,32 @@ class PostNummerSeeder extends Seeder
      */
     public function run(): void
     {
-        $importPath = database_path('import');
+        // Import data from SQLite database
+        $sqlitePath = database_path('post_nummer.sqlite');
 
-        // Loop through all 10 parts
-        for ($part = 1; $part <= 10; $part++) {
-            $filePath = $importPath . "/postnummer_desc_part_{$part}.json";
+        if (file_exists($sqlitePath)) {
+            $pdo = new PDO('sqlite:'.$sqlitePath);
+            $data = $pdo->query('SELECT * FROM postnummer')->fetchAll(PDO::FETCH_OBJ);
 
-            if (! file_exists($filePath)) {
-                $this->command->error("File not found: {$filePath}");
+            $this->command->info('Starting import of '.count($data).' post_nummers records...');
 
-                continue;
-            }
+            // Clear existing data and use transactions for better performance
+            PostNummer::truncate();
 
-            $this->command->info("Processing part {$part}...");
+            DB::transaction(function () use ($data) {
+                foreach ($data as $record) {
+                    PostNummer::create([
+                        'id' => $record->id,
+                        'post_nummer' => $record->post_nummer,
+                        'post_ort' => $record->post_ort,
+                        'post_lan' => $record->post_lan,
+                    ]);
+                }
+            });
 
-            $jsonContent = file_get_contents($filePath);
-            $data = json_decode($jsonContent, true);
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $this->command->error("Invalid JSON in file: {$filePath}");
-
-                continue;
-            }
-
-            if (! isset($data['records']) || ! is_array($data['records'])) {
-                $this->command->error("No records found in file: {$filePath}");
-
-                continue;
-            }
-
-            $records = $data['records'];
-            $this->command->info('Found ' . count($records) . " records in part {$part}");
-
-            // Insert records in chunks to avoid memory issues
-            $chunkSize = 1000;
-            $chunks = array_chunk($records, $chunkSize);
-
-            foreach ($chunks as $chunk) {
-                $insertData = array_map(function ($record) {
-                    return [
-                        'post_nummer' => $record['post_nummer'],
-                        'post_ort' => $record['post_ort'],
-                        'post_lan' => $record['post_lan'],
-                        'is_active' => false,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
-                }, $chunk);
-
-                PostNummer::insert($insertData);
-            }
-
-            $this->command->info("Completed processing part {$part}");
+            $this->command->info('Successfully imported '.count($data).' post_nummer records.');
+        } else {
+            $this->command->error('SQLite database file not found: '.$sqlitePath);
         }
-
-        $this->command->info('PostNummer seeding completed!');
     }
 }

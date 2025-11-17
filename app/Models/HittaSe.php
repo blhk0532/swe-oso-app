@@ -23,12 +23,14 @@ class HittaSe extends Model
         'is_active',
         'is_telefon',
         'is_ratsit',
+        'is_hus',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'is_telefon' => 'boolean',
         'is_ratsit' => 'boolean',
+        'is_hus' => 'boolean',
         'telefon' => 'array',
     ];
 

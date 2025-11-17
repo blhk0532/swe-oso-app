@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\HittaQueueController;
 use App\Http\Controllers\Api\HittaSeController;
 use App\Http\Controllers\Api\MerinfoForetagQueueController;
 use App\Http\Controllers\Api\MerinfoQueueController;
+use App\Http\Controllers\Api\PersonerDataController;
 use App\Http\Controllers\Api\PostNummerApiController;
 use App\Http\Controllers\Api\PostNummerForetagQueueController;
 use App\Http\Controllers\Api\PostNummerQueController;
@@ -64,6 +65,9 @@ Route::post('/ratsit-data/bulk', [RatsitDataController::class, 'bulkStore']);
 // Alias route for person-level ratsit
 Route::apiResource('ratsit-personer-data', RatsitDataController::class);
 Route::post('/ratsit-personer-data/bulk', [RatsitDataController::class, 'bulkStore']);
+
+// Personer data - consolidated table for all sources
+Route::post('/personer-data/bulk', [PersonerDataController::class, 'bulkStore']);
 
 // Data private - requires authentication for individual operations but bulk is public for scraping
 Route::middleware('auth:sanctum')->group(function () {

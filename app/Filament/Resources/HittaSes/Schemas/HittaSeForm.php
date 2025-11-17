@@ -79,8 +79,12 @@ class HittaSeForm
                         Toggle::make('is_ratsit')
                             ->label('In Ratsit')
                             ->default(false),
+
+                        Toggle::make('is_hus')
+                            ->label('Is House')
+                            ->default(false),
                     ])
-                    ->columns(3),
+                    ->columns(4),
             ]);
     }
 }

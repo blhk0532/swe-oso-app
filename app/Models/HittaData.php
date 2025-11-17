@@ -26,6 +26,7 @@ class HittaData extends Model
         'is_active',
         'is_telefon',
         'is_ratsit',
+        'is_hus',
     ];
 
     protected function casts(): array
@@ -34,6 +35,7 @@ class HittaData extends Model
             'is_active' => 'boolean',
             'is_telefon' => 'boolean',
             'is_ratsit' => 'boolean',
+            'is_hus' => 'boolean',
         ];
     }
 }

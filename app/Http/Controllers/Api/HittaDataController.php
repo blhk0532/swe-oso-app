@@ -124,6 +124,7 @@ class HittaDataController extends Controller
             'records.*.is_active' => 'nullable|boolean',
             'records.*.is_telefon' => 'nullable|boolean',
             'records.*.is_ratsit' => 'nullable|boolean',
+            'records.*.is_hus' => 'nullable|boolean',
         ]);
 
         $created = 0;

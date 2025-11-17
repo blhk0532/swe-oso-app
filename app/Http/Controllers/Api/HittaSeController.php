@@ -29,6 +29,7 @@ class HittaSeController extends Controller
             'is_active' => 'boolean',
             'is_telefon' => 'boolean',
             'is_ratsit' => 'boolean',
+            'is_hus' => 'boolean',
         ]);
 
         // Determine which table to save to based on "kon" field
@@ -142,6 +143,7 @@ class HittaSeController extends Controller
             'records.*.is_active' => 'boolean',
             'records.*.is_telefon' => 'boolean',
             'records.*.is_ratsit' => 'boolean',
+            'records.*.is_hus' => 'boolean',
         ]);
 
         $created = 0;

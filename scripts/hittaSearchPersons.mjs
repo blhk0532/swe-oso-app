@@ -28,10 +28,250 @@ import { JSDOM } from "jsdom";
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
+import Database from "better-sqlite3";
 
 // --- API Configuration ---
 const API_BASE = process.env.API_BASE || process.env.APP_URL || "http://127.0.0.1:8000";
 const BATCH_ENDPOINT = `${API_BASE.replace(/\/$/, "")}/api/hitta-se/batch`;
+const PERSONER_DATA_BATCH_ENDPOINT = `${API_BASE.replace(/\/$/, "")}/api/personer-data/bulk`;
+
+// --- SQLite Backup Databases ---
+const DB_DIR = path.join(process.cwd(), "..", "database");
+const HITTA_DB_PATH = path.join(DB_DIR, "hitta.sqlite");
+const PERSONER_DB_PATH = path.join(DB_DIR, "personer.sqlite");
+
+// Initialize SQLite databases
+let hittaDb, personerDb;
+
+function initSQLiteDatabases() {
+  try {
+    // Ensure database directory exists
+    if (!fs.existsSync(DB_DIR)) {
+      fs.mkdirSync(DB_DIR, { recursive: true });
+    }
+
+    // Initialize hitta.sqlite
+    hittaDb = new Database(HITTA_DB_PATH);
+    hittaDb.exec(`
+      CREATE TABLE IF NOT EXISTS hitta_se (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        personnamn TEXT,
+        alder TEXT,
+        kon TEXT,
+        gatuadress TEXT,
+        postnummer TEXT,
+        postort TEXT,
+        karta TEXT,
+        link TEXT,
+        bostadstyp TEXT,
+        bostadspris TEXT,
+        hitta_telefon TEXT,
+        hitta_epost TEXT,
+        hitta_created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        hitta_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+      CREATE INDEX IF NOT EXISTS idx_gatuadress ON hitta_se(gatuadress);
+      CREATE INDEX IF NOT EXISTS idx_personnamn ON hitta_se(personnamn);
+    `);
+
+    // Initialize personer.sqlite
+    personerDb = new Database(PERSONER_DB_PATH);
+    personerDb.exec(`
+      CREATE TABLE IF NOT EXISTS personer_data (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        personnamn TEXT,
+        alder TEXT,
+        kon TEXT,
+        gatuadress TEXT,
+        postnummer TEXT,
+        postort TEXT,
+        karta TEXT,
+        link TEXT,
+        bostadstyp TEXT,
+        bostadspris TEXT,
+        hitta_telefon TEXT,
+        hitta_epost TEXT,
+        hitta_data_id INTEGER,
+        hitta_created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        hitta_updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(gatuadress, personnamn)
+      );
+      CREATE INDEX IF NOT EXISTS idx_gatuadress_personnamn ON personer_data(gatuadress, personnamn);
+      CREATE INDEX IF NOT EXISTS idx_hitta_data_id ON personer_data(hitta_data_id);
+    `);
+
+    console.log("✅ SQLite databases initialized");
+  } catch (error) {
+    console.error("❌ Failed to initialize SQLite databases:", error.message);
+    process.exit(1);
+  }
+}
+
+// Prepare SQLite statements
+let hittaInsertStmt, hittaUpdateStmt, personerUpsertStmt;
+
+function prepareSQLiteStatements() {
+  // hitta_se statements
+  hittaInsertStmt = hittaDb.prepare(`
+    INSERT INTO hitta_se (
+      personnamn, alder, kon, gatuadress, postnummer, postort, karta, link,
+      bostadstyp, bostadspris, hitta_telefon, hitta_epost, hitta_created_at, hitta_updated_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  hittaUpdateStmt = hittaDb.prepare(`
+    UPDATE hitta_se SET
+      alder = ?, kon = ?, postnummer = ?, postort = ?, karta = ?, link = ?,
+      bostadstyp = ?, bostadspris = ?, hitta_telefon = ?, hitta_epost = ?,
+      hitta_updated_at = ?, updated_at = CURRENT_TIMESTAMP
+    WHERE gatuadress = ? AND personnamn = ?
+  `);
+
+  // personer_data upsert statement (INSERT OR REPLACE)
+  personerUpsertStmt = personerDb.prepare(`
+    INSERT OR REPLACE INTO personer_data (
+      personnamn, alder, kon, gatuadress, postnummer, postort, karta, link,
+      bostadstyp, bostadspris, hitta_telefon, hitta_epost, hitta_data_id, hitta_created_at, hitta_updated_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+}
+
+function cleanupSQLite() {
+  try {
+    if (hittaDb) {
+      hittaDb.close();
+      console.log("✅ hitta.sqlite database closed");
+    }
+    if (personerDb) {
+      personerDb.close();
+      console.log("✅ personer.sqlite database closed");
+    }
+  } catch (error) {
+    console.error("❌ Error closing SQLite databases:", error.message);
+  }
+}
+
+function saveToSQLite(persons) {
+  if (!persons || persons.length === 0) {
+    return { hittaCreated: 0, hittaUpdated: 0, personerUpserted: 0, hittaIds: [] };
+  }
+
+  let hittaCreated = 0;
+  let hittaUpdated = 0;
+  let personerUpserted = 0;
+  const hittaIds = [];
+
+  const now = new Date().toISOString();
+
+  try {
+    // Begin transactions for better performance
+    hittaDb.exec('BEGIN');
+    personerDb.exec('BEGIN');
+
+    for (const person of persons) {
+      const payload = mapPersonToApiPayload(person);
+      let hittaId = null;
+
+      // Save to hitta_se SQLite
+      try {
+        // Check if record exists
+        const existingHitta = hittaDb.prepare(`
+          SELECT id FROM hitta_se WHERE gatuadress = ? AND personnamn = ?
+        `).get(payload.gatuadress, payload.personnamn);
+
+        if (existingHitta) {
+          // Update existing record
+          hittaUpdateStmt.run(
+            payload.alder,
+            payload.kon,
+            payload.postnummer,
+            payload.postort,
+            payload.karta,
+            payload.link,
+            payload.bostadstyp,
+            payload.bostadspris,
+            JSON.stringify(payload.hitta_telefon || []),
+            payload.hitta_epost,
+            now, // hitta_updated_at
+            payload.gatuadress,
+            payload.personnamn
+          );
+          hittaId = existingHitta.id;
+          hittaUpdated++;
+        } else {
+          // Insert new record
+          const result = hittaInsertStmt.run(
+            payload.personnamn,
+            payload.alder,
+            payload.kon,
+            payload.gatuadress,
+            payload.postnummer,
+            payload.postort,
+            payload.karta,
+            payload.link,
+            payload.bostadstyp,
+            payload.bostadspris,
+            JSON.stringify(payload.hitta_telefon || []),
+            payload.hitta_epost,
+            now, // hitta_created_at
+            now  // hitta_updated_at
+          );
+          hittaId = result.lastInsertRowid;
+          hittaCreated++;
+        }
+      } catch (hittaErr) {
+        console.error(`❌ SQLite hitta_se error for ${payload.personnamn}:`, hittaErr.message);
+      }
+
+      // Save to personer_data SQLite (always upsert) with hitta_data_id
+      try {
+        personerUpsertStmt.run(
+          payload.personnamn,
+          payload.alder,
+          payload.kon,
+          payload.gatuadress,
+          payload.postnummer,
+          payload.postort,
+          payload.karta,
+          payload.link,
+          payload.bostadstyp,
+          payload.bostadspris,
+          JSON.stringify(payload.hitta_telefon || []),
+          payload.hitta_epost,
+          hittaId, // hitta_data_id
+          now, // hitta_created_at
+          now  // hitta_updated_at
+        );
+        personerUpserted++;
+        hittaIds.push({ person: payload, hittaId });
+      } catch (personerErr) {
+        console.error(`❌ SQLite personer_data error for ${payload.personnamn}:`, personerErr.message);
+      }
+    }
+
+    // Commit transactions
+    hittaDb.exec('COMMIT');
+    personerDb.exec('COMMIT');
+
+    // console.log(`💾 SQLite backup: hitta_se (${hittaCreated} created, ${hittaUpdated} updated), personer_data (${personerUpserted} upserted)`);
+
+  } catch (error) {
+    // Rollback on error
+    try {
+      hittaDb.exec('ROLLBACK');
+      personerDb.exec('ROLLBACK');
+    } catch (rollbackErr) {
+      console.error('❌ Rollback failed:', rollbackErr.message);
+    }
+    console.error('❌ SQLite save error:', error.message);
+  }
+
+  return { hittaCreated, hittaUpdated, personerUpserted, hittaIds };
+}
 
 // --- Helper Functions ---
 
@@ -50,7 +290,14 @@ function mapPersonToApiPayload(person) {
     is_active: true,
     is_telefon: false,
     is_ratsit: false,
+    is_hus: true, // Default to true (house), will be set to false if matches apartment pattern
   };
+
+  // Check if address indicates apartment (not a house)
+  const isHusFalsePattern = /lgh|1 tr|2 tr|3 tr|4 tr|5 tr|6 tr| nb| bv|\bBox\b|\b([1-9][0-9]?|100)\s*[A-Z]\b/i;
+  if (person.gatuadress && isHusFalsePattern.test(person.gatuadress)) {
+    payload.is_hus = false;
+  }
 
   if (person.telefon && person.telefon !== "Lägg till telefonnummer") {
     const clean = String(person.telefon).trim();
@@ -80,40 +327,86 @@ async function savePersonsViaApi(persons) {
   let totalCreated = 0;
   let totalUpdated = 0;
   let totalFailed = 0;
+  let personerDataCreated = 0;
+  let personerDataUpdated = 0;
+  let personerDataFailed = 0;
 
   for (let i = 0; i < persons.length; i += batchSize) {
     const batch = persons.slice(i, i + batchSize);
-    const payload = {
-      records: batch.map((p) => mapPersonToApiPayload(p)),
-    };
-
     const batchNum = Math.floor(i / batchSize) + 1;
     const totalBatches = Math.ceil(persons.length / batchSize);
+
+    // Save to SQLite first to get hitta_data_ids
+    let sqliteResult = { hittaCreated: 0, hittaUpdated: 0, personerUpserted: 0, hittaIds: [] };
+    try {
+      sqliteResult = saveToSQLite(batch);
+    } catch (sqliteErr) {
+      console.log(`   ⚠️  SQLite backup failed: ${sqliteErr.message}`);
+    }
+    const payload = {
+      records: batch.map((p, index) => {
+        const personPayload = mapPersonToApiPayload(p);
+        // Add hitta_data_id from SQLite result if available
+        const hittaIdEntry = sqliteResult.hittaIds[index];
+        if (hittaIdEntry && hittaIdEntry.hittaId) {
+          personPayload.hitta_data_id = hittaIdEntry.hittaId;
+        }
+        return personPayload;
+      }),
+    };
 
     try {
       console.log(`📤 Batch ${batchNum}/${totalBatches} (${batch.length} records)...`);
 
+      // First save to hitta_se table
       const res = await axios.post(BATCH_ENDPOINT, payload, {
         headers: { "Content-Type": "application/json" },
         timeout: 30000,
       });
 
       if (res.status === 200 && res.data) {
-        totalCreated += res.data.created || 0;
-        totalUpdated += res.data.updated || 0;
-        totalFailed += res.data.failed || 0;
+        totalCreated += res.data.hitta_se?.created || res.data.created || 0;
+        totalUpdated += res.data.hitta_se?.updated || res.data.updated || 0;
+        totalFailed += res.data.hitta_se?.failed || res.data.failed || 0;
         console.log(
-          `   ✅ Created: ${res.data.created}, Updated: ${res.data.updated}, Failed: ${res.data.failed}`,
+          `   ✅ hitta_se: Created: ${res.data.hitta_se?.created || res.data.created || 0}, Updated: ${res.data.hitta_se?.updated || res.data.updated || 0}, Failed: ${res.data.hitta_se?.failed || res.data.failed || 0}`,
         );
       } else {
         totalFailed += batch.length;
-        console.log(`   ❌ Unexpected status ${res.status}`);
+        console.log(`   ❌ hitta_se: Unexpected status ${res.status}`);
+      }
+
+      // Then save to personer_data table
+      try {
+        const personerRes = await axios.post(PERSONER_DATA_BATCH_ENDPOINT, payload, {
+          headers: { "Content-Type": "application/json" },
+          timeout: 30000,
+        });
+
+        if (personerRes.status === 200 && personerRes.data) {
+          personerDataCreated += personerRes.data.summary?.created || 0;
+          personerDataUpdated += personerRes.data.summary?.updated || 0;
+          personerDataFailed += personerRes.data.summary?.failed || 0;
+          console.log(
+            `   ✅ personer_data: Created: ${personerRes.data.summary?.created || 0}, Updated: ${personerRes.data.summary?.updated || 0}, Failed: ${personerRes.data.summary?.failed || 0}`,
+          );
+        } else {
+          personerDataFailed += batch.length;
+          console.log(`   ❌ personer_data: Unexpected status ${personerRes.status}`);
+        }
+      } catch (personerErr) {
+        personerDataFailed += batch.length;
+        console.log(`   ❌ personer_data batch failed: ${personerErr.message}`);
+        if (personerErr.response?.data) {
+          console.log(`   📋 personer_data error details: ${JSON.stringify(personerErr.response.data).substring(0, 150)}`);
+        }
       }
     } catch (err) {
       totalFailed += batch.length;
-      console.log(`   ❌ Batch ${batchNum} failed: ${err.message}`);
+      personerDataFailed += batch.length;
+      console.log(`   ❌ hitta_se batch ${batchNum} failed: ${err.message}`);
       if (err.response?.data) {
-        console.log(`   📋 Error details: ${JSON.stringify(err.response.data).substring(0, 150)}`);
+        console.log(`   📋 hitta_se error details: ${JSON.stringify(err.response.data).substring(0, 150)}`);
       }
       
       // Check if it's a connection error
@@ -122,20 +415,38 @@ async function savePersonsViaApi(persons) {
       }
     }
 
+    // Report SQLite backup results
+    if (sqliteResult.hittaCreated > 0 || sqliteResult.hittaUpdated > 0 || sqliteResult.personerUpserted > 0) {
+      console.log(`   💾 SQLite backup: hitta_se (${sqliteResult.hittaCreated} created, ${sqliteResult.hittaUpdated} updated), personer_data (${sqliteResult.personerUpserted} upserted)`);
+    }
+
     // Small delay between batches
     if (i + batchSize < persons.length) {
       await new Promise((r) => setTimeout(r, 300));
     }
   }
 
-  const summary = `Created: ${totalCreated}, Updated: ${totalUpdated}, Failed: ${totalFailed}`;
-  if (totalFailed > 0) {
-    console.log(`⚠️  Database save completed with errors. ${summary}`);
+  const hittaSummary = `hitta_se - Created: ${totalCreated}, Updated: ${totalUpdated}, Failed: ${totalFailed}`;
+  const personerSummary = `personer_data - Created: ${personerDataCreated}, Updated: ${personerDataUpdated}, Failed: ${personerDataFailed}`;
+  
+  if (totalFailed > 0 || personerDataFailed > 0) {
+    console.log(`⚠️  Database save completed with errors.`);
+    console.log(`   ${hittaSummary}`);
+    console.log(`   ${personerSummary}`);
   } else {
-    console.log(`✅ Database save complete. ${summary}`);
+    console.log(`✅ Database save complete.`);
+    console.log(`   ${hittaSummary}`);
+    console.log(`   ${personerSummary}`);
   }
   
-  return { created: totalCreated, updated: totalUpdated, failed: totalFailed };
+  return { 
+    created: totalCreated, 
+    updated: totalUpdated, 
+    failed: totalFailed,
+    personerDataCreated,
+    personerDataUpdated,
+    personerDataFailed
+  };
 }
 
 async function runRatsitForPersons(persons) {
@@ -448,8 +759,9 @@ async function extractAllPersonData(searchQuery, options = {}) {
         try {
           const saveResult = await savePersonsViaApi(persons);
           
-          if (saveResult.failed > 0) {
-            console.log(`⚠️  Warning: ${saveResult.failed} persons failed to save on page ${currentPage}`);
+          const totalFailed = (saveResult.failed || 0) + (saveResult.personerDataFailed || 0);
+          if (totalFailed > 0) {
+            console.log(`⚠️  Warning: ${saveResult.failed || 0} hitta_se + ${saveResult.personerDataFailed || 0} personer_data persons failed to save on page ${currentPage}`);
           } else {
             console.log(`✅ Page ${currentPage} saved successfully!`);
           }
@@ -576,6 +888,10 @@ program
   .option("--ratsit", "Run Ratsit scraper for persons with phone numbers after each page")
   .action(async (searchQuery, options) => {
     try {
+      // Initialize SQLite databases
+      initSQLiteDatabases();
+      prepareSQLiteStatements();
+
       console.log("🚀 Starting Hitta.se person search...");
       console.log(`📍 Query: ${searchQuery}`);
       if (options.ratsit) {
@@ -616,8 +932,12 @@ program
       console.log("\n✅ All operations completed successfully!");
     } catch (error) {
       console.error("❌ Fatal error:", error.message);
+      cleanupSQLite();
       process.exit(1);
     }
+
+    // Cleanup SQLite databases
+    cleanupSQLite();
   });
 
 program.parse();

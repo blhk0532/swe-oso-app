@@ -55,6 +55,7 @@ class HittaDataResource extends Resource
                 Forms\Components\Toggle::make('is_active')->label('Aktiv')->columnSpan(4),
                 Forms\Components\Toggle::make('is_telefon')->label('Har telefon')->columnSpan(4),
                 Forms\Components\Toggle::make('is_ratsit')->label('Har Ratsit')->columnSpan(4),
+                Forms\Components\Toggle::make('is_hus')->label('Är hus')->columnSpan(4),
             ]),
         ]);
     }
@@ -73,12 +74,14 @@ class HittaDataResource extends Resource
                 Tables\Columns\IconColumn::make('is_active')->label('Aktiv')->boolean(),
                 Tables\Columns\IconColumn::make('is_telefon')->label('Telefon')->boolean(),
                 Tables\Columns\IconColumn::make('is_ratsit')->label('Ratsit')->boolean(),
+                Tables\Columns\IconColumn::make('is_hus')->label('Hus')->boolean(),
                 Tables\Columns\TextColumn::make('created_at')->label('Skapad')->dateTime()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')->label('Aktiv'),
                 Tables\Filters\TernaryFilter::make('is_telefon')->label('Har telefon'),
                 Tables\Filters\TernaryFilter::make('is_ratsit')->label('Har Ratsit'),
+                Tables\Filters\TernaryFilter::make('is_hus')->label('Är hus'),
             ])
             ->actions([
                 EditAction::make(),

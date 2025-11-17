@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('post_nummer', function (Blueprint $table) {
-            $table->id();
+            $table->id()->primary();
             $table->string('post_nummer', 6)->unique(); // Changed from 5 to 6 for "XXX XX" format
             $table->string('post_ort')->nullable();
             $table->string('post_lan')->nullable();

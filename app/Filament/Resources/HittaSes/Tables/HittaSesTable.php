@@ -91,6 +91,12 @@ class HittaSesTable
                     ->boolean()
                     ->sortable(),
 
+                // Is House
+                IconColumn::make('is_hus')
+                    ->label('House')
+                    ->boolean()
+                    ->sortable(),
+
                 // Additional toggleable columns
                 IconColumn::make('is_telefon')
                     ->label('Has Phone')
@@ -145,6 +151,13 @@ class HittaSesTable
                     ->placeholder('All records')
                     ->trueLabel('In Ratsit')
                     ->falseLabel('Not in Ratsit'),
+
+                // Is House filter
+                TernaryFilter::make('is_hus')
+                    ->label('House')
+                    ->placeholder('All records')
+                    ->trueLabel('Houses only')
+                    ->falseLabel('Non-houses only'),
 
                 // Sex filter
                 SelectFilter::make('kon')

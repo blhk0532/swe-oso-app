@@ -160,12 +160,30 @@ class RatsitDataInfolist
                                     ->label('Persons at Address')
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return implode(', ', $state);
+                                            return collect($state)->map(function ($item) {
+                                                if (is_array($item) && isset($item['text'])) {
+                                                    $text = $item['text'];
+                                                    $link = $item['link'] ?? null;
+
+                                                    return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                }
+
+                                                return is_string($item) ? $item : (string) $item;
+                                            })->implode(', ');
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return implode(', ', $decoded);
+                                                return collect($decoded)->map(function ($item) {
+                                                    if (is_array($item) && isset($item['text'])) {
+                                                        $text = $item['text'];
+                                                        $link = $item['link'] ?? null;
+
+                                                        return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                    }
+
+                                                    return is_string($item) ? $item : (string) $item;
+                                                })->implode(', ');
                                             }
 
                                             return str_replace('|', ', ', $state);
@@ -173,18 +191,37 @@ class RatsitDataInfolist
 
                                         return '-';
                                     })
+                                    ->html()
                                     ->columnSpanFull(),
 
                                 TextEntry::make('foretag')
                                     ->label('Companies at Address')
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return implode(', ', $state);
+                                            return collect($state)->map(function ($item) {
+                                                if (is_array($item) && isset($item['text'])) {
+                                                    $text = $item['text'];
+                                                    $link = $item['link'] ?? null;
+
+                                                    return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                }
+
+                                                return is_string($item) ? $item : (string) $item;
+                                            })->implode(', ');
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return implode(', ', $decoded);
+                                                return collect($decoded)->map(function ($item) {
+                                                    if (is_array($item) && isset($item['text'])) {
+                                                        $text = $item['text'];
+                                                        $link = $item['link'] ?? null;
+
+                                                        return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                    }
+
+                                                    return is_string($item) ? $item : (string) $item;
+                                                })->implode(', ');
                                             }
 
                                             return str_replace('|', ', ', $state);
@@ -192,18 +229,37 @@ class RatsitDataInfolist
 
                                         return '-';
                                     })
+                                    ->html()
                                     ->columnSpanFull(),
 
                                 TextEntry::make('grannar')
                                     ->label('Neighbors')
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return implode(', ', $state);
+                                            return collect($state)->map(function ($item) {
+                                                if (is_array($item) && isset($item['text'])) {
+                                                    $text = $item['text'];
+                                                    $link = $item['link'] ?? null;
+
+                                                    return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                }
+
+                                                return is_string($item) ? $item : (string) $item;
+                                            })->implode(', ');
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return implode(', ', $decoded);
+                                                return collect($decoded)->map(function ($item) {
+                                                    if (is_array($item) && isset($item['text'])) {
+                                                        $text = $item['text'];
+                                                        $link = $item['link'] ?? null;
+
+                                                        return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                    }
+
+                                                    return is_string($item) ? $item : (string) $item;
+                                                })->implode(', ');
                                             }
 
                                             return str_replace('|', ', ', $state);
@@ -211,18 +267,37 @@ class RatsitDataInfolist
 
                                         return '-';
                                     })
+                                    ->html()
                                     ->columnSpanFull(),
 
                                 TextEntry::make('fordon')
                                     ->label('Vehicles')
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return implode(', ', $state);
+                                            return collect($state)->map(function ($item) {
+                                                if (is_array($item) && isset($item['text'])) {
+                                                    $text = $item['text'];
+                                                    $link = $item['link'] ?? null;
+
+                                                    return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                }
+
+                                                return is_string($item) ? $item : (string) $item;
+                                            })->implode(', ');
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return implode(', ', $decoded);
+                                                return collect($decoded)->map(function ($item) {
+                                                    if (is_array($item) && isset($item['text'])) {
+                                                        $text = $item['text'];
+                                                        $link = $item['link'] ?? null;
+
+                                                        return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                    }
+
+                                                    return is_string($item) ? $item : (string) $item;
+                                                })->implode(', ');
                                             }
 
                                             return str_replace('|', ', ', $state);
@@ -230,18 +305,37 @@ class RatsitDataInfolist
 
                                         return '-';
                                     })
+                                    ->html()
                                     ->columnSpanFull(),
 
                                 TextEntry::make('hundar')
                                     ->label('Dogs')
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return implode(', ', $state);
+                                            return collect($state)->map(function ($item) {
+                                                if (is_array($item) && isset($item['text'])) {
+                                                    $text = $item['text'];
+                                                    $link = $item['link'] ?? null;
+
+                                                    return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                }
+
+                                                return is_string($item) ? $item : (string) $item;
+                                            })->implode(', ');
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return implode(', ', $decoded);
+                                                return collect($decoded)->map(function ($item) {
+                                                    if (is_array($item) && isset($item['text'])) {
+                                                        $text = $item['text'];
+                                                        $link = $item['link'] ?? null;
+
+                                                        return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                    }
+
+                                                    return is_string($item) ? $item : (string) $item;
+                                                })->implode(', ');
                                             }
 
                                             return str_replace('|', ', ', $state);
@@ -249,18 +343,37 @@ class RatsitDataInfolist
 
                                         return '-';
                                     })
+                                    ->html()
                                     ->columnSpanFull(),
 
                                 TextEntry::make('bolagsengagemang')
                                     ->label('Corporate Commitments')
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return implode(', ', $state);
+                                            return collect($state)->map(function ($item) {
+                                                if (is_array($item) && isset($item['text'])) {
+                                                    $text = $item['text'];
+                                                    $link = $item['link'] ?? null;
+
+                                                    return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                }
+
+                                                return is_string($item) ? $item : (string) $item;
+                                            })->implode(', ');
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return implode(', ', $decoded);
+                                                return collect($decoded)->map(function ($item) {
+                                                    if (is_array($item) && isset($item['text'])) {
+                                                        $text = $item['text'];
+                                                        $link = $item['link'] ?? null;
+
+                                                        return $link ? "<a href='{$link}' target='_blank' class='text-blue-600 hover:text-blue-800'>{$text}</a>" : $text;
+                                                    }
+
+                                                    return is_string($item) ? $item : (string) $item;
+                                                })->implode(', ');
                                             }
 
                                             return str_replace('|', ', ', $state);
@@ -268,6 +381,7 @@ class RatsitDataInfolist
 
                                         return '-';
                                     })
+                                    ->html()
                                     ->columnSpanFull(),
                             ])
                             ->columns(2)

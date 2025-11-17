@@ -33,6 +33,7 @@ class StoreHittaDataRequest extends FormRequest
             'is_active' => ['nullable', 'boolean'],
             'is_telefon' => ['nullable', 'boolean'],
             'is_ratsit' => ['nullable', 'boolean'],
+            'is_hus' => ['nullable', 'boolean'],
         ];
     }
 }

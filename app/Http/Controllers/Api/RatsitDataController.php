@@ -115,6 +115,7 @@ class RatsitDataController extends Controller
             'records.*.postort' => 'nullable|string',
             'records.*.forsamling' => 'nullable|string',
             'records.*.kommun' => 'nullable|string',
+            'records.*.kommun_ratsit' => 'nullable|string',
             'records.*.lan' => 'nullable|string',
             'records.*.adressandring' => 'nullable|string',
             'records.*.telfonnummer' => 'nullable|string',

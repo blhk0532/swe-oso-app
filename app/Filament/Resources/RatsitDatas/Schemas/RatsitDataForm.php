@@ -127,30 +127,52 @@ class RatsitDataForm
                                 Repeater::make('bolagsengagemang')
                                     ->label('Corporate Commitments')
                                     ->schema([
-                                        TextInput::make('value')
+                                        TextInput::make('text')
                                             ->label('Engagement')
                                             ->required(),
+                                        TextInput::make('link')
+                                            ->label('Link')
+                                            ->url()
+                                            ->placeholder('https://...'),
                                     ])
                                     ->default([])
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                            return array_map(function ($v) {
+                                                if (is_array($v) && isset($v['text'])) {
+                                                    return $v;
+                                                }
+                                                if (is_string($v)) {
+                                                    return ['text' => $v, 'link' => null];
+                                                }
+
+                                                return ['text' => (string) $v, 'link' => null];
+                                            }, $state);
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                                return array_map(function ($v) {
+                                                    if (is_array($v) && isset($v['text'])) {
+                                                        return $v;
+                                                    }
+
+                                                    return ['text' => is_string($v) ? $v : (string) $v, 'link' => null];
+                                                }, $decoded);
                                             }
                                             $parts = array_filter(array_map('trim', explode('|', $state)));
 
-                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                            return array_map(fn ($v) => ['text' => $v, 'link' => null], $parts);
                                         }
 
                                         return [];
                                     })
-                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->map(fn ($item) => [
+                                        'text' => $item['text'] ?? '',
+                                        'link' => $item['link'] ?? null,
+                                    ])->filter(fn ($item) => ! empty($item['text']))->values()->all())
                                     ->collapsible()
-                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
+                                    ->itemLabel(fn ($state): ?string => $state['text'] ?? null),
                             ])
                             ->columns(2)
                             ->collapsible(),
@@ -221,147 +243,257 @@ class RatsitDataForm
                                 Repeater::make('personer')
                                     ->label('Persons at Address')
                                     ->schema([
-                                        TextInput::make('value')
+                                        TextInput::make('text')
                                             ->label('Name')
                                             ->required(),
+                                        TextInput::make('link')
+                                            ->label('Link')
+                                            ->url()
+                                            ->placeholder('https://...'),
                                     ])
                                     ->default([])
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                            return array_map(function ($v) {
+                                                if (is_array($v) && isset($v['text'])) {
+                                                    return $v;
+                                                }
+                                                if (is_string($v)) {
+                                                    return ['text' => $v, 'link' => null];
+                                                }
+
+                                                return ['text' => (string) $v, 'link' => null];
+                                            }, $state);
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                                return array_map(function ($v) {
+                                                    if (is_array($v) && isset($v['text'])) {
+                                                        return $v;
+                                                    }
+
+                                                    return ['text' => is_string($v) ? $v : (string) $v, 'link' => null];
+                                                }, $decoded);
                                             }
                                             $parts = array_filter(array_map('trim', explode('|', $state)));
 
-                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                            return array_map(fn ($v) => ['text' => $v, 'link' => null], $parts);
                                         }
 
                                         return [];
                                     })
-                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->map(fn ($item) => [
+                                        'text' => $item['text'] ?? '',
+                                        'link' => $item['link'] ?? null,
+                                    ])->filter(fn ($item) => ! empty($item['text']))->values()->all())
                                     ->collapsible()
                                     ->columnSpanFull()
-                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
+                                    ->itemLabel(fn ($state): ?string => $state['text'] ?? null),
 
                                 Repeater::make('foretag')
                                     ->label('Companies at Address')
                                     ->schema([
-                                        TextInput::make('value')
+                                        TextInput::make('text')
                                             ->label('Company Name')
                                             ->required(),
+                                        TextInput::make('link')
+                                            ->label('Link')
+                                            ->url()
+                                            ->placeholder('https://...'),
                                     ])
                                     ->default([])
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                            return array_map(function ($v) {
+                                                if (is_array($v) && isset($v['text'])) {
+                                                    return $v;
+                                                }
+                                                if (is_string($v)) {
+                                                    return ['text' => $v, 'link' => null];
+                                                }
+
+                                                return ['text' => (string) $v, 'link' => null];
+                                            }, $state);
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                                return array_map(function ($v) {
+                                                    if (is_array($v) && isset($v['text'])) {
+                                                        return $v;
+                                                    }
+
+                                                    return ['text' => is_string($v) ? $v : (string) $v, 'link' => null];
+                                                }, $decoded);
                                             }
                                             $parts = array_filter(array_map('trim', explode('|', $state)));
 
-                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                            return array_map(fn ($v) => ['text' => $v, 'link' => null], $parts);
                                         }
 
                                         return [];
                                     })
-                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->map(fn ($item) => [
+                                        'text' => $item['text'] ?? '',
+                                        'link' => $item['link'] ?? null,
+                                    ])->filter(fn ($item) => ! empty($item['text']))->values()->all())
                                     ->collapsible()
                                     ->columnSpanFull()
-                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
+                                    ->itemLabel(fn ($state): ?string => $state['text'] ?? null),
 
                                 Repeater::make('grannar')
                                     ->label('Neighbors')
                                     ->schema([
-                                        TextInput::make('value')
+                                        TextInput::make('text')
                                             ->label('Name')
                                             ->required(),
+                                        TextInput::make('link')
+                                            ->label('Link')
+                                            ->url()
+                                            ->placeholder('https://...'),
                                     ])
                                     ->default([])
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                            return array_map(function ($v) {
+                                                if (is_array($v) && isset($v['text'])) {
+                                                    return $v;
+                                                }
+                                                if (is_string($v)) {
+                                                    return ['text' => $v, 'link' => null];
+                                                }
+
+                                                return ['text' => (string) $v, 'link' => null];
+                                            }, $state);
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                                return array_map(function ($v) {
+                                                    if (is_array($v) && isset($v['text'])) {
+                                                        return $v;
+                                                    }
+
+                                                    return ['text' => is_string($v) ? $v : (string) $v, 'link' => null];
+                                                }, $decoded);
                                             }
                                             $parts = array_filter(array_map('trim', explode('|', $state)));
 
-                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                            return array_map(fn ($v) => ['text' => $v, 'link' => null], $parts);
                                         }
 
                                         return [];
                                     })
-                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->map(fn ($item) => [
+                                        'text' => $item['text'] ?? '',
+                                        'link' => $item['link'] ?? null,
+                                    ])->filter(fn ($item) => ! empty($item['text']))->values()->all())
                                     ->collapsible()
                                     ->columnSpanFull()
-                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
+                                    ->itemLabel(fn ($state): ?string => $state['text'] ?? null),
 
                                 Repeater::make('fordon')
                                     ->label('Vehicles')
                                     ->schema([
-                                        TextInput::make('value')
+                                        TextInput::make('text')
                                             ->label('Vehicle')
                                             ->required(),
+                                        TextInput::make('link')
+                                            ->label('Link')
+                                            ->url()
+                                            ->placeholder('https://...'),
                                     ])
                                     ->default([])
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                            return array_map(function ($v) {
+                                                if (is_array($v) && isset($v['text'])) {
+                                                    return $v;
+                                                }
+                                                if (is_string($v)) {
+                                                    return ['text' => $v, 'link' => null];
+                                                }
+
+                                                return ['text' => (string) $v, 'link' => null];
+                                            }, $state);
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                                return array_map(function ($v) {
+                                                    if (is_array($v) && isset($v['text'])) {
+                                                        return $v;
+                                                    }
+
+                                                    return ['text' => is_string($v) ? $v : (string) $v, 'link' => null];
+                                                }, $decoded);
                                             }
                                             $parts = array_filter(array_map('trim', explode('|', $state)));
 
-                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                            return array_map(fn ($v) => ['text' => $v, 'link' => null], $parts);
                                         }
 
                                         return [];
                                     })
-                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->map(fn ($item) => [
+                                        'text' => $item['text'] ?? '',
+                                        'link' => $item['link'] ?? null,
+                                    ])->filter(fn ($item) => ! empty($item['text']))->values()->all())
                                     ->collapsible()
                                     ->columnSpanFull()
-                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
+                                    ->itemLabel(fn ($state): ?string => $state['text'] ?? null),
 
                                 Repeater::make('hundar')
                                     ->label('Dogs')
                                     ->schema([
-                                        TextInput::make('value')
+                                        TextInput::make('text')
                                             ->label('Dog Name')
                                             ->required(),
+                                        TextInput::make('link')
+                                            ->label('Link')
+                                            ->url()
+                                            ->placeholder('https://...'),
                                     ])
                                     ->default([])
                                     ->formatStateUsing(function ($state) {
                                         if (is_array($state)) {
-                                            return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $state);
+                                            return array_map(function ($v) {
+                                                if (is_array($v) && isset($v['text'])) {
+                                                    return $v;
+                                                }
+                                                if (is_string($v)) {
+                                                    return ['text' => $v, 'link' => null];
+                                                }
+
+                                                return ['text' => (string) $v, 'link' => null];
+                                            }, $state);
                                         }
                                         if (is_string($state)) {
                                             $decoded = json_decode($state, true);
                                             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                                return array_map(fn ($v) => ['value' => is_string($v) ? $v : (string) $v], $decoded);
+                                                return array_map(function ($v) {
+                                                    if (is_array($v) && isset($v['text'])) {
+                                                        return $v;
+                                                    }
+
+                                                    return ['text' => is_string($v) ? $v : (string) $v, 'link' => null];
+                                                }, $decoded);
                                             }
                                             $parts = array_filter(array_map('trim', explode('|', $state)));
 
-                                            return array_map(fn ($v) => ['value' => $v], $parts);
+                                            return array_map(fn ($v) => ['text' => $v, 'link' => null], $parts);
                                         }
 
                                         return [];
                                     })
-                                    ->dehydrateStateUsing(fn ($state) => collect($state)->pluck('value')->filter()->values()->all())
+                                    ->dehydrateStateUsing(fn ($state) => collect($state)->map(fn ($item) => [
+                                        'text' => $item['text'] ?? '',
+                                        'link' => $item['link'] ?? null,
+                                    ])->filter(fn ($item) => ! empty($item['text']))->values()->all())
                                     ->collapsible()
                                     ->columnSpanFull()
-                                    ->itemLabel(fn ($state): ?string => is_array($state) ? ($state['value'] ?? null) : (is_string($state) ? $state : null)),
+                                    ->itemLabel(fn ($state): ?string => $state['text'] ?? null),
                             ])
                             ->columns(2)
                             ->collapsible(),
