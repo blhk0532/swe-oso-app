@@ -41,6 +41,9 @@ return new class extends Migration
             $table->integer('merinfo_personer_total')->nullable();
             $table->integer('merinfo_foretag_total')->nullable();
 
+            $table->integer('ratsit_personer_total')->nullable();
+            $table->integer('ratsit_foretag_total')->nullable();
+
             // Active flag
             $table->boolean('is_pending')->default(true);
             $table->boolean('is_complete')->default(false);

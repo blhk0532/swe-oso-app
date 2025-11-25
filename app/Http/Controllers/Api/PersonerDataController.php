@@ -7,6 +7,7 @@ use App\Models\PersonerData;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Log;
 
 class PersonerDataController extends Controller
 {
@@ -32,7 +33,7 @@ class PersonerDataController extends Controller
             'records.*.is_telefon' => 'nullable|boolean',
             'records.*.is_ratsit' => 'nullable|boolean',
             'records.*.is_hus' => 'nullable|boolean',
-            
+
             // Ratsit data fields
             'records.*.ratsit_gatuadress' => 'nullable|string',
             'records.*.ratsit_postnummer' => 'nullable|string',
@@ -73,7 +74,7 @@ class PersonerDataController extends Controller
             'records.*.ratsit_ratsit_se' => 'nullable|string',
             'records.*.ratsit_is_active' => 'nullable|boolean',
             'records.*.ratsit_updated_at' => 'nullable|string',
-            
+
             // Merinfo data fields
             'records.*.merinfo_data_id' => 'nullable|integer',
             'records.*.merinfo_personnamn' => 'nullable|string',
@@ -194,8 +195,39 @@ class PersonerDataController extends Controller
                     $personerData['merinfo_updated_at'] = $recordData['merinfo_updated_at'] ?? now();
                 }
 
-                // Use gatuadress + personnamn as the primary unique identifier (as requested)
-                // This ensures we update existing records instead of creating duplicates
+                // OPTION 1: Address-based deduplication (recommended for your use case)
+                // Only allow one person per address - consolidates households/families
+                if (! empty($recordData['gatuadress'])) {
+                    $existing = PersonerData::where('gatuadress', $recordData['gatuadress'])
+                        ->where('postnummer', $recordData['postnummer'] ?? null)
+                        ->where('postort', $recordData['postort'] ?? null)
+                        ->first();
+
+                    if ($existing) {
+                        // Update existing record with new person data
+                        // You could append person names or keep the most complete one
+                        if (! empty($recordData['personnamn']) && empty($existing->personnamn)) {
+                            $personerData['personnamn'] = $recordData['personnamn'];
+                        } elseif (! empty($recordData['personnamn']) && ! empty($existing->personnamn)) {
+                            // Option: Combine names if they're different (family members)
+                            $existingNames = explode(', ', $existing->personnamn);
+                            if (! in_array($recordData['personnamn'], $existingNames)) {
+                                $personerData['personnamn'] = $existing->personnamn . ', ' . $recordData['personnamn'];
+                            }
+                        }
+
+                        $existing->update($personerData);
+                        $updated++;
+                    } else {
+                        // Create new record
+                        $personerData['hitta_created_at'] = now();
+                        PersonerData::create($personerData);
+                        $created++;
+                    }
+                }
+
+                // OPTION 2: Original logic (name + address uniqueness) - commented out
+                /*
                 if (!empty($recordData['gatuadress']) && !empty($recordData['personnamn'])) {
                     $existing = PersonerData::where('gatuadress', $recordData['gatuadress'])
                         ->where('personnamn', $recordData['personnamn'])
@@ -210,9 +242,13 @@ class PersonerDataController extends Controller
                         PersonerData::create($personerData);
                         $created++;
                     }
-                } else {
-                    // Fallback: try to find by hitta_link if gatuadress/personnamn are not available
-                    if (!empty($recordData['link'])) {
+                }
+                */
+
+                // OPTION 3: Fallback logic (keep as-is)
+                else {
+                    // Fallback: try to find by hitta_link if gatuadress is not available
+                    if (! empty($recordData['link'])) {
                         $existing = PersonerData::where('hitta_link', $recordData['link'])->first();
                         if ($existing) {
                             // Update existing record
@@ -241,13 +277,13 @@ class PersonerDataController extends Controller
                     'error' => $e->getMessage(),
                     'data' => $recordData, // Include full data for debugging
                 ];
-                
+
                 // Log the error for debugging
-                \Log::error('PersonerData bulk store failed', [
+                Log::error('PersonerData bulk store failed', [
                     'index' => $index,
                     'record' => $recordData,
                     'error' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString()
+                    'trace' => $e->getTraceAsString(),
                 ]);
             }
         }

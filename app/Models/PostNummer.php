@@ -47,6 +47,8 @@ class PostNummer extends Model
             'merinfo_foretag' => 'integer',
             'merinfo_personer_total' => 'integer',
             'merinfo_foretag_total' => 'integer',
+            'ratsit_personer_total' => 'integer',
+            'ratsit_foretag_total' => 'integer',
             'last_livewire_update' => 'datetime',
             'status' => 'string',
         ];
@@ -73,6 +75,8 @@ class PostNummer extends Model
         'processed_count',
         'merinfo_personer',
         'merinfo_foretag',
+        'ratsit_personer_total',
+        'ratsit_foretag_total',
         'merinfo_personer_total',
         'merinfo_foretag_total',
         'last_livewire_update',

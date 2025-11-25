@@ -36,4 +36,9 @@ class Dashboard extends BaseDashboard
                     ->columnSpanFull(),
             ]);
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 }

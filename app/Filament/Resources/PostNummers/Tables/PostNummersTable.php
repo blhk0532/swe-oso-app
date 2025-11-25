@@ -86,23 +86,23 @@ class PostNummersTable
                     ->placeholder('—'),
 
                 TextColumn::make('total_count')
-                    ->label('TT')
+                    ->label('Total')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
                     ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
                     ->placeholder('—'),
 
-                TextColumn::make('bolag')
-                    ->label('AB')
-                    ->numeric()
-                    ->sortable()
-                    ->grow(false)
-                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
-                    ->placeholder('—'),
+                //    TextColumn::make('bolag')
+                //        ->label('AB')
+                //        ->numeric()
+                //        ->sortable()
+                //        ->grow(false)
+                //        ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                //        ->placeholder('—'),
 
                 TextColumn::make('foretag')
-                    ->label('FÖ')
+                    ->label('H Företag')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -110,7 +110,23 @@ class PostNummersTable
                     ->placeholder('—'),
 
                 TextColumn::make('personer')
-                    ->label('PE')
+                    ->label('H Personer')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                TextColumn::make('ratsit_personer_total')
+                    ->label('R Personer')
+                    ->numeric()
+                    ->sortable()
+                    ->grow(false)
+                    ->extraAttributes(['class' => 'whitespace-nowrap text-right'])
+                    ->placeholder('—'),
+
+                TextColumn::make('ratsit_foretag_total')
+                    ->label('R Företag')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -118,7 +134,7 @@ class PostNummersTable
                     ->placeholder('—'),
 
                 TextColumn::make('merinfo_personer')
-                    ->label('MI PE')
+                    ->label('M Personer')
                     ->numeric()
                     ->sortable()
                     ->grow(false)
@@ -126,7 +142,7 @@ class PostNummersTable
                     ->placeholder('—'),
 
                 TextColumn::make('merinfo_foretag')
-                    ->label('MI FÖ')
+                    ->label('M Företag')
                     ->numeric()
                     ->sortable()
                     ->grow(false)

@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\PostNummer;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use PDO;
 
 class PostNummerSeeder extends Seeder
 {
@@ -14,32 +12,84 @@ class PostNummerSeeder extends Seeder
      */
     public function run(): void
     {
-        // Import data from SQLite database
-        $sqlitePath = database_path('post_nummer.sqlite');
+        $importPath = database_path('import');
+        $personJsonPath = $importPath . '/ratsit_person_postorter.json';
+        $foretagJsonPath = $importPath . '/ratsit_foretag_postorter.json';
 
-        if (file_exists($sqlitePath)) {
-            $pdo = new PDO('sqlite:'.$sqlitePath);
-            $data = $pdo->query('SELECT * FROM postnummer')->fetchAll(PDO::FETCH_OBJ);
-
-            $this->command->info('Starting import of '.count($data).' post_nummers records...');
-
-            // Clear existing data and use transactions for better performance
-            PostNummer::truncate();
-
-            DB::transaction(function () use ($data) {
-                foreach ($data as $record) {
-                    PostNummer::create([
-                        'id' => $record->id,
-                        'post_nummer' => $record->post_nummer,
-                        'post_ort' => $record->post_ort,
-                        'post_lan' => $record->post_lan,
-                    ]);
-                }
-            });
-
-            $this->command->info('Successfully imported '.count($data).' post_nummer records.');
-        } else {
-            $this->command->error('SQLite database file not found: '.$sqlitePath);
+        // Load totals from JSON files
+        $totals = [];
+        if (file_exists($personJsonPath)) {
+            $personData = json_decode(file_get_contents($personJsonPath), true);
+            foreach ($personData as $obj) {
+                $pn = preg_replace('/\s+/', '', (string) $obj['post_nummer']);
+                $totals[$pn]['ratsit_personer_total'] = $obj['ratsit_personer_total'] ?? 0;
+            }
         }
+        if (file_exists($foretagJsonPath)) {
+            $foretagData = json_decode(file_get_contents($foretagJsonPath), true);
+            foreach ($foretagData as $obj) {
+                $pn = preg_replace('/\s+/', '', (string) $obj['post_nummer']);
+                $totals[$pn]['ratsit_foretag_total'] = $obj['ratsit_foretag_total'] ?? ($obj['foretag_count'] ?? 0);
+            }
+        }
+
+        // Loop through all 10 parts
+        for ($part = 1; $part <= 10; $part++) {
+            $filePath = $importPath . "/postnummer_az_part_{$part}.json";
+
+            if (! file_exists($filePath)) {
+                $this->command->error("File not found: {$filePath}");
+
+                continue;
+            }
+
+            $this->command->info("Processing part {$part}...");
+
+            $jsonContent = file_get_contents($filePath);
+            $data = json_decode($jsonContent, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $this->command->error("Invalid JSON in file: {$filePath}");
+
+                continue;
+            }
+
+            if (! isset($data['records']) || ! is_array($data['records'])) {
+                $this->command->error("No records found in file: {$filePath}");
+
+                continue;
+            }
+
+            $records = $data['records'];
+            $this->command->info('Found ' . count($records) . " records in part {$part}");
+
+            // Insert records in chunks to avoid memory issues
+            $chunkSize = 100;
+            $chunks = array_chunk($records, $chunkSize);
+
+            foreach ($chunks as $chunk) {
+                $insertData = array_map(function ($record) use ($totals) {
+                    $normalizedPn = preg_replace('/\s+/', '', (string) $record['post_nummer']);
+                    $recordTotals = $totals[$normalizedPn] ?? [];
+
+                    return [
+                        'id' => $record['id'],
+                        'post_nummer' => $normalizedPn,
+                        'post_ort' => $record['post_ort'],
+                        'post_lan' => $record['post_lan'],
+                        'ratsit_personer_total' => $recordTotals['ratsit_personer_total'] ?? 0,
+                        'ratsit_foretag_total' => $recordTotals['ratsit_foretag_total'] ?? 0,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }, $chunk);
+
+                PostNummer::insert($insertData);
+            }
+
+            $this->command->info("Completed processing part {$part}");
+        }
+
+        $this->command->info('PostNummer seeding completed!');
     }
 }

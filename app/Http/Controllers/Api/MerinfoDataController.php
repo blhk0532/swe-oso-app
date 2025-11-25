@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\MerinfoData;
+use App\Models\PersonerData;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -162,9 +163,12 @@ class MerinfoDataController extends Controller
                 // Map alternative field names to standard ones
                 $mappedData = $this->mapRecordFields($recordData);
 
-                // Create records even with empty personnamn (due to privacy blocking)
+                // Create record in merinfo_data
                 $record = MerinfoData::create($mappedData);
                 $created++;
+
+                // Also save to personer_data with merinfo_* prefix
+                $this->saveToPersonerData($record, $mappedData);
 
             } catch (Exception $e) {
                 $failed++;
@@ -253,5 +257,52 @@ class MerinfoDataController extends Controller
         }
 
         return $mapped;
+    }
+
+    /**
+     * Save merinfo data to personer_data table with merinfo_* prefix
+     */
+    private function saveToPersonerData(MerinfoData $merinfoRecord, array $mappedData): void
+    {
+        // Prepare personer_data record with merinfo_* prefixed columns
+        $personerData = [
+            'personnamn' => $mappedData['personnamn'] ?? null,
+            'gatuadress' => $mappedData['gatuadress'] ?? null,
+            'postnummer' => $mappedData['postnummer'] ?? null,
+            'postort' => $mappedData['postort'] ?? null,
+
+            // Merinfo-specific fields with merinfo_* prefix
+            'merinfo_data_id' => $merinfoRecord->id,
+            'merinfo_personnamn' => $mappedData['personnamn'] ?? null,
+            'merinfo_alder' => $mappedData['alder'] ?? null,
+            'merinfo_kon' => $mappedData['kon'] ?? null,
+            'merinfo_gatuadress' => $mappedData['gatuadress'] ?? null,
+            'merinfo_postnummer' => $mappedData['postnummer'] ?? null,
+            'merinfo_postort' => $mappedData['postort'] ?? null,
+            'merinfo_telefon' => $mappedData['telefon'] ?? null,
+            'merinfo_karta' => $mappedData['karta'] ?? null,
+            'merinfo_link' => $mappedData['link'] ?? null,
+            'merinfo_bostadstyp' => $mappedData['bostadstyp'] ?? null,
+            'merinfo_bostadspris' => $mappedData['bostadspris'] ?? null,
+            'merinfo_is_active' => $mappedData['is_active'] ?? true,
+            'merinfo_is_telefon' => $mappedData['is_telefon'] ?? false,
+            'merinfo_is_hus' => $mappedData['is_hus'] ?? true,
+            'merinfo_created_at' => now(),
+            'merinfo_updated_at' => now(),
+        ];
+
+        // Use gatuadress + personnamn as unique identifier
+        if (! empty($personerData['gatuadress']) && ! empty($personerData['personnamn'])) {
+            PersonerData::updateOrCreate(
+                [
+                    'gatuadress' => $personerData['gatuadress'],
+                    'personnamn' => $personerData['personnamn'],
+                ],
+                $personerData
+            );
+        } else {
+            // Create new record if no unique identifiers
+            PersonerData::create($personerData);
+        }
     }
 }

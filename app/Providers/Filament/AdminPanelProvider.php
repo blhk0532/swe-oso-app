@@ -64,7 +64,7 @@ class AdminPanelProvider extends PanelProvider
                 'POST NUMMER',
                 'HITTA DATABAS',
                 'MERINFO DATABAS',
-                'RATSIT DATABAS',
+                'RATSIT DATABASER',
                 'UPPLYSNING DATA',
                 'ENIRO DATABAS',
                 'ADMINISTRATION',
@@ -105,7 +105,7 @@ class AdminPanelProvider extends PanelProvider
                     ->authorize(fn (): bool => auth()->user()->email === 'admin@example.com')
                     ->usingPage(HealthCheckResults::class)
             )
-            ->plugin(FilamentApiDocsBuilderPlugin::make())
+          //  ->plugin(FilamentApiDocsBuilderPlugin::make())
 
             ->plugins([FilamentFullCalendarPlugin::make()])
             ->plugins([

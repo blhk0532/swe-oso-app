@@ -34,12 +34,18 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // Base postnummer
             PostNummerSeeder::class,
-
+            PostNumSeeder::class,
             // Unified queues
-            // MerinfoQueueSeeder::class,
+            MerinfoQueueSeeder::class,
+            // Ratsit data: kommuner, foretag kommuner & foretag postorter (from CSVs)
+            // RatsitKommunerSverigeSeeder::class,
+            RatsitForetagKommunerSeeder::class,
+            RatsitPersonKommunerSeeder::class,
+            RatsitPersonPostorterSeeder::class,
+            RatsitForetagPostorterSeeder::class,
             // HittaQueueSeeder::class,
             // RatsitQueueSeeder::class,
-
+            // PostNummerCheckSeeder::class,
             // Per-type queues
 
             //    MerinfoForetagQueueSeeder::class,
@@ -51,7 +57,7 @@ class DatabaseSeeder extends Seeder
 
             // Postnummer summary queue tables
 
-            // PostNummerQueueSeeder::class,
+            PostNummerQueueSeeder::class,
             //    PostNummerForetagQueueSeeder::class,
             //    PostNummerPersonerQueueSeeder::class,
         ]);

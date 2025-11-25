@@ -54,6 +54,13 @@ class MerinfoQueueController extends Controller
      */
     public function runPersoner(Request $request): JsonResponse
     {
+        // TEMPORARY: Return hardcoded value
+        return response()->json([
+            'data' => [
+                'post_nummer' => '15332',
+            ],
+        ]);
+
         $record = MerinfoQueue::query()
             ->where('personer_queued', 1)
             ->where('personer_scraped', 0)

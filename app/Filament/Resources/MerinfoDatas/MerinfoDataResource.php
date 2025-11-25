@@ -19,17 +19,17 @@ class MerinfoDataResource extends Resource
 {
     protected static ?string $model = MerinfoData::class;
 
-    //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUserGroup;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUserGroup;
 
     protected static ?string $navigationLabel = 'Merinfo Data';
 
-    protected static string | UnitEnum | null $navigationGroup = 'MERINFO DATABAS';
+    //   protected static string | UnitEnum | null $navigationGroup = 'MERINFO DATABAS';
 
     protected static ?string $modelLabel = 'Merinfo Data';
 
     protected static ?string $pluralModelLabel = 'Merinfo data';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 5;
 
     // place resource under Databaser cluster
     protected static ?string $slug = 'databaser/merinfo-data';

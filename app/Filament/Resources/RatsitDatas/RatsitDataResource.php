@@ -25,13 +25,13 @@ class RatsitDataResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'personnamn';
 
-    //    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedUser;
 
     protected static ?string $navigationLabel = 'Ratsit Data';
 
-    protected static string | UnitEnum | null $navigationGroup = 'RATSIT DATABAS';
+    //    protected static string | UnitEnum | null $navigationGroup = 'RATSIT DATABASER';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 6;
 
     // place resource under Databaser cluster
     protected static ?string $slug = 'databaser/ratsit-data';

@@ -13,10 +13,29 @@ class PostNummerQueueSeeder extends Seeder
     public function run(): void
     {
         $importPath = database_path('import');
+        $personJsonPath = $importPath . '/ratsit_person_postorter.json';
+        $foretagJsonPath = $importPath . '/ratsit_foretag_postorter.json';
+
+        // Load totals from JSON files
+        $totals = [];
+        if (file_exists($personJsonPath)) {
+            $personData = json_decode(file_get_contents($personJsonPath), true);
+            foreach ($personData as $obj) {
+                $pn = preg_replace('/\s+/', '', (string) $obj['post_nummer']);
+                $totals[$pn]['ratsit_personer_total'] = $obj['ratsit_personer_total'] ?? 0;
+            }
+        }
+        if (file_exists($foretagJsonPath)) {
+            $foretagData = json_decode(file_get_contents($foretagJsonPath), true);
+            foreach ($foretagData as $obj) {
+                $pn = preg_replace('/\s+/', '', (string) $obj['post_nummer']);
+                $totals[$pn]['ratsit_foretag_total'] = $obj['ratsit_foretag_total'] ?? ($obj['foretag_count'] ?? 0);
+            }
+        }
 
         // Loop through all 10 parts
         for ($part = 1; $part <= 10; $part++) {
-            $filePath = $importPath . "/postnummer_desc_part_{$part}.json";
+            $filePath = $importPath . "/postnummer_az_part_{$part}.json";
 
             if (! file_exists($filePath)) {
                 $this->command->error("File not found: {$filePath}");
@@ -45,53 +64,21 @@ class PostNummerQueueSeeder extends Seeder
             $this->command->info('Found ' . count($records) . " records in part {$part}");
 
             // Insert records in chunks to avoid memory issues
-            $chunkSize = 100; // Reduced to avoid max_allowed_packet issues
+            $chunkSize = 100;
             $chunks = array_chunk($records, $chunkSize);
 
             foreach ($chunks as $chunk) {
-                $insertData = array_map(function ($record) {
+                $insertData = array_map(function ($record) use ($totals) {
+                    $normalizedPn = preg_replace('/\s+/', '', (string) $record['post_nummer']);
+                    $recordTotals = $totals[$normalizedPn] ?? [];
+
                     return [
-                        // Normalize to 5-digit format for queue tables (strip spaces)
-                        'post_nummer' => preg_replace('/\s+/', '', (string) $record['post_nummer']),
+                        'id' => $record['id'],
+                        'post_nummer' => $normalizedPn,
                         'post_ort' => $record['post_ort'],
                         'post_lan' => $record['post_lan'],
-                        'merinfo_personer_saved' => null,
-                        'merinfo_foretag_saved' => null,
-                        'merinfo_personer_total' => null,
-                        'merinfo_foretag_total' => null,
-                        'merinfo_status' => null,
-                        'merinfo_checked' => false,
-                        'merinfo_queued' => false,
-                        'merinfo_scraped' => false,
-                        'merinfo_complete' => false,
-                        'ratsit_personer_saved' => null,
-                        'ratsit_foretag_saved' => null,
-                        'ratsit_personer_total' => null,
-                        'ratsit_foretag_total' => null,
-                        'ratsit_status' => null,
-                        'ratsit_checked' => false,
-                        'ratsit_queued' => false,
-                        'ratsit_scraped' => false,
-                        'ratsit_complete' => false,
-                        'hitta_personer_saved' => null,
-                        'hitta_foretag_saved' => null,
-                        'hitta_personer_total' => null,
-                        'hitta_foretag_total' => null,
-                        'hitta_status' => null,
-                        'hitta_checked' => false,
-                        'hitta_queued' => false,
-                        'hitta_scraped' => false,
-                        'hitta_complete' => false,
-                        'post_nummer_personer_saved' => null,
-                        'post_nummer_foretag_saved' => null,
-                        'post_nummer_personer_total' => null,
-                        'post_nummer_foretag_total' => null,
-                        'post_nummer_status' => null,
-                        'post_nummer_checked' => false,
-                        'post_nummer_queued' => false,
-                        'post_nummer_scraped' => false,
-                        'post_nummer_complete' => false,
-                        'is_active' => false,
+                        'ratsit_personer_total' => $recordTotals['ratsit_personer_total'] ?? 0,
+                        'ratsit_foretag_total' => $recordTotals['ratsit_foretag_total'] ?? 0,
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];
@@ -103,6 +90,6 @@ class PostNummerQueueSeeder extends Seeder
             $this->command->info("Completed processing part {$part}");
         }
 
-        $this->command->info('PostNummerQueue seeding completed!');
+        $this->command->info('PostNummer seeding completed!');
     }
 }

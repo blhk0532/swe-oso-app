@@ -20,7 +20,9 @@ class PersonerDataResource extends Resource
 {
     protected static ?string $model = PersonerData::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?int $navigationSort = 4;
+
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema
     {
@@ -54,7 +56,7 @@ class PersonerDataResource extends Resource
         ];
     }
 
-        public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }

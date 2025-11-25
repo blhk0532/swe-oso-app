@@ -1,0 +1,2738 @@
+[
+  {
+    "id": 1,
+    "kommun": "Ale",
+    "post_ort_saved": 1,
+    "personer_count": 25652,
+    "ratsit_link": "https://www.ratsit.se/personer/Ale-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:12:48"
+  },
+  {
+    "id": 2,
+    "kommun": "Alingsås",
+    "post_ort_saved": 1,
+    "personer_count": 34735,
+    "ratsit_link": "https://www.ratsit.se/personer/Alings%C3%A5s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:13:43"
+  },
+  {
+    "id": 3,
+    "kommun": "Alvesta",
+    "post_ort_saved": 1,
+    "personer_count": 15925,
+    "ratsit_link": "https://www.ratsit.se/personer/Alvesta-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:14:36"
+  },
+  {
+    "id": 4,
+    "kommun": "Aneby",
+    "post_ort_saved": 1,
+    "personer_count": 5517,
+    "ratsit_link": "https://www.ratsit.se/personer/Aneby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:15:28"
+  },
+  {
+    "id": 5,
+    "kommun": "Arboga",
+    "post_ort_saved": 1,
+    "personer_count": 11633,
+    "ratsit_link": "https://www.ratsit.se/personer/Arboga-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:16:22"
+  },
+  {
+    "id": 6,
+    "kommun": "Arjeplogs",
+    "post_ort_saved": 1,
+    "personer_count": 2219,
+    "ratsit_link": "https://www.ratsit.se/personer/Arjeplogs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:17:13"
+  },
+  {
+    "id": 7,
+    "kommun": "Arvidsjaurs",
+    "post_ort_saved": 1,
+    "personer_count": 5122,
+    "ratsit_link": "https://www.ratsit.se/personer/Arvidsjaurs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:18:09"
+  },
+  {
+    "id": 8,
+    "kommun": "Arvika",
+    "post_ort_saved": 1,
+    "personer_count": 21306,
+    "ratsit_link": "https://www.ratsit.se/personer/Arvika-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:19:03"
+  },
+  {
+    "id": 9,
+    "kommun": "Askersunds",
+    "post_ort_saved": 1,
+    "personer_count": 9659,
+    "ratsit_link": "https://www.ratsit.se/personer/Askersunds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:19:56"
+  },
+  {
+    "id": 10,
+    "kommun": "Avesta",
+    "post_ort_saved": 1,
+    "personer_count": 18556,
+    "ratsit_link": "https://www.ratsit.se/personer/Avesta-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:20:51"
+  },
+  {
+    "id": 11,
+    "kommun": "Bengtsfors",
+    "post_ort_saved": 1,
+    "personer_count": 7689,
+    "ratsit_link": "https://www.ratsit.se/personer/Bengtsfors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:21:43"
+  },
+  {
+    "id": 12,
+    "kommun": "Bergs",
+    "post_ort_saved": 1,
+    "personer_count": 5925,
+    "ratsit_link": "https://www.ratsit.se/personer/Bergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:22:36"
+  },
+  {
+    "id": 13,
+    "kommun": "Bjurholms",
+    "post_ort_saved": 1,
+    "personer_count": 1930,
+    "ratsit_link": "https://www.ratsit.se/personer/Bjurholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:23:25"
+  },
+  {
+    "id": 14,
+    "kommun": "Bjuvs",
+    "post_ort_saved": 1,
+    "personer_count": 12895,
+    "ratsit_link": "https://www.ratsit.se/personer/Bjuvs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:24:17"
+  },
+  {
+    "id": 15,
+    "kommun": "Bodens",
+    "post_ort_saved": 1,
+    "personer_count": 24072,
+    "ratsit_link": "https://www.ratsit.se/personer/Bodens-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:25:11"
+  },
+  {
+    "id": 16,
+    "kommun": "Bollebygds",
+    "post_ort_saved": 1,
+    "personer_count": 7858,
+    "ratsit_link": "https://www.ratsit.se/personer/Bollebygds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:26:02"
+  },
+  {
+    "id": 17,
+    "kommun": "Bollnäs",
+    "post_ort_saved": 1,
+    "personer_count": 21691,
+    "ratsit_link": "https://www.ratsit.se/personer/Bolln%C3%A4s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:26:56"
+  },
+  {
+    "id": 18,
+    "kommun": "Borgholms",
+    "post_ort_saved": 1,
+    "personer_count": 9393,
+    "ratsit_link": "https://www.ratsit.se/personer/Borgholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:27:49"
+  },
+  {
+    "id": 19,
+    "kommun": "Borlänge",
+    "post_ort_saved": 1,
+    "personer_count": 42175,
+    "ratsit_link": "https://www.ratsit.se/personer/Borl%C3%A4nge-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:28:45"
+  },
+  {
+    "id": 20,
+    "kommun": "Borås",
+    "post_ort_saved": 1,
+    "personer_count": 94246,
+    "ratsit_link": "https://www.ratsit.se/personer/Bor%C3%A5s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:29:51"
+  },
+  {
+    "id": 21,
+    "kommun": "Botkyrka",
+    "post_ort_saved": 1,
+    "personer_count": 77381,
+    "ratsit_link": "https://www.ratsit.se/personer/Botkyrka-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:30:49"
+  },
+  {
+    "id": 22,
+    "kommun": "Boxholms",
+    "post_ort_saved": 1,
+    "personer_count": 4521,
+    "ratsit_link": "https://www.ratsit.se/personer/Boxholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:31:39"
+  },
+  {
+    "id": 23,
+    "kommun": "Bromölla",
+    "post_ort_saved": 1,
+    "personer_count": 10390,
+    "ratsit_link": "https://www.ratsit.se/personer/Brom%C3%B6lla-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:32:31"
+  },
+  {
+    "id": 24,
+    "kommun": "Bräcke",
+    "post_ort_saved": 1,
+    "personer_count": 5082,
+    "ratsit_link": "https://www.ratsit.se/personer/Br%C3%A4cke-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:33:23"
+  },
+  {
+    "id": 25,
+    "kommun": "Burlövs",
+    "post_ort_saved": 1,
+    "personer_count": 16123,
+    "ratsit_link": "https://www.ratsit.se/personer/Burl%C3%B6vs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:34:13"
+  },
+  {
+    "id": 26,
+    "kommun": "Båstads",
+    "post_ort_saved": 1,
+    "personer_count": 13614,
+    "ratsit_link": "https://www.ratsit.se/personer/B%C3%A5stads-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:35:07"
+  },
+  {
+    "id": 27,
+    "kommun": "Dals-Eds",
+    "post_ort_saved": 1,
+    "personer_count": 3885,
+    "ratsit_link": "https://www.ratsit.se/personer/Dals-Eds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:35:56"
+  },
+  {
+    "id": 28,
+    "kommun": "Danderyds",
+    "post_ort_saved": 1,
+    "personer_count": 26312,
+    "ratsit_link": "https://www.ratsit.se/personer/Danderyds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:36:50"
+  },
+  {
+    "id": 29,
+    "kommun": "Degerfors",
+    "post_ort_saved": 1,
+    "personer_count": 7797,
+    "ratsit_link": "https://www.ratsit.se/personer/Degerfors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:37:41"
+  },
+  {
+    "id": 30,
+    "kommun": "Dorotea",
+    "post_ort_saved": 1,
+    "personer_count": 1945,
+    "ratsit_link": "https://www.ratsit.se/personer/Dorotea-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:57:17"
+  },
+  {
+    "id": 31,
+    "kommun": "Eda",
+    "post_ort_saved": 1,
+    "personer_count": 6888,
+    "ratsit_link": "https://www.ratsit.se/personer/Eda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:39:05"
+  },
+  {
+    "id": 32,
+    "kommun": "Ekerö",
+    "post_ort_saved": 1,
+    "personer_count": 22675,
+    "ratsit_link": "https://www.ratsit.se/personer/Eker%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:39:58"
+  },
+  {
+    "id": 33,
+    "kommun": "Eksjö",
+    "post_ort_saved": 1,
+    "personer_count": 14582,
+    "ratsit_link": "https://www.ratsit.se/personer/Eksj%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:40:50"
+  },
+  {
+    "id": 34,
+    "kommun": "Emmaboda",
+    "post_ort_saved": 1,
+    "personer_count": 7508,
+    "ratsit_link": "https://www.ratsit.se/personer/Emmaboda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:41:49"
+  },
+  {
+    "id": 35,
+    "kommun": "Enköpings",
+    "post_ort_saved": 1,
+    "personer_count": 39454,
+    "ratsit_link": "https://www.ratsit.se/personer/Enk%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:42:44"
+  },
+  {
+    "id": 36,
+    "kommun": "Eskilstuna",
+    "post_ort_saved": 1,
+    "personer_count": 86948,
+    "ratsit_link": "https://www.ratsit.se/personer/Eskilstuna-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:43:43"
+  },
+  {
+    "id": 37,
+    "kommun": "Eslövs",
+    "post_ort_saved": 1,
+    "personer_count": 28267,
+    "ratsit_link": "https://www.ratsit.se/personer/Esl%C3%B6vs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:44:36"
+  },
+  {
+    "id": 38,
+    "kommun": "Essunga",
+    "post_ort_saved": 1,
+    "personer_count": 4588,
+    "ratsit_link": "https://www.ratsit.se/personer/Essunga-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:45:30"
+  },
+  {
+    "id": 39,
+    "kommun": "Fagersta",
+    "post_ort_saved": 1,
+    "personer_count": 10586,
+    "ratsit_link": "https://www.ratsit.se/personer/Fagersta-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:46:23"
+  },
+  {
+    "id": 40,
+    "kommun": "Falkenbergs",
+    "post_ort_saved": 1,
+    "personer_count": 38784,
+    "ratsit_link": "https://www.ratsit.se/personer/Falkenbergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:47:25"
+  },
+  {
+    "id": 41,
+    "kommun": "Falköpings",
+    "post_ort_saved": 1,
+    "personer_count": 26786,
+    "ratsit_link": "https://www.ratsit.se/personer/Falk%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:48:20"
+  },
+  {
+    "id": 42,
+    "kommun": "Falu",
+    "post_ort_saved": 1,
+    "personer_count": 49034,
+    "ratsit_link": "https://www.ratsit.se/personer/Falu-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:49:16"
+  },
+  {
+    "id": 43,
+    "kommun": "Filipstads",
+    "post_ort_saved": 1,
+    "personer_count": 8172,
+    "ratsit_link": "https://www.ratsit.se/personer/Filipstads-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:50:11"
+  },
+  {
+    "id": 44,
+    "kommun": "Finspångs",
+    "post_ort_saved": 1,
+    "personer_count": 17766,
+    "ratsit_link": "https://www.ratsit.se/personer/Finsp%C3%A5ngs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:51:10"
+  },
+  {
+    "id": 45,
+    "kommun": "Flens",
+    "post_ort_saved": 1,
+    "personer_count": 12742,
+    "ratsit_link": "https://www.ratsit.se/personer/Flens-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:52:03"
+  },
+  {
+    "id": 46,
+    "kommun": "Forshaga",
+    "post_ort_saved": 1,
+    "personer_count": 9181,
+    "ratsit_link": "https://www.ratsit.se/personer/Forshaga-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:53:10"
+  },
+  {
+    "id": 47,
+    "kommun": "Färgelanda",
+    "post_ort_saved": 1,
+    "personer_count": 5272,
+    "ratsit_link": "https://www.ratsit.se/personer/F%C3%A4rgelanda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:54:08"
+  },
+  {
+    "id": 48,
+    "kommun": "Gagnefs",
+    "post_ort_saved": 1,
+    "personer_count": 8340,
+    "ratsit_link": "https://www.ratsit.se/personer/Gagnefs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:55:01"
+  },
+  {
+    "id": 49,
+    "kommun": "Gislaveds",
+    "post_ort_saved": 1,
+    "personer_count": 23539,
+    "ratsit_link": "https://www.ratsit.se/personer/Gislaveds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:55:57"
+  },
+  {
+    "id": 50,
+    "kommun": "Gnesta",
+    "post_ort_saved": 1,
+    "personer_count": 9205,
+    "ratsit_link": "https://www.ratsit.se/personer/Gnesta-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:56:52"
+  },
+  {
+    "id": 51,
+    "kommun": "Gnosjö",
+    "post_ort_saved": 1,
+    "personer_count": 7441,
+    "ratsit_link": "https://www.ratsit.se/personer/Gnosj%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:57:50"
+  },
+  {
+    "id": 52,
+    "kommun": "Gotlands",
+    "post_ort_saved": 1,
+    "personer_count": 51332,
+    "ratsit_link": "https://www.ratsit.se/personer/Gotlands-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:58:55"
+  },
+  {
+    "id": 53,
+    "kommun": "Grums",
+    "post_ort_saved": 1,
+    "personer_count": 7443,
+    "ratsit_link": "https://www.ratsit.se/personer/Grums-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 11:59:45"
+  },
+  {
+    "id": 54,
+    "kommun": "Grästorps",
+    "post_ort_saved": 1,
+    "personer_count": 4717,
+    "ratsit_link": "https://www.ratsit.se/personer/Gr%C3%A4storps-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:00:39"
+  },
+  {
+    "id": 55,
+    "kommun": "Gullspångs",
+    "post_ort_saved": 1,
+    "personer_count": 4273,
+    "ratsit_link": "https://www.ratsit.se/personer/Gullsp%C3%A5ngs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:01:31"
+  },
+  {
+    "id": 56,
+    "kommun": "Gällivare",
+    "post_ort_saved": 1,
+    "personer_count": 14401,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%A4llivare-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:02:25"
+  },
+  {
+    "id": 57,
+    "kommun": "Gävle",
+    "post_ort_saved": 1,
+    "personer_count": 86293,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%A4vle-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:03:26"
+  },
+  {
+    "id": 58,
+    "kommun": "Göteborgs",
+    "post_ort_saved": 1,
+    "personer_count": 509617,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%B6teborgs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:04:27"
+  },
+  {
+    "id": 59,
+    "kommun": "Göteborgs-Centrum",
+    "post_ort_saved": 1,
+    "personer_count": 100420,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%B6teborgs-kommun-Centrum",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:05:31"
+  },
+  {
+    "id": 60,
+    "kommun": "Göteborgs-Hisingen",
+    "post_ort_saved": 1,
+    "personer_count": 143412,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%B6teborgs-kommun-Hisingen",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:06:40"
+  },
+  {
+    "id": 61,
+    "kommun": "Göteborgs-Nordost",
+    "post_ort_saved": 1,
+    "personer_count": 87386,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%B6teborgs-kommun-Nordost",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:07:41"
+  },
+  {
+    "id": 62,
+    "kommun": "Göteborgs-Väster",
+    "post_ort_saved": 1,
+    "personer_count": 92210,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%B6teborgs-kommun-V%C3%A4ster",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:08:44"
+  },
+  {
+    "id": 63,
+    "kommun": "Göteborgs-Öster",
+    "post_ort_saved": 1,
+    "personer_count": 86189,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%B6teborgs-kommun-%C3%96ster",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:09:56"
+  },
+  {
+    "id": 64,
+    "kommun": "Götene",
+    "post_ort_saved": 1,
+    "personer_count": 10968,
+    "ratsit_link": "https://www.ratsit.se/personer/G%C3%B6tene-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:10:48"
+  },
+  {
+    "id": 65,
+    "kommun": "Habo",
+    "post_ort_saved": 1,
+    "personer_count": 18628,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%A5bo-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:11:41"
+  },
+  {
+    "id": 66,
+    "kommun": "Hagfors",
+    "post_ort_saved": 1,
+    "personer_count": 9728,
+    "ratsit_link": "https://www.ratsit.se/personer/Hagfors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:12:38"
+  },
+  {
+    "id": 67,
+    "kommun": "Hallsbergs",
+    "post_ort_saved": 1,
+    "personer_count": 13032,
+    "ratsit_link": "https://www.ratsit.se/personer/Hallsbergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:13:36"
+  },
+  {
+    "id": 68,
+    "kommun": "Hallstahammars",
+    "post_ort_saved": 1,
+    "personer_count": 13470,
+    "ratsit_link": "https://www.ratsit.se/personer/Hallstahammars-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:14:28"
+  },
+  {
+    "id": 69,
+    "kommun": "Halmstads",
+    "post_ort_saved": 1,
+    "personer_count": 87286,
+    "ratsit_link": "https://www.ratsit.se/personer/Halmstads-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:15:29"
+  },
+  {
+    "id": 70,
+    "kommun": "Hammarö",
+    "post_ort_saved": 1,
+    "personer_count": 13180,
+    "ratsit_link": "https://www.ratsit.se/personer/Hammar%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:16:20"
+  },
+  {
+    "id": 71,
+    "kommun": "Haninge",
+    "post_ort_saved": 1,
+    "personer_count": 80764,
+    "ratsit_link": "https://www.ratsit.se/personer/Haninge-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:17:19"
+  },
+  {
+    "id": 72,
+    "kommun": "Haparanda",
+    "post_ort_saved": 1,
+    "personer_count": 7705,
+    "ratsit_link": "https://www.ratsit.se/personer/Haparanda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:18:12"
+  },
+  {
+    "id": 73,
+    "kommun": "Heby",
+    "post_ort_saved": 1,
+    "personer_count": 11777,
+    "ratsit_link": "https://www.ratsit.se/personer/Heby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:19:05"
+  },
+  {
+    "id": 74,
+    "kommun": "Hedemora",
+    "post_ort_saved": 1,
+    "personer_count": 12584,
+    "ratsit_link": "https://www.ratsit.se/personer/Hedemora-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:20:11"
+  },
+  {
+    "id": 75,
+    "kommun": "Helsingborgs",
+    "post_ort_saved": 1,
+    "personer_count": 124757,
+    "ratsit_link": "https://www.ratsit.se/personer/Helsingborgs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:21:20"
+  },
+  {
+    "id": 76,
+    "kommun": "Herrljunga",
+    "post_ort_saved": 1,
+    "personer_count": 7894,
+    "ratsit_link": "https://www.ratsit.se/personer/Herrljunga-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:22:14"
+  },
+  {
+    "id": 77,
+    "kommun": "Hjo",
+    "post_ort_saved": 1,
+    "personer_count": 7714,
+    "ratsit_link": "https://www.ratsit.se/personer/Hjo-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:23:08"
+  },
+  {
+    "id": 78,
+    "kommun": "Hofors",
+    "post_ort_saved": 1,
+    "personer_count": 7703,
+    "ratsit_link": "https://www.ratsit.se/personer/Hofors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:24:00"
+  },
+  {
+    "id": 79,
+    "kommun": "Huddinge",
+    "post_ort_saved": 1,
+    "personer_count": 90982,
+    "ratsit_link": "https://www.ratsit.se/personer/Huddinge-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:25:04"
+  },
+  {
+    "id": 80,
+    "kommun": "Hudiksvalls",
+    "post_ort_saved": 1,
+    "personer_count": 31473,
+    "ratsit_link": "https://www.ratsit.se/personer/Hudiksvalls-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:26:07"
+  },
+  {
+    "id": 81,
+    "kommun": "Hultsfreds",
+    "post_ort_saved": 1,
+    "personer_count": 11214,
+    "ratsit_link": "https://www.ratsit.se/personer/Hultsfreds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:27:03"
+  },
+  {
+    "id": 82,
+    "kommun": "Hylte",
+    "post_ort_saved": 1,
+    "personer_count": 8236,
+    "ratsit_link": "https://www.ratsit.se/personer/Hylte-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:27:55"
+  },
+  {
+    "id": 83,
+    "kommun": "Hällefors",
+    "post_ort_saved": 1,
+    "personer_count": 5342,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%A4llefors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:28:47"
+  },
+  {
+    "id": 84,
+    "kommun": "Härjedalens",
+    "post_ort_saved": 1,
+    "personer_count": 8691,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%A4rjedalens-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:58:10"
+  },
+  {
+    "id": 85,
+    "kommun": "Härnösands",
+    "post_ort_saved": 1,
+    "personer_count": 20286,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%A4rn%C3%B6sands-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:30:32"
+  },
+  {
+    "id": 86,
+    "kommun": "Härryda",
+    "post_ort_saved": 1,
+    "personer_count": 31511,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%A4rryda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:31:27"
+  },
+  {
+    "id": 87,
+    "kommun": "Hässleholms",
+    "post_ort_saved": 1,
+    "personer_count": 42794,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%A4ssleholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:32:27"
+  },
+  {
+    "id": 88,
+    "kommun": "Höganäs",
+    "post_ort_saved": 1,
+    "personer_count": 23538,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%B6gan%C3%A4s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:33:21"
+  },
+  {
+    "id": 89,
+    "kommun": "Högsby",
+    "post_ort_saved": 1,
+    "personer_count": 4364,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%B6gsby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:34:13"
+  },
+  {
+    "id": 90,
+    "kommun": "Hörby",
+    "post_ort_saved": 1,
+    "personer_count": 12874,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%B6rby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:35:05"
+  },
+  {
+    "id": 91,
+    "kommun": "Höörs",
+    "post_ort_saved": 1,
+    "personer_count": 14145,
+    "ratsit_link": "https://www.ratsit.se/personer/H%C3%B6%C3%B6rs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:35:57"
+  },
+  {
+    "id": 92,
+    "kommun": "Jokkmokks",
+    "post_ort_saved": 1,
+    "personer_count": 4012,
+    "ratsit_link": "https://www.ratsit.se/personer/Jokkmokks-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:36:52"
+  },
+  {
+    "id": 93,
+    "kommun": "Järfälla",
+    "post_ort_saved": 1,
+    "personer_count": 72730,
+    "ratsit_link": "https://www.ratsit.se/personer/J%C3%A4rf%C3%A4lla-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:37:53"
+  },
+  {
+    "id": 94,
+    "kommun": "Jönköpings",
+    "post_ort_saved": 1,
+    "personer_count": 121348,
+    "ratsit_link": "https://www.ratsit.se/personer/J%C3%B6nk%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:38:59"
+  },
+  {
+    "id": 95,
+    "kommun": "Kalix",
+    "post_ort_saved": 1,
+    "personer_count": 13087,
+    "ratsit_link": "https://www.ratsit.se/personer/Kalix-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:59:05"
+  },
+  {
+    "id": 96,
+    "kommun": "Kalmar",
+    "post_ort_saved": 1,
+    "personer_count": 60013,
+    "ratsit_link": "https://www.ratsit.se/personer/Kalmar-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 16:00:05"
+  },
+  {
+    "id": 97,
+    "kommun": "Karlsborgs",
+    "post_ort_saved": 1,
+    "personer_count": 6057,
+    "ratsit_link": "https://www.ratsit.se/personer/Karlsborgs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 16:01:02"
+  },
+  {
+    "id": 98,
+    "kommun": "Karlshamns",
+    "post_ort_saved": 1,
+    "personer_count": 26400,
+    "ratsit_link": "https://www.ratsit.se/personer/Karlshamns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 16:02:02"
+  },
+  {
+    "id": 99,
+    "kommun": "Karlskoga",
+    "post_ort_saved": 1,
+    "personer_count": 25215,
+    "ratsit_link": "https://www.ratsit.se/personer/Karlskoga-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:42:04"
+  },
+  {
+    "id": 100,
+    "kommun": "Karlskrona",
+    "post_ort_saved": 1,
+    "personer_count": 55148,
+    "ratsit_link": "https://www.ratsit.se/personer/Karlskrona-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:43:08"
+  },
+  {
+    "id": 101,
+    "kommun": "Karlstads",
+    "post_ort_saved": 1,
+    "personer_count": 83163,
+    "ratsit_link": "https://www.ratsit.se/personer/Karlstads-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:44:07"
+  },
+  {
+    "id": 102,
+    "kommun": "Katrineholms",
+    "post_ort_saved": 1,
+    "personer_count": 27954,
+    "ratsit_link": "https://www.ratsit.se/personer/Katrineholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:45:06"
+  },
+  {
+    "id": 103,
+    "kommun": "Kils",
+    "post_ort_saved": 1,
+    "personer_count": 9742,
+    "ratsit_link": "https://www.ratsit.se/personer/Kils-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:46:07"
+  },
+  {
+    "id": 104,
+    "kommun": "Kinda",
+    "post_ort_saved": 1,
+    "personer_count": 8211,
+    "ratsit_link": "https://www.ratsit.se/personer/Kinda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:46:59"
+  },
+  {
+    "id": 105,
+    "kommun": "Kiruna",
+    "post_ort_saved": 1,
+    "personer_count": 18718,
+    "ratsit_link": "https://www.ratsit.se/personer/Kiruna-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:47:53"
+  },
+  {
+    "id": 106,
+    "kommun": "Klippans",
+    "post_ort_saved": 1,
+    "personer_count": 14628,
+    "ratsit_link": "https://www.ratsit.se/personer/Klippans-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:48:44"
+  },
+  {
+    "id": 107,
+    "kommun": "Knivsta",
+    "post_ort_saved": 1,
+    "personer_count": 16751,
+    "ratsit_link": "https://www.ratsit.se/personer/Knivsta-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:49:36"
+  },
+  {
+    "id": 108,
+    "kommun": "Kramfors",
+    "post_ort_saved": 1,
+    "personer_count": 14901,
+    "ratsit_link": "https://www.ratsit.se/personer/Kramfors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:50:28"
+  },
+  {
+    "id": 109,
+    "kommun": "Kristianstads",
+    "post_ort_saved": 1,
+    "personer_count": 70710,
+    "ratsit_link": "https://www.ratsit.se/personer/Kristianstads-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:51:30"
+  },
+  {
+    "id": 110,
+    "kommun": "Kristinehamns",
+    "post_ort_saved": 1,
+    "personer_count": 20001,
+    "ratsit_link": "https://www.ratsit.se/personer/Kristinehamns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:52:28"
+  },
+  {
+    "id": 111,
+    "kommun": "Krokoms",
+    "post_ort_saved": 1,
+    "personer_count": 12539,
+    "ratsit_link": "https://www.ratsit.se/personer/Krokoms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:53:22"
+  },
+  {
+    "id": 112,
+    "kommun": "Kumla",
+    "post_ort_saved": 1,
+    "personer_count": 18050,
+    "ratsit_link": "https://www.ratsit.se/personer/Kumla-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:54:15"
+  },
+  {
+    "id": 113,
+    "kommun": "Kungsbacka",
+    "post_ort_saved": 1,
+    "personer_count": 69478,
+    "ratsit_link": "https://www.ratsit.se/personer/Kungsbacka-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:55:18"
+  },
+  {
+    "id": 114,
+    "kommun": "Kungsörs",
+    "post_ort_saved": 1,
+    "personer_count": 6976,
+    "ratsit_link": "https://www.ratsit.se/personer/Kungs%C3%B6rs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:56:09"
+  },
+  {
+    "id": 115,
+    "kommun": "Kungälvs",
+    "post_ort_saved": 1,
+    "personer_count": 40828,
+    "ratsit_link": "https://www.ratsit.se/personer/Kung%C3%A4lvs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:57:05"
+  },
+  {
+    "id": 116,
+    "kommun": "Kävlinge",
+    "post_ort_saved": 1,
+    "personer_count": 25781,
+    "ratsit_link": "https://www.ratsit.se/personer/K%C3%A4vlinge-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:57:58"
+  },
+  {
+    "id": 117,
+    "kommun": "Köpings",
+    "post_ort_saved": 1,
+    "personer_count": 21233,
+    "ratsit_link": "https://www.ratsit.se/personer/K%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:58:52"
+  },
+  {
+    "id": 118,
+    "kommun": "Laholms",
+    "post_ort_saved": 1,
+    "personer_count": 21873,
+    "ratsit_link": "https://www.ratsit.se/personer/Laholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 12:59:50"
+  },
+  {
+    "id": 119,
+    "kommun": "Landskrona",
+    "post_ort_saved": 1,
+    "personer_count": 38658,
+    "ratsit_link": "https://www.ratsit.se/personer/Landskrona-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:00:45"
+  },
+  {
+    "id": 120,
+    "kommun": "Laxå",
+    "post_ort_saved": 1,
+    "personer_count": 4589,
+    "ratsit_link": "https://www.ratsit.se/personer/Lax%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:01:45"
+  },
+  {
+    "id": 121,
+    "kommun": "Lekebergs",
+    "post_ort_saved": 1,
+    "personer_count": 6743,
+    "ratsit_link": "https://www.ratsit.se/personer/Lekebergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:02:44"
+  },
+  {
+    "id": 122,
+    "kommun": "Leksands",
+    "post_ort_saved": 1,
+    "personer_count": 13546,
+    "ratsit_link": "https://www.ratsit.se/personer/Leksands-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:03:42"
+  },
+  {
+    "id": 123,
+    "kommun": "Lerums",
+    "post_ort_saved": 1,
+    "personer_count": 34039,
+    "ratsit_link": "https://www.ratsit.se/personer/Lerums-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:04:42"
+  },
+  {
+    "id": 124,
+    "kommun": "Lessebo",
+    "post_ort_saved": 1,
+    "personer_count": 6620,
+    "ratsit_link": "https://www.ratsit.se/personer/Lessebo-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:05:33"
+  },
+  {
+    "id": 125,
+    "kommun": "Lidingö",
+    "post_ort_saved": 1,
+    "personer_count": 39101,
+    "ratsit_link": "https://www.ratsit.se/personer/Liding%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:06:28"
+  },
+  {
+    "id": 126,
+    "kommun": "Lidköpings",
+    "post_ort_saved": 1,
+    "personer_count": 33571,
+    "ratsit_link": "https://www.ratsit.se/personer/Lidk%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:07:28"
+  },
+  {
+    "id": 127,
+    "kommun": "Lilla-Edets",
+    "post_ort_saved": 1,
+    "personer_count": 11606,
+    "ratsit_link": "https://www.ratsit.se/personer/Lilla-Edets-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:08:20"
+  },
+  {
+    "id": 128,
+    "kommun": "Lindesbergs",
+    "post_ort_saved": 1,
+    "personer_count": 19102,
+    "ratsit_link": "https://www.ratsit.se/personer/Lindesbergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:09:14"
+  },
+  {
+    "id": 129,
+    "kommun": "Linköpings",
+    "post_ort_saved": 1,
+    "personer_count": 140203,
+    "ratsit_link": "https://www.ratsit.se/personer/Link%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:10:25"
+  },
+  {
+    "id": 130,
+    "kommun": "Ljungby",
+    "post_ort_saved": 1,
+    "personer_count": 23469,
+    "ratsit_link": "https://www.ratsit.se/personer/Ljungby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:11:18"
+  },
+  {
+    "id": 131,
+    "kommun": "Ljusdals",
+    "post_ort_saved": 1,
+    "personer_count": 15561,
+    "ratsit_link": "https://www.ratsit.se/personer/Ljusdals-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:12:11"
+  },
+  {
+    "id": 132,
+    "kommun": "Ljusnarsbergs",
+    "post_ort_saved": 1,
+    "personer_count": 3778,
+    "ratsit_link": "https://www.ratsit.se/personer/Ljusnarsbergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:13:01"
+  },
+  {
+    "id": 133,
+    "kommun": "Lomma",
+    "post_ort_saved": 1,
+    "personer_count": 19512,
+    "ratsit_link": "https://www.ratsit.se/personer/Lomma-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:13:59"
+  },
+  {
+    "id": 134,
+    "kommun": "Ludvika",
+    "post_ort_saved": 1,
+    "personer_count": 22008,
+    "ratsit_link": "https://www.ratsit.se/personer/Ludvika-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:14:53"
+  },
+  {
+    "id": 135,
+    "kommun": "Luleå",
+    "post_ort_saved": 1,
+    "personer_count": 67705,
+    "ratsit_link": "https://www.ratsit.se/personer/Lule%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:15:51"
+  },
+  {
+    "id": 136,
+    "kommun": "Lunds",
+    "post_ort_saved": 1,
+    "personer_count": 111673,
+    "ratsit_link": "https://www.ratsit.se/personer/Lunds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:16:57"
+  },
+  {
+    "id": 137,
+    "kommun": "Lycksele",
+    "post_ort_saved": 1,
+    "personer_count": 10013,
+    "ratsit_link": "https://www.ratsit.se/personer/Lycksele-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 16:03:05"
+  },
+  {
+    "id": 138,
+    "kommun": "Lysekils",
+    "post_ort_saved": 1,
+    "personer_count": 11854,
+    "ratsit_link": "https://www.ratsit.se/personer/Lysekils-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:18:36"
+  },
+  {
+    "id": 139,
+    "kommun": "Malmö",
+    "post_ort_saved": 1,
+    "personer_count": 299370,
+    "ratsit_link": "https://www.ratsit.se/personer/Malm%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:19:26"
+  },
+  {
+    "id": 140,
+    "kommun": "Malmö-Väster",
+    "post_ort_saved": 1,
+    "personer_count": 129331,
+    "ratsit_link": "https://www.ratsit.se/personer/Malm%C3%B6-kommun-V%C3%A4ster",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:20:30"
+  },
+  {
+    "id": 141,
+    "kommun": "Malmö-Öster",
+    "post_ort_saved": 1,
+    "personer_count": 170039,
+    "ratsit_link": "https://www.ratsit.se/personer/Malm%C3%B6-kommun-%C3%96ster",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:21:44"
+  },
+  {
+    "id": 142,
+    "kommun": "Malung-Sälens",
+    "post_ort_saved": 1,
+    "personer_count": 8756,
+    "ratsit_link": "https://www.ratsit.se/personer/Malung-S%C3%A4lens-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:22:35"
+  },
+  {
+    "id": 143,
+    "kommun": "Malå",
+    "post_ort_saved": 1,
+    "personer_count": 2427,
+    "ratsit_link": "https://www.ratsit.se/personer/Mal%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:23:36"
+  },
+  {
+    "id": 144,
+    "kommun": "Mariestads",
+    "post_ort_saved": 1,
+    "personer_count": 20504,
+    "ratsit_link": "https://www.ratsit.se/personer/Mariestads-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:24:31"
+  },
+  {
+    "id": 145,
+    "kommun": "Markaryds",
+    "post_ort_saved": 1,
+    "personer_count": 8193,
+    "ratsit_link": "https://www.ratsit.se/personer/Markaryds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:25:24"
+  },
+  {
+    "id": 146,
+    "kommun": "Marks",
+    "post_ort_saved": 1,
+    "personer_count": 28835,
+    "ratsit_link": "https://www.ratsit.se/personer/Marks-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:26:19"
+  },
+  {
+    "id": 147,
+    "kommun": "Melleruds",
+    "post_ort_saved": 1,
+    "personer_count": 7588,
+    "ratsit_link": "https://www.ratsit.se/personer/Melleruds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:27:11"
+  },
+  {
+    "id": 148,
+    "kommun": "Mjölby",
+    "post_ort_saved": 1,
+    "personer_count": 23392,
+    "ratsit_link": "https://www.ratsit.se/personer/Mj%C3%B6lby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:28:04"
+  },
+  {
+    "id": 149,
+    "kommun": "Mora",
+    "post_ort_saved": 1,
+    "personer_count": 17312,
+    "ratsit_link": "https://www.ratsit.se/personer/Mora-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:28:56"
+  },
+  {
+    "id": 150,
+    "kommun": "Motala",
+    "post_ort_saved": 1,
+    "personer_count": 35627,
+    "ratsit_link": "https://www.ratsit.se/personer/Motala-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:29:50"
+  },
+  {
+    "id": 151,
+    "kommun": "Mullsjö",
+    "post_ort_saved": 1,
+    "personer_count": 6100,
+    "ratsit_link": "https://www.ratsit.se/personer/Mullsj%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:30:41"
+  },
+  {
+    "id": 152,
+    "kommun": "Munkedals",
+    "post_ort_saved": 1,
+    "personer_count": 8505,
+    "ratsit_link": "https://www.ratsit.se/personer/Munkedals-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:31:33"
+  },
+  {
+    "id": 153,
+    "kommun": "Munkfors",
+    "post_ort_saved": 1,
+    "personer_count": 3100,
+    "ratsit_link": "https://www.ratsit.se/personer/Munkfors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:32:24"
+  },
+  {
+    "id": 154,
+    "kommun": "Mölndals",
+    "post_ort_saved": 1,
+    "personer_count": 58445,
+    "ratsit_link": "https://www.ratsit.se/personer/M%C3%B6lndals-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:33:19"
+  },
+  {
+    "id": 155,
+    "kommun": "Mönsterås",
+    "post_ort_saved": 1,
+    "personer_count": 10873,
+    "ratsit_link": "https://www.ratsit.se/personer/M%C3%B6nster%C3%A5s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:34:11"
+  },
+  {
+    "id": 156,
+    "kommun": "Mörbylånga",
+    "post_ort_saved": 1,
+    "personer_count": 13395,
+    "ratsit_link": "https://www.ratsit.se/personer/M%C3%B6rbyl%C3%A5nga-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:35:08"
+  },
+  {
+    "id": 157,
+    "kommun": "Nacka",
+    "post_ort_saved": 1,
+    "personer_count": 90136,
+    "ratsit_link": "https://www.ratsit.se/personer/Nacka-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:36:13"
+  },
+  {
+    "id": 158,
+    "kommun": "Nora",
+    "post_ort_saved": 1,
+    "personer_count": 8783,
+    "ratsit_link": "https://www.ratsit.se/personer/Nora-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:37:14"
+  },
+  {
+    "id": 159,
+    "kommun": "Norbergs",
+    "post_ort_saved": 1,
+    "personer_count": 4526,
+    "ratsit_link": "https://www.ratsit.se/personer/Norbergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:38:10"
+  },
+  {
+    "id": 160,
+    "kommun": "Nordanstigs",
+    "post_ort_saved": 1,
+    "personer_count": 7677,
+    "ratsit_link": "https://www.ratsit.se/personer/Nordanstigs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:39:01"
+  },
+  {
+    "id": 161,
+    "kommun": "Nordmalings",
+    "post_ort_saved": 1,
+    "personer_count": 5778,
+    "ratsit_link": "https://www.ratsit.se/personer/Nordmalings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:39:51"
+  },
+  {
+    "id": 162,
+    "kommun": "Norrköpings",
+    "post_ort_saved": 1,
+    "personer_count": 118779,
+    "ratsit_link": "https://www.ratsit.se/personer/Norrk%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:40:57"
+  },
+  {
+    "id": 163,
+    "kommun": "Norrtälje",
+    "post_ort_saved": 1,
+    "personer_count": 56468,
+    "ratsit_link": "https://www.ratsit.se/personer/Norrt%C3%A4lje-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:42:02"
+  },
+  {
+    "id": 164,
+    "kommun": "Norsjö",
+    "post_ort_saved": 1,
+    "personer_count": 3212,
+    "ratsit_link": "https://www.ratsit.se/personer/Norsj%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:43:03"
+  },
+  {
+    "id": 165,
+    "kommun": "Nybro",
+    "post_ort_saved": 1,
+    "personer_count": 16375,
+    "ratsit_link": "https://www.ratsit.se/personer/Nybro-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:43:56"
+  },
+  {
+    "id": 166,
+    "kommun": "Nykvarns",
+    "post_ort_saved": 1,
+    "personer_count": 9749,
+    "ratsit_link": "https://www.ratsit.se/personer/Nykvarns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:44:52"
+  },
+  {
+    "id": 167,
+    "kommun": "Nyköpings",
+    "post_ort_saved": 1,
+    "personer_count": 47745,
+    "ratsit_link": "https://www.ratsit.se/personer/Nyk%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:45:47"
+  },
+  {
+    "id": 168,
+    "kommun": "Nynäshamns",
+    "post_ort_saved": 1,
+    "personer_count": 25051,
+    "ratsit_link": "https://www.ratsit.se/personer/Nyn%C3%A4shamns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:46:40"
+  },
+  {
+    "id": 169,
+    "kommun": "Nässjö",
+    "post_ort_saved": 1,
+    "personer_count": 25457,
+    "ratsit_link": "https://www.ratsit.se/personer/N%C3%A4ssj%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:47:45"
+  },
+  {
+    "id": 170,
+    "kommun": "Ockelbo",
+    "post_ort_saved": 1,
+    "personer_count": 4853,
+    "ratsit_link": "https://www.ratsit.se/personer/Ockelbo-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:48:35"
+  },
+  {
+    "id": 171,
+    "kommun": "Olofströms",
+    "post_ort_saved": 1,
+    "personer_count": 10869,
+    "ratsit_link": "https://www.ratsit.se/personer/Olofstr%C3%B6ms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:49:27"
+  },
+  {
+    "id": 172,
+    "kommun": "Orsa",
+    "post_ort_saved": 1,
+    "personer_count": 5892,
+    "ratsit_link": "https://www.ratsit.se/personer/Orsa-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:50:17"
+  },
+  {
+    "id": 173,
+    "kommun": "Orust",
+    "post_ort_saved": 1,
+    "personer_count": 13090,
+    "ratsit_link": "https://www.ratsit.se/personer/Orust-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:51:10"
+  },
+  {
+    "id": 174,
+    "kommun": "Osby",
+    "post_ort_saved": 1,
+    "personer_count": 10602,
+    "ratsit_link": "https://www.ratsit.se/personer/Osby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:52:02"
+  },
+  {
+    "id": 175,
+    "kommun": "Oskarshamns",
+    "post_ort_saved": 1,
+    "personer_count": 22308,
+    "ratsit_link": "https://www.ratsit.se/personer/Oskarshamns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:53:00"
+  },
+  {
+    "id": 176,
+    "kommun": "Ovanåkers",
+    "post_ort_saved": 1,
+    "personer_count": 9380,
+    "ratsit_link": "https://www.ratsit.se/personer/Ovan%C3%A5kers-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:53:52"
+  },
+  {
+    "id": 177,
+    "kommun": "Oxelösunds",
+    "post_ort_saved": 1,
+    "personer_count": 9965,
+    "ratsit_link": "https://www.ratsit.se/personer/Oxel%C3%B6sunds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:54:43"
+  },
+  {
+    "id": 178,
+    "kommun": "Pajala",
+    "post_ort_saved": 1,
+    "personer_count": 4850,
+    "ratsit_link": "https://www.ratsit.se/personer/Pajala-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:55:42"
+  },
+  {
+    "id": 179,
+    "kommun": "Partille",
+    "post_ort_saved": 1,
+    "personer_count": 32403,
+    "ratsit_link": "https://www.ratsit.se/personer/Partille-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:56:46"
+  },
+  {
+    "id": 180,
+    "kommun": "Perstorps",
+    "post_ort_saved": 1,
+    "personer_count": 5829,
+    "ratsit_link": "https://www.ratsit.se/personer/Perstorps-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:57:58"
+  },
+  {
+    "id": 181,
+    "kommun": "Piteå",
+    "post_ort_saved": 1,
+    "personer_count": 35222,
+    "ratsit_link": "https://www.ratsit.se/personer/Pite%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:58:55"
+  },
+  {
+    "id": 182,
+    "kommun": "Ragunda",
+    "post_ort_saved": 1,
+    "personer_count": 4331,
+    "ratsit_link": "https://www.ratsit.se/personer/Ragunda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 13:59:49"
+  },
+  {
+    "id": 183,
+    "kommun": "Robertsfors",
+    "post_ort_saved": 1,
+    "personer_count": 5513,
+    "ratsit_link": "https://www.ratsit.se/personer/Robertsfors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:00:40"
+  },
+  {
+    "id": 184,
+    "kommun": "Ronneby",
+    "post_ort_saved": 1,
+    "personer_count": 23653,
+    "ratsit_link": "https://www.ratsit.se/personer/Ronneby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:01:35"
+  },
+  {
+    "id": 185,
+    "kommun": "Rättviks",
+    "post_ort_saved": 1,
+    "personer_count": 9520,
+    "ratsit_link": "https://www.ratsit.se/personer/R%C3%A4ttviks-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:02:30"
+  },
+  {
+    "id": 186,
+    "kommun": "Sala",
+    "post_ort_saved": 1,
+    "personer_count": 18671,
+    "ratsit_link": "https://www.ratsit.se/personer/Sala-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:03:24"
+  },
+  {
+    "id": 187,
+    "kommun": "Salems",
+    "post_ort_saved": 1,
+    "personer_count": 13640,
+    "ratsit_link": "https://www.ratsit.se/personer/Salems-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:04:35"
+  },
+  {
+    "id": 188,
+    "kommun": "Sandvikens",
+    "post_ort_saved": 1,
+    "personer_count": 31822,
+    "ratsit_link": "https://www.ratsit.se/personer/Sandvikens-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:05:53"
+  },
+  {
+    "id": 189,
+    "kommun": "Sigtuna",
+    "post_ort_saved": 1,
+    "personer_count": 42106,
+    "ratsit_link": "https://www.ratsit.se/personer/Sigtuna-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:06:52"
+  },
+  {
+    "id": 190,
+    "kommun": "Simrishamns",
+    "post_ort_saved": 1,
+    "personer_count": 16309,
+    "ratsit_link": "https://www.ratsit.se/personer/Simrishamns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:07:46"
+  },
+  {
+    "id": 191,
+    "kommun": "Sjöbo",
+    "post_ort_saved": 1,
+    "personer_count": 16046,
+    "ratsit_link": "https://www.ratsit.se/personer/Sj%C3%B6bo-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:08:39"
+  },
+  {
+    "id": 192,
+    "kommun": "Skara",
+    "post_ort_saved": 1,
+    "personer_count": 15512,
+    "ratsit_link": "https://www.ratsit.se/personer/Skara-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:09:30"
+  },
+  {
+    "id": 193,
+    "kommun": "Skellefteå",
+    "post_ort_saved": 1,
+    "personer_count": 62819,
+    "ratsit_link": "https://www.ratsit.se/personer/Skellefte%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:10:31"
+  },
+  {
+    "id": 194,
+    "kommun": "Skinnskattebergs",
+    "post_ort_saved": 1,
+    "personer_count": 3616,
+    "ratsit_link": "https://www.ratsit.se/personer/Skinnskattebergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:11:27"
+  },
+  {
+    "id": 195,
+    "kommun": "Skurups",
+    "post_ort_saved": 1,
+    "personer_count": 13854,
+    "ratsit_link": "https://www.ratsit.se/personer/Skurups-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:12:19"
+  },
+  {
+    "id": 196,
+    "kommun": "Skövde",
+    "post_ort_saved": 1,
+    "personer_count": 47891,
+    "ratsit_link": "https://www.ratsit.se/personer/Sk%C3%B6vde-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:13:28"
+  },
+  {
+    "id": 197,
+    "kommun": "Smedjebackens",
+    "post_ort_saved": 1,
+    "personer_count": 9074,
+    "ratsit_link": "https://www.ratsit.se/personer/Smedjebackens-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:14:26"
+  },
+  {
+    "id": 198,
+    "kommun": "Sollefteå",
+    "post_ort_saved": 1,
+    "personer_count": 15348,
+    "ratsit_link": "https://www.ratsit.se/personer/Sollefte%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:15:19"
+  },
+  {
+    "id": 199,
+    "kommun": "Sollentuna",
+    "post_ort_saved": 1,
+    "personer_count": 62543,
+    "ratsit_link": "https://www.ratsit.se/personer/Sollentuna-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:16:14"
+  },
+  {
+    "id": 200,
+    "kommun": "Solna",
+    "post_ort_saved": 1,
+    "personer_count": 73054,
+    "ratsit_link": "https://www.ratsit.se/personer/Solna-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:17:14"
+  },
+  {
+    "id": 201,
+    "kommun": "Sorsele",
+    "post_ort_saved": 1,
+    "personer_count": 2000,
+    "ratsit_link": "https://www.ratsit.se/personer/Sorsele-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:18:11"
+  },
+  {
+    "id": 202,
+    "kommun": "Sotenäs",
+    "post_ort_saved": 1,
+    "personer_count": 7984,
+    "ratsit_link": "https://www.ratsit.se/personer/Soten%C3%A4s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:19:09"
+  },
+  {
+    "id": 203,
+    "kommun": "Staffanstorps",
+    "post_ort_saved": 1,
+    "personer_count": 21154,
+    "ratsit_link": "https://www.ratsit.se/personer/Staffanstorps-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:20:01"
+  },
+  {
+    "id": 204,
+    "kommun": "Stenungsunds",
+    "post_ort_saved": 1,
+    "personer_count": 22619,
+    "ratsit_link": "https://www.ratsit.se/personer/Stenungsunds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:20:55"
+  },
+  {
+    "id": 205,
+    "kommun": "Stockholms",
+    "post_ort_saved": 1,
+    "personer_count": 829425,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:21:44"
+  },
+  {
+    "id": 206,
+    "kommun": "Stockholms-Bandhagen-mfl",
+    "post_ort_saved": 1,
+    "personer_count": 86001,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun-Bandhagen-mfl",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:22:42"
+  },
+  {
+    "id": 207,
+    "kommun": "Stockholms-Bromma",
+    "post_ort_saved": 1,
+    "personer_count": 67791,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun-Bromma",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:23:41"
+  },
+  {
+    "id": 208,
+    "kommun": "Stockholms-Essingeöarna-mm",
+    "post_ort_saved": 1,
+    "personer_count": 62261,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun-Essinge%C3%B6arna-mm",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:24:37"
+  },
+  {
+    "id": 209,
+    "kommun": "Stockholms-Farsta-mfl",
+    "post_ort_saved": 1,
+    "personer_count": 80686,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun-Farsta-mfl",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:25:35"
+  },
+  {
+    "id": 210,
+    "kommun": "Stockholms-Hägersten-mfl",
+    "post_ort_saved": 1,
+    "personer_count": 123570,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun-H%C3%A4gersten-mfl",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:26:40"
+  },
+  {
+    "id": 211,
+    "kommun": "Stockholms-Norrmalm-mm",
+    "post_ort_saved": 1,
+    "personer_count": 137743,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun-Norrmalm-mm",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:27:59"
+  },
+  {
+    "id": 212,
+    "kommun": "Stockholms-Spånga-mfl",
+    "post_ort_saved": 1,
+    "personer_count": 139136,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun-Sp%C3%A5nga-mfl",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:29:08"
+  },
+  {
+    "id": 213,
+    "kommun": "Stockholms-Södermalm-mm",
+    "post_ort_saved": 1,
+    "personer_count": 132237,
+    "ratsit_link": "https://www.ratsit.se/personer/Stockholms-kommun-S%C3%B6dermalm-mm",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:30:13"
+  },
+  {
+    "id": 214,
+    "kommun": "Storfors",
+    "post_ort_saved": 1,
+    "personer_count": 3231,
+    "ratsit_link": "https://www.ratsit.se/personer/Storfors-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:31:06"
+  },
+  {
+    "id": 215,
+    "kommun": "Storumans",
+    "post_ort_saved": 1,
+    "personer_count": 4738,
+    "ratsit_link": "https://www.ratsit.se/personer/Storumans-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:32:01"
+  },
+  {
+    "id": 216,
+    "kommun": "Strängnäs",
+    "post_ort_saved": 1,
+    "personer_count": 32074,
+    "ratsit_link": "https://www.ratsit.se/personer/Str%C3%A4ngn%C3%A4s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:32:56"
+  },
+  {
+    "id": 217,
+    "kommun": "Strömstads",
+    "post_ort_saved": 1,
+    "personer_count": 11065,
+    "ratsit_link": "https://www.ratsit.se/personer/Str%C3%B6mstads-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:33:49"
+  },
+  {
+    "id": 218,
+    "kommun": "Strömsunds",
+    "post_ort_saved": 1,
+    "personer_count": 9264,
+    "ratsit_link": "https://www.ratsit.se/personer/Str%C3%B6msunds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:34:42"
+  },
+  {
+    "id": 219,
+    "kommun": "Sundbybergs",
+    "post_ort_saved": 1,
+    "personer_count": 46888,
+    "ratsit_link": "https://www.ratsit.se/personer/Sundbybergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:35:40"
+  },
+  {
+    "id": 220,
+    "kommun": "Sundsvalls",
+    "post_ort_saved": 1,
+    "personer_count": 82600,
+    "ratsit_link": "https://www.ratsit.se/personer/Sundsvalls-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:36:44"
+  },
+  {
+    "id": 221,
+    "kommun": "Sunne",
+    "post_ort_saved": 1,
+    "personer_count": 11206,
+    "ratsit_link": "https://www.ratsit.se/personer/Sunne-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:37:39"
+  },
+  {
+    "id": 222,
+    "kommun": "Surahammars",
+    "post_ort_saved": 1,
+    "personer_count": 7950,
+    "ratsit_link": "https://www.ratsit.se/personer/Surahammars-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:38:35"
+  },
+  {
+    "id": 223,
+    "kommun": "Svalövs",
+    "post_ort_saved": 1,
+    "personer_count": 11595,
+    "ratsit_link": "https://www.ratsit.se/personer/Sval%C3%B6vs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:39:45"
+  },
+  {
+    "id": 224,
+    "kommun": "Svedala",
+    "post_ort_saved": 1,
+    "personer_count": 18114,
+    "ratsit_link": "https://www.ratsit.se/personer/Svedala-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:40:38"
+  },
+  {
+    "id": 225,
+    "kommun": "Svenljunga",
+    "post_ort_saved": 1,
+    "personer_count": 8744,
+    "ratsit_link": "https://www.ratsit.se/personer/Svenljunga-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:41:38"
+  },
+  {
+    "id": 226,
+    "kommun": "Säffle",
+    "post_ort_saved": 1,
+    "personer_count": 12507,
+    "ratsit_link": "https://www.ratsit.se/personer/S%C3%A4ffle-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:42:31"
+  },
+  {
+    "id": 227,
+    "kommun": "Säters",
+    "post_ort_saved": 1,
+    "personer_count": 9233,
+    "ratsit_link": "https://www.ratsit.se/personer/S%C3%A4ters-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:43:27"
+  },
+  {
+    "id": 228,
+    "kommun": "Sävsjö",
+    "post_ort_saved": 1,
+    "personer_count": 9243,
+    "ratsit_link": "https://www.ratsit.se/personer/S%C3%A4vsj%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:44:20"
+  },
+  {
+    "id": 229,
+    "kommun": "Söderhamns",
+    "post_ort_saved": 1,
+    "personer_count": 20421,
+    "ratsit_link": "https://www.ratsit.se/personer/S%C3%B6derhamns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:45:15"
+  },
+  {
+    "id": 230,
+    "kommun": "Söderköpings",
+    "post_ort_saved": 1,
+    "personer_count": 11996,
+    "ratsit_link": "https://www.ratsit.se/personer/S%C3%B6derk%C3%B6pings-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:46:13"
+  },
+  {
+    "id": 231,
+    "kommun": "Södertälje",
+    "post_ort_saved": 1,
+    "personer_count": 83497,
+    "ratsit_link": "https://www.ratsit.se/personer/S%C3%B6dert%C3%A4lje-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:47:19"
+  },
+  {
+    "id": 232,
+    "kommun": "Sölvesborgs",
+    "post_ort_saved": 1,
+    "personer_count": 14732,
+    "ratsit_link": "https://www.ratsit.se/personer/S%C3%B6lvesborgs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:48:12"
+  },
+  {
+    "id": 233,
+    "kommun": "Tanums",
+    "post_ort_saved": 1,
+    "personer_count": 10805,
+    "ratsit_link": "https://www.ratsit.se/personer/Tanums-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:49:06"
+  },
+  {
+    "id": 234,
+    "kommun": "Tibro",
+    "post_ort_saved": 1,
+    "personer_count": 9361,
+    "ratsit_link": "https://www.ratsit.se/personer/Tibro-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:49:58"
+  },
+  {
+    "id": 235,
+    "kommun": "Tidaholms",
+    "post_ort_saved": 1,
+    "personer_count": 10467,
+    "ratsit_link": "https://www.ratsit.se/personer/Tidaholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:50:50"
+  },
+  {
+    "id": 236,
+    "kommun": "Tierps",
+    "post_ort_saved": 1,
+    "personer_count": 17359,
+    "ratsit_link": "https://www.ratsit.se/personer/Tierps-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:51:43"
+  },
+  {
+    "id": 237,
+    "kommun": "Timrå",
+    "post_ort_saved": 1,
+    "personer_count": 14577,
+    "ratsit_link": "https://www.ratsit.se/personer/Timr%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:52:35"
+  },
+  {
+    "id": 238,
+    "kommun": "Tingsryds",
+    "post_ort_saved": 1,
+    "personer_count": 10129,
+    "ratsit_link": "https://www.ratsit.se/personer/Tingsryds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:53:29"
+  },
+  {
+    "id": 239,
+    "kommun": "Tjörns",
+    "post_ort_saved": 1,
+    "personer_count": 13415,
+    "ratsit_link": "https://www.ratsit.se/personer/Tj%C3%B6rns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:54:26"
+  },
+  {
+    "id": 240,
+    "kommun": "Tomelilla",
+    "post_ort_saved": 1,
+    "personer_count": 11446,
+    "ratsit_link": "https://www.ratsit.se/personer/Tomelilla-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:55:25"
+  },
+  {
+    "id": 241,
+    "kommun": "Torsby",
+    "post_ort_saved": 1,
+    "personer_count": 9602,
+    "ratsit_link": "https://www.ratsit.se/personer/Torsby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:56:16"
+  },
+  {
+    "id": 242,
+    "kommun": "Torsås",
+    "post_ort_saved": 1,
+    "personer_count": 5887,
+    "ratsit_link": "https://www.ratsit.se/personer/Tors%C3%A5s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:57:08"
+  },
+  {
+    "id": 243,
+    "kommun": "Tranemo",
+    "post_ort_saved": 1,
+    "personer_count": 9772,
+    "ratsit_link": "https://www.ratsit.se/personer/Tranemo-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:58:01"
+  },
+  {
+    "id": 244,
+    "kommun": "Tranås",
+    "post_ort_saved": 1,
+    "personer_count": 15347,
+    "ratsit_link": "https://www.ratsit.se/personer/Tran%C3%A5s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:58:53"
+  },
+  {
+    "id": 245,
+    "kommun": "Trelleborg",
+    "post_ort_saved": 1,
+    "personer_count": 38650,
+    "ratsit_link": "https://www.ratsit.se/personer/Trelleborg-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 14:59:46"
+  },
+  {
+    "id": 246,
+    "kommun": "Trollhättans",
+    "post_ort_saved": 1,
+    "personer_count": 48539,
+    "ratsit_link": "https://www.ratsit.se/personer/Trollh%C3%A4ttans-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:00:42"
+  },
+  {
+    "id": 247,
+    "kommun": "Trosa",
+    "post_ort_saved": 1,
+    "personer_count": 12117,
+    "ratsit_link": "https://www.ratsit.se/personer/Trosa-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:01:34"
+  },
+  {
+    "id": 248,
+    "kommun": "Tyresö",
+    "post_ort_saved": 1,
+    "personer_count": 39850,
+    "ratsit_link": "https://www.ratsit.se/personer/Tyres%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:02:28"
+  },
+  {
+    "id": 249,
+    "kommun": "Täby",
+    "post_ort_saved": 1,
+    "personer_count": 63146,
+    "ratsit_link": "https://www.ratsit.se/personer/T%C3%A4by-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:03:28"
+  },
+  {
+    "id": 250,
+    "kommun": "Töreboda",
+    "post_ort_saved": 1,
+    "personer_count": 7615,
+    "ratsit_link": "https://www.ratsit.se/personer/T%C3%B6reboda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:04:21"
+  },
+  {
+    "id": 251,
+    "kommun": "Uddevalla",
+    "post_ort_saved": 1,
+    "personer_count": 46313,
+    "ratsit_link": "https://www.ratsit.se/personer/Uddevalla-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:05:17"
+  },
+  {
+    "id": 252,
+    "kommun": "Ulricehamn",
+    "post_ort_saved": 1,
+    "personer_count": 20500,
+    "ratsit_link": "https://www.ratsit.se/personer/Ulricehamn-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:06:12"
+  },
+  {
+    "id": 253,
+    "kommun": "Umeå",
+    "post_ort_saved": 1,
+    "personer_count": 112542,
+    "ratsit_link": "https://www.ratsit.se/personer/Ume%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:07:22"
+  },
+  {
+    "id": 254,
+    "kommun": "Upplands-Bro",
+    "post_ort_saved": 1,
+    "personer_count": 26034,
+    "ratsit_link": "https://www.ratsit.se/personer/Upplands-Bro-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:08:19"
+  },
+  {
+    "id": 255,
+    "kommun": "Upplands-Väsby",
+    "post_ort_saved": 1,
+    "personer_count": 40370,
+    "ratsit_link": "https://www.ratsit.se/personer/Upplands-V%C3%A4sby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:09:15"
+  },
+  {
+    "id": 256,
+    "kommun": "Uppsala",
+    "post_ort_saved": 1,
+    "personer_count": 207376,
+    "ratsit_link": "https://www.ratsit.se/personer/Uppsala-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:10:34"
+  },
+  {
+    "id": 257,
+    "kommun": "Uppvidinge",
+    "post_ort_saved": 1,
+    "personer_count": 7378,
+    "ratsit_link": "https://www.ratsit.se/personer/Uppvidinge-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:11:26"
+  },
+  {
+    "id": 258,
+    "kommun": "Vadstena",
+    "post_ort_saved": 1,
+    "personer_count": 6441,
+    "ratsit_link": "https://www.ratsit.se/personer/Vadstena-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:12:20"
+  },
+  {
+    "id": 259,
+    "kommun": "Vaggeryds",
+    "post_ort_saved": 1,
+    "personer_count": 11887,
+    "ratsit_link": "https://www.ratsit.se/personer/Vaggeryds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:13:16"
+  },
+  {
+    "id": 260,
+    "kommun": "Valdemarsviks",
+    "post_ort_saved": 1,
+    "personer_count": 6422,
+    "ratsit_link": "https://www.ratsit.se/personer/Valdemarsviks-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:14:08"
+  },
+  {
+    "id": 261,
+    "kommun": "Vallentuna",
+    "post_ort_saved": 1,
+    "personer_count": 28014,
+    "ratsit_link": "https://www.ratsit.se/personer/Vallentuna-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:15:01"
+  },
+  {
+    "id": 262,
+    "kommun": "Vansbro",
+    "post_ort_saved": 1,
+    "personer_count": 5724,
+    "ratsit_link": "https://www.ratsit.se/personer/Vansbro-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:15:52"
+  },
+  {
+    "id": 263,
+    "kommun": "Vara",
+    "post_ort_saved": 1,
+    "personer_count": 13293,
+    "ratsit_link": "https://www.ratsit.se/personer/Vara-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:16:45"
+  },
+  {
+    "id": 264,
+    "kommun": "Varbergs",
+    "post_ort_saved": 1,
+    "personer_count": 57055,
+    "ratsit_link": "https://www.ratsit.se/personer/Varbergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:17:44"
+  },
+  {
+    "id": 265,
+    "kommun": "Vaxholms",
+    "post_ort_saved": 1,
+    "personer_count": 9613,
+    "ratsit_link": "https://www.ratsit.se/personer/Vaxholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:18:36"
+  },
+  {
+    "id": 266,
+    "kommun": "Vellinge",
+    "post_ort_saved": 1,
+    "personer_count": 30139,
+    "ratsit_link": "https://www.ratsit.se/personer/Vellinge-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:19:31"
+  },
+  {
+    "id": 267,
+    "kommun": "Vetlanda",
+    "post_ort_saved": 1,
+    "personer_count": 22349,
+    "ratsit_link": "https://www.ratsit.se/personer/Vetlanda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:20:29"
+  },
+  {
+    "id": 268,
+    "kommun": "Vilhelmina",
+    "post_ort_saved": 1,
+    "personer_count": 5241,
+    "ratsit_link": "https://www.ratsit.se/personer/Vilhelmina-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:21:37"
+  },
+  {
+    "id": 269,
+    "kommun": "Vimmerby",
+    "post_ort_saved": 1,
+    "personer_count": 12740,
+    "ratsit_link": "https://www.ratsit.se/personer/Vimmerby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:22:38"
+  },
+  {
+    "id": 270,
+    "kommun": "Vindelns",
+    "post_ort_saved": 1,
+    "personer_count": 4456,
+    "ratsit_link": "https://www.ratsit.se/personer/Vindelns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:23:29"
+  },
+  {
+    "id": 271,
+    "kommun": "Vingåkers",
+    "post_ort_saved": 1,
+    "personer_count": 7220,
+    "ratsit_link": "https://www.ratsit.se/personer/Ving%C3%A5kers-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:24:21"
+  },
+  {
+    "id": 272,
+    "kommun": "Vårgårda",
+    "post_ort_saved": 1,
+    "personer_count": 9993,
+    "ratsit_link": "https://www.ratsit.se/personer/V%C3%A5rg%C3%A5rda-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:25:12"
+  },
+  {
+    "id": 273,
+    "kommun": "Vänersborgs",
+    "post_ort_saved": 1,
+    "personer_count": 32891,
+    "ratsit_link": "https://www.ratsit.se/personer/V%C3%A4nersborgs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:26:08"
+  },
+  {
+    "id": 274,
+    "kommun": "Vännäs",
+    "post_ort_saved": 1,
+    "personer_count": 7333,
+    "ratsit_link": "https://www.ratsit.se/personer/V%C3%A4nn%C3%A4s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:27:00"
+  },
+  {
+    "id": 275,
+    "kommun": "Värmdö",
+    "post_ort_saved": 1,
+    "personer_count": 37444,
+    "ratsit_link": "https://www.ratsit.se/personer/V%C3%A4rmd%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:27:59"
+  },
+  {
+    "id": 276,
+    "kommun": "Värnamo",
+    "post_ort_saved": 1,
+    "personer_count": 28314,
+    "ratsit_link": "https://www.ratsit.se/personer/V%C3%A4rnamo-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:28:55"
+  },
+  {
+    "id": 277,
+    "kommun": "Västerviks",
+    "post_ort_saved": 1,
+    "personer_count": 30577,
+    "ratsit_link": "https://www.ratsit.se/personer/V%C3%A4sterviks-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:29:52"
+  },
+  {
+    "id": 278,
+    "kommun": "Västerås",
+    "post_ort_saved": 1,
+    "personer_count": 131479,
+    "ratsit_link": "https://www.ratsit.se/personer/V%C3%A4ster%C3%A5s-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:31:12"
+  },
+  {
+    "id": 279,
+    "kommun": "Växjö",
+    "post_ort_saved": 1,
+    "personer_count": 80608,
+    "ratsit_link": "https://www.ratsit.se/personer/V%C3%A4xj%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:32:35"
+  },
+  {
+    "id": 280,
+    "kommun": "Ydre",
+    "post_ort_saved": 1,
+    "personer_count": 3042,
+    "ratsit_link": "https://www.ratsit.se/personer/Ydre-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:33:26"
+  },
+  {
+    "id": 281,
+    "kommun": "Ystads",
+    "post_ort_saved": 1,
+    "personer_count": 27092,
+    "ratsit_link": "https://www.ratsit.se/personer/Ystads-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:34:21"
+  },
+  {
+    "id": 282,
+    "kommun": "Åmåls",
+    "post_ort_saved": 1,
+    "personer_count": 9866,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%85m%C3%A5ls-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:35:12"
+  },
+  {
+    "id": 283,
+    "kommun": "Ånge",
+    "post_ort_saved": 1,
+    "personer_count": 7675,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%85nge-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:36:09"
+  },
+  {
+    "id": 284,
+    "kommun": "Åre",
+    "post_ort_saved": 1,
+    "personer_count": 10328,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%85re-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:37:02"
+  },
+  {
+    "id": 285,
+    "kommun": "Årjängs",
+    "post_ort_saved": 1,
+    "personer_count": 8200,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%85rj%C3%A4ngs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:38:00"
+  },
+  {
+    "id": 286,
+    "kommun": "Åsele",
+    "post_ort_saved": 1,
+    "personer_count": 2286,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%85sele-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:38:54"
+  },
+  {
+    "id": 287,
+    "kommun": "Åstorps",
+    "post_ort_saved": 1,
+    "personer_count": 13026,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%85storps-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:39:48"
+  },
+  {
+    "id": 288,
+    "kommun": "Åtvidabergs",
+    "post_ort_saved": 1,
+    "personer_count": 9541,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%85tvidabergs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:40:45"
+  },
+  {
+    "id": 289,
+    "kommun": "Älmhults",
+    "post_ort_saved": 1,
+    "personer_count": 14040,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%84lmhults-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:41:38"
+  },
+  {
+    "id": 290,
+    "kommun": "Älvdalens",
+    "post_ort_saved": 1,
+    "personer_count": 5863,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%84lvdalens-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:42:34"
+  },
+  {
+    "id": 291,
+    "kommun": "Älvkarleby",
+    "post_ort_saved": 1,
+    "personer_count": 7845,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%84lvkarleby-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:43:29"
+  },
+  {
+    "id": 292,
+    "kommun": "Älvsbyns",
+    "post_ort_saved": 1,
+    "personer_count": 6547,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%84lvsbyns-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:44:33"
+  },
+  {
+    "id": 293,
+    "kommun": "Ängelholms",
+    "post_ort_saved": 1,
+    "personer_count": 37213,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%84ngelholms-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:45:30"
+  },
+  {
+    "id": 294,
+    "kommun": "Öckerö",
+    "post_ort_saved": 1,
+    "personer_count": 10760,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96cker%C3%B6-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:46:35"
+  },
+  {
+    "id": 295,
+    "kommun": "Ödeshögs",
+    "post_ort_saved": 1,
+    "personer_count": 4370,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96desh%C3%B6gs-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:47:30"
+  },
+  {
+    "id": 296,
+    "kommun": "Örebro",
+    "post_ort_saved": 1,
+    "personer_count": 132055,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96rebro-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:48:38"
+  },
+  {
+    "id": 297,
+    "kommun": "Örkelljunga",
+    "post_ort_saved": 1,
+    "personer_count": 8533,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96rkelljunga-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:49:29"
+  },
+  {
+    "id": 298,
+    "kommun": "Örnsköldsviks",
+    "post_ort_saved": 1,
+    "personer_count": 45765,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96rnsk%C3%B6ldsviks-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:50:28"
+  },
+  {
+    "id": 299,
+    "kommun": "Östersunds",
+    "post_ort_saved": 1,
+    "personer_count": 53800,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96stersunds-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:51:33"
+  },
+  {
+    "id": 300,
+    "kommun": "Österåkers",
+    "post_ort_saved": 1,
+    "personer_count": 39904,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96ster%C3%A5kers-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:52:29"
+  },
+  {
+    "id": 301,
+    "kommun": "Östhammars",
+    "post_ort_saved": 1,
+    "personer_count": 18524,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96sthammars-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:53:23"
+  },
+  {
+    "id": 302,
+    "kommun": "Östra-Göinge",
+    "post_ort_saved": 1,
+    "personer_count": 11281,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96stra-G%C3%B6inge-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:54:15"
+  },
+  {
+    "id": 303,
+    "kommun": "Överkalix",
+    "post_ort_saved": 1,
+    "personer_count": 2776,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96verkalix-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:55:06"
+  },
+  {
+    "id": 304,
+    "kommun": "Övertorneå",
+    "post_ort_saved": 1,
+    "personer_count": 3493,
+    "ratsit_link": "https://www.ratsit.se/personer/%C3%96vertorne%C3%A5-kommun",
+    "created_at": null,
+    "updated_at": "2025-11-17 15:56:01"
+  }
+]

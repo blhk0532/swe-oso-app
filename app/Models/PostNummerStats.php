@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class PostNummerStats extends Model
+{
+    use HasFactory;
+
+    protected $table = 'post_nummer_queue';
+
+    protected $fillable = [
+        'id',
+        'post_nummer',
+        'post_ort',
+        'post_lan',
+        'hitta_personer_queued',
+        'hitta_foretag_queued',
+        'hitta_personer_phone',
+        'hitta_foretag_phone',
+        'hitta_personer_house',
+        'hitta_foretag_house',
+        'hitta_personer_saved',
+        'hitta_foretag_saved',
+        'hitta_personer_total',
+        'hitta_foretag_total',
+        'hitta_personer_status',
+        'hitta_foretag_status',
+        'merinfo_personer_queued',
+        'merinfo_foretag_queued',
+        'merinfo_personer_phone',
+        'merinfo_foretag_phone',
+        'merinfo_personer_house',
+        'merinfo_foretag_house',
+        'merinfo_personer_saved',
+        'merinfo_foretag_saved',
+        'merinfo_personer_status',
+        'merinfo_foretag_status',
+        'merinfo_personer_total',
+        'merinfo_foretag_total',
+        'ratsit_personer_queued',
+        'ratsit_foretag_queued',
+        'ratsit_personer_phone',
+        'ratsit_foretag_phone',
+        'ratsit_personer_house',
+        'ratsit_foretag_house',
+        'ratsit_personer_saved',
+        'ratsit_foretag_saved',
+        'ratsit_personer_total',
+        'ratsit_foretag_total',
+        'ratsit_personer_status',
+        'ratsit_foretag_status',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'id' => 'string',
+        'post_nummer' => 'string',
+        'post_ort' => 'string',
+        'post_lan' => 'string',
+        'hitta_personer_queued' => 'boolean',
+        'hitta_foretag_queued' => 'boolean',
+        'hitta_personer_phone' => 'integer',
+        'hitta_foretag_phone' => 'integer',
+        'hitta_personer_house' => 'integer',
+        'hitta_foretag_house' => 'integer',
+        'hitta_personer_saved' => 'integer',
+        'hitta_foretag_saved' => 'integer',
+        'hitta_personer_total' => 'integer',
+        'hitta_foretag_total' => 'integer',
+        'hitta_personer_status' => 'string',
+        'hitta_foretag_status' => 'string',
+        'merinfo_personer_queued' => 'boolean',
+        'merinfo_foretag_queued' => 'boolean',
+        'merinfo_personer_phone' => 'integer',
+        'merinfo_foretag_phone' => 'integer',
+        'merinfo_personer_house' => 'integer',
+        'merinfo_foretag_house' => 'integer',
+        'merinfo_personer_saved' => 'integer',
+        'merinfo_foretag_saved' => 'integer',
+        'merinfo_personer_total' => 'integer',
+        'merinfo_foretag_total' => 'integer',
+        'merinfo_personer_status' => 'string',
+        'merinfo_foretag_status' => 'string',
+        'ratsit_personer_queued' => 'boolean',
+        'ratsit_foretag_queued' => 'boolean',
+        'ratsit_personer_phone' => 'integer',
+        'ratsit_foretag_phone' => 'integer',
+        'ratsit_personer_house' => 'integer',
+        'ratsit_foretag_house' => 'integer',
+        'ratsit_personer_saved' => 'integer',
+        'ratsit_foretag_saved' => 'integer',
+        'ratsit_personer_total' => 'integer',
+        'ratsit_foretag_total' => 'integer',
+        'ratsit_personer_status' => 'string',
+        'ratsit_foretag_status' => 'string',
+        'is_active' => 'boolean',
+    ];
+}

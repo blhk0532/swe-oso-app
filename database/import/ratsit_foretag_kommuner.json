@@ -1,0 +1,2747 @@
+[
+  {
+    "id": 1,
+    "kommun": "Ale kommun",
+    "foretag_count": 3688,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ale-kommun",
+    "created_at": "2025-11-17 14:01:27",
+    "updated_at": "2025-11-17 16:38:41",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 2,
+    "kommun": "Alingsås kommun",
+    "foretag_count": 6628,
+    "ratsit_link": "https://www.ratsit.se/foretag/Alings%C3%A5s-kommun",
+    "created_at": "2025-11-17 14:01:28",
+    "updated_at": "2025-11-17 16:39:15",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 3,
+    "kommun": "Alvesta kommun",
+    "foretag_count": 3156,
+    "ratsit_link": "https://www.ratsit.se/foretag/Alvesta-kommun",
+    "created_at": "2025-11-17 14:01:28",
+    "updated_at": "2025-11-17 16:39:42",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 4,
+    "kommun": "Aneby kommun",
+    "foretag_count": 1296,
+    "ratsit_link": "https://www.ratsit.se/foretag/Aneby-kommun",
+    "created_at": "2025-11-17 14:01:28",
+    "updated_at": "2025-11-17 16:40:02",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 5,
+    "kommun": "Arboga kommun",
+    "foretag_count": 1865,
+    "ratsit_link": "https://www.ratsit.se/foretag/Arboga-kommun",
+    "created_at": "2025-11-17 14:01:29",
+    "updated_at": "2025-11-17 16:40:22",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 6,
+    "kommun": "Arjeplogs kommun",
+    "foretag_count": 752,
+    "ratsit_link": "https://www.ratsit.se/foretag/Arjeplogs-kommun",
+    "created_at": "2025-11-17 14:01:29",
+    "updated_at": "2025-11-17 16:40:38",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 7,
+    "kommun": "Arvidsjaurs kommun",
+    "foretag_count": 1043,
+    "ratsit_link": "https://www.ratsit.se/foretag/Arvidsjaurs-kommun",
+    "created_at": "2025-11-17 14:01:30",
+    "updated_at": "2025-11-17 16:40:53",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 8,
+    "kommun": "Arvika kommun",
+    "foretag_count": 4278,
+    "ratsit_link": "https://www.ratsit.se/foretag/Arvika-kommun",
+    "created_at": "2025-11-17 14:01:30",
+    "updated_at": "2025-11-17 16:41:18",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 9,
+    "kommun": "Askersunds kommun",
+    "foretag_count": 1884,
+    "ratsit_link": "https://www.ratsit.se/foretag/Askersunds-kommun",
+    "created_at": "2025-11-17 14:01:31",
+    "updated_at": "2025-11-17 16:41:42",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 10,
+    "kommun": "Avesta kommun",
+    "foretag_count": 3122,
+    "ratsit_link": "https://www.ratsit.se/foretag/Avesta-kommun",
+    "created_at": "2025-11-17 14:01:31",
+    "updated_at": "2025-11-17 16:42:07",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 11,
+    "kommun": "Bengtsfors kommun",
+    "foretag_count": 2079,
+    "ratsit_link": "https://www.ratsit.se/foretag/Bengtsfors-kommun",
+    "created_at": "2025-11-17 14:01:32",
+    "updated_at": "2025-11-17 16:42:26",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 12,
+    "kommun": "Bergs kommun",
+    "foretag_count": 2255,
+    "ratsit_link": "https://www.ratsit.se/foretag/Bergs-kommun",
+    "created_at": "2025-11-17 14:01:32",
+    "updated_at": "2025-11-17 16:42:50",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 13,
+    "kommun": "Bjurholms kommun",
+    "foretag_count": 759,
+    "ratsit_link": "https://www.ratsit.se/foretag/Bjurholms-kommun",
+    "created_at": "2025-11-17 14:01:33",
+    "updated_at": "2025-11-17 16:43:02",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 14,
+    "kommun": "Bjuvs kommun",
+    "foretag_count": 1551,
+    "ratsit_link": "https://www.ratsit.se/foretag/Bjuvs-kommun",
+    "created_at": "2025-11-17 14:01:33",
+    "updated_at": "2025-11-17 16:43:24",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 15,
+    "kommun": "Bodens kommun",
+    "foretag_count": 4143,
+    "ratsit_link": "https://www.ratsit.se/foretag/Bodens-kommun",
+    "created_at": "2025-11-17 14:01:34",
+    "updated_at": "2025-11-17 16:43:53",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 16,
+    "kommun": "Bollebygds kommun",
+    "foretag_count": 1568,
+    "ratsit_link": "https://www.ratsit.se/foretag/Bollebygds-kommun",
+    "created_at": "2025-11-17 14:01:34",
+    "updated_at": "2025-11-17 16:44:11",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 17,
+    "kommun": "Bollnäs kommun",
+    "foretag_count": 4443,
+    "ratsit_link": "https://www.ratsit.se/foretag/Bolln%C3%A4s-kommun",
+    "created_at": "2025-11-17 14:01:34",
+    "updated_at": "2025-11-17 16:44:40",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 18,
+    "kommun": "Borgholms kommun",
+    "foretag_count": 2619,
+    "ratsit_link": "https://www.ratsit.se/foretag/Borgholms-kommun",
+    "created_at": "2025-11-17 14:01:35",
+    "updated_at": "2025-11-17 16:45:02",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 19,
+    "kommun": "Borlänge kommun",
+    "foretag_count": 6286,
+    "ratsit_link": "https://www.ratsit.se/foretag/Borl%C3%A4nge-kommun",
+    "created_at": "2025-11-17 14:01:35",
+    "updated_at": "2025-11-17 16:45:41",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 20,
+    "kommun": "Borås kommun",
+    "foretag_count": 15762,
+    "ratsit_link": "https://www.ratsit.se/foretag/Bor%C3%A5s-kommun",
+    "created_at": "2025-11-17 14:01:36",
+    "updated_at": "2025-11-17 16:47:13",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 21,
+    "kommun": "Botkyrka kommun",
+    "foretag_count": 9279,
+    "ratsit_link": "https://www.ratsit.se/foretag/Botkyrka-kommun",
+    "created_at": "2025-11-17 14:01:36",
+    "updated_at": "2025-11-17 16:48:04",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 22,
+    "kommun": "Boxholms kommun",
+    "foretag_count": 178,
+    "ratsit_link": "https://www.ratsit.se/foretag/Boxholms-kommun",
+    "created_at": "2025-11-17 14:01:37",
+    "updated_at": "2025-11-17 16:48:19",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 23,
+    "kommun": "Bromölla kommun",
+    "foretag_count": 1342,
+    "ratsit_link": "https://www.ratsit.se/foretag/Brom%C3%B6lla-kommun",
+    "created_at": "2025-11-17 14:01:37",
+    "updated_at": "2025-11-17 16:48:39",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 24,
+    "kommun": "Bräcke kommun",
+    "foretag_count": 1528,
+    "ratsit_link": "https://www.ratsit.se/foretag/Br%C3%A4cke-kommun",
+    "created_at": "2025-11-17 14:01:38",
+    "updated_at": "2025-11-17 16:48:56",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 25,
+    "kommun": "Burlövs kommun",
+    "foretag_count": 2040,
+    "ratsit_link": "https://www.ratsit.se/foretag/Burl%C3%B6vs-kommun",
+    "created_at": "2025-11-17 14:01:38",
+    "updated_at": "2025-11-17 16:49:13",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 26,
+    "kommun": "Båstads kommun",
+    "foretag_count": 3661,
+    "ratsit_link": "https://www.ratsit.se/foretag/B%C3%A5stads-kommun",
+    "created_at": "2025-11-17 14:01:38",
+    "updated_at": "2025-11-17 16:49:39",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 27,
+    "kommun": "Dals-Eds kommun",
+    "foretag_count": 1128,
+    "ratsit_link": "https://www.ratsit.se/foretag/Dals-Eds-kommun",
+    "created_at": "2025-11-17 14:01:39",
+    "updated_at": "2025-11-17 16:49:51",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 28,
+    "kommun": "Danderyds kommun",
+    "foretag_count": 9282,
+    "ratsit_link": "https://www.ratsit.se/foretag/Danderyds-kommun",
+    "created_at": "2025-11-17 14:01:39",
+    "updated_at": "2025-11-17 16:50:29",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 29,
+    "kommun": "Degerfors kommun",
+    "foretag_count": 1008,
+    "ratsit_link": "https://www.ratsit.se/foretag/Degerfors-kommun",
+    "created_at": "2025-11-17 14:01:40",
+    "updated_at": "2025-11-17 16:50:50",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 30,
+    "kommun": "Dorotea kommun",
+    "foretag_count": 600,
+    "ratsit_link": "https://www.ratsit.se/foretag/Dorotea-kommun",
+    "created_at": "2025-11-17 14:01:40",
+    "updated_at": "2025-11-17 16:51:11",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 31,
+    "kommun": "Eda kommun",
+    "foretag_count": 916,
+    "ratsit_link": "https://www.ratsit.se/foretag/Eda-kommun",
+    "created_at": "2025-11-17 14:01:41",
+    "updated_at": "2025-11-17 16:51:35",
+    "foretag_postort_saved": 1
+  },
+  {
+    "id": 32,
+    "kommun": "Ekerö kommun",
+    "foretag_count": 5264,
+    "ratsit_link": "https://www.ratsit.se/foretag/Eker%C3%B6-kommun",
+    "created_at": "2025-11-17 14:01:41",
+    "updated_at": "2025-11-17 14:01:41",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 33,
+    "kommun": "Eksjö kommun",
+    "foretag_count": 2352,
+    "ratsit_link": "https://www.ratsit.se/foretag/Eksj%C3%B6-kommun",
+    "created_at": "2025-11-17 14:01:42",
+    "updated_at": "2025-11-17 14:01:42",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 34,
+    "kommun": "Emmaboda kommun",
+    "foretag_count": 1651,
+    "ratsit_link": "https://www.ratsit.se/foretag/Emmaboda-kommun",
+    "created_at": "2025-11-17 14:01:42",
+    "updated_at": "2025-11-17 14:01:42",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 35,
+    "kommun": "Enköpings kommun",
+    "foretag_count": 7162,
+    "ratsit_link": "https://www.ratsit.se/foretag/Enk%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:01:42",
+    "updated_at": "2025-11-17 14:01:42",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 36,
+    "kommun": "Eskilstuna kommun",
+    "foretag_count": 10915,
+    "ratsit_link": "https://www.ratsit.se/foretag/Eskilstuna-kommun",
+    "created_at": "2025-11-17 14:01:43",
+    "updated_at": "2025-11-17 14:01:43",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 37,
+    "kommun": "Eslövs kommun",
+    "foretag_count": 4185,
+    "ratsit_link": "https://www.ratsit.se/foretag/Esl%C3%B6vs-kommun",
+    "created_at": "2025-11-17 14:01:43",
+    "updated_at": "2025-11-17 14:01:43",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 38,
+    "kommun": "Essunga kommun",
+    "foretag_count": 1152,
+    "ratsit_link": "https://www.ratsit.se/foretag/Essunga-kommun",
+    "created_at": "2025-11-17 14:01:44",
+    "updated_at": "2025-11-17 14:01:44",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 39,
+    "kommun": "Fagersta kommun",
+    "foretag_count": 1212,
+    "ratsit_link": "https://www.ratsit.se/foretag/Fagersta-kommun",
+    "created_at": "2025-11-17 14:01:44",
+    "updated_at": "2025-11-17 14:01:44",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 40,
+    "kommun": "Falkenbergs kommun",
+    "foretag_count": 7884,
+    "ratsit_link": "https://www.ratsit.se/foretag/Falkenbergs-kommun",
+    "created_at": "2025-11-17 14:01:44",
+    "updated_at": "2025-11-17 14:01:44",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 41,
+    "kommun": "Falköpings kommun",
+    "foretag_count": 4889,
+    "ratsit_link": "https://www.ratsit.se/foretag/Falk%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:01:45",
+    "updated_at": "2025-11-17 14:01:45",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 42,
+    "kommun": "Falu kommun",
+    "foretag_count": 20402,
+    "ratsit_link": "https://www.ratsit.se/foretag/Falu-kommun",
+    "created_at": "2025-11-17 14:01:45",
+    "updated_at": "2025-11-17 14:01:45",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 43,
+    "kommun": "Filipstads kommun",
+    "foretag_count": 1077,
+    "ratsit_link": "https://www.ratsit.se/foretag/Filipstads-kommun",
+    "created_at": "2025-11-17 14:01:46",
+    "updated_at": "2025-11-17 14:01:46",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 44,
+    "kommun": "Finspångs kommun",
+    "foretag_count": 2104,
+    "ratsit_link": "https://www.ratsit.se/foretag/Finsp%C3%A5ngs-kommun",
+    "created_at": "2025-11-17 14:01:46",
+    "updated_at": "2025-11-17 14:01:46",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 45,
+    "kommun": "Flens kommun",
+    "foretag_count": 2018,
+    "ratsit_link": "https://www.ratsit.se/foretag/Flens-kommun",
+    "created_at": "2025-11-17 14:01:47",
+    "updated_at": "2025-11-17 14:01:47",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 46,
+    "kommun": "Forshaga kommun",
+    "foretag_count": 1390,
+    "ratsit_link": "https://www.ratsit.se/foretag/Forshaga-kommun",
+    "created_at": "2025-11-17 14:01:47",
+    "updated_at": "2025-11-17 14:01:47",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 47,
+    "kommun": "Färgelanda kommun",
+    "foretag_count": 1271,
+    "ratsit_link": "https://www.ratsit.se/foretag/F%C3%A4rgelanda-kommun",
+    "created_at": "2025-11-17 14:01:48",
+    "updated_at": "2025-11-17 14:01:48",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 48,
+    "kommun": "Gagnefs kommun",
+    "foretag_count": 2051,
+    "ratsit_link": "https://www.ratsit.se/foretag/Gagnefs-kommun",
+    "created_at": "2025-11-17 14:01:48",
+    "updated_at": "2025-11-17 14:01:48",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 49,
+    "kommun": "Gislaveds kommun",
+    "foretag_count": 4750,
+    "ratsit_link": "https://www.ratsit.se/foretag/Gislaveds-kommun",
+    "created_at": "2025-11-17 14:01:48",
+    "updated_at": "2025-11-17 14:01:48",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 50,
+    "kommun": "Gnesta kommun",
+    "foretag_count": 1848,
+    "ratsit_link": "https://www.ratsit.se/foretag/Gnesta-kommun",
+    "created_at": "2025-11-17 14:01:49",
+    "updated_at": "2025-11-17 14:01:49",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 51,
+    "kommun": "Gnosjö kommun",
+    "foretag_count": 1641,
+    "ratsit_link": "https://www.ratsit.se/foretag/Gnosj%C3%B6-kommun",
+    "created_at": "2025-11-17 14:01:49",
+    "updated_at": "2025-11-17 14:01:49",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 52,
+    "kommun": "Gotlands kommun",
+    "foretag_count": 11839,
+    "ratsit_link": "https://www.ratsit.se/foretag/Gotlands-kommun",
+    "created_at": "2025-11-17 14:01:50",
+    "updated_at": "2025-11-17 14:01:50",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 53,
+    "kommun": "Grums kommun",
+    "foretag_count": 1314,
+    "ratsit_link": "https://www.ratsit.se/foretag/Grums-kommun",
+    "created_at": "2025-11-17 14:01:50",
+    "updated_at": "2025-11-17 14:01:50",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 54,
+    "kommun": "Grästorps kommun",
+    "foretag_count": 1093,
+    "ratsit_link": "https://www.ratsit.se/foretag/Gr%C3%A4storps-kommun",
+    "created_at": "2025-11-17 14:01:51",
+    "updated_at": "2025-11-17 14:01:51",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 55,
+    "kommun": "Gullspångs kommun",
+    "foretag_count": 970,
+    "ratsit_link": "https://www.ratsit.se/foretag/Gullsp%C3%A5ngs-kommun",
+    "created_at": "2025-11-17 14:01:51",
+    "updated_at": "2025-11-17 14:01:51",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 56,
+    "kommun": "Gällivare kommun",
+    "foretag_count": 2529,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%A4llivare-kommun",
+    "created_at": "2025-11-17 14:01:51",
+    "updated_at": "2025-11-17 14:01:51",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 57,
+    "kommun": "Gävle kommun",
+    "foretag_count": 12546,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%A4vle-kommun",
+    "created_at": "2025-11-17 14:01:52",
+    "updated_at": "2025-11-17 14:01:52",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 58,
+    "kommun": "Göteborgs kommun",
+    "foretag_count": 78032,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%B6teborgs-kommun",
+    "created_at": "2025-11-17 14:01:52",
+    "updated_at": "2025-11-17 14:01:52",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 59,
+    "kommun": "Göteborg - Centrum",
+    "foretag_count": 23412,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%B6teborgs-kommun-Centrum",
+    "created_at": "2025-11-17 14:01:53",
+    "updated_at": "2025-11-17 14:01:53",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 60,
+    "kommun": "Göteborg - Hisingen",
+    "foretag_count": 16036,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%B6teborgs-kommun-Hisingen",
+    "created_at": "2025-11-17 14:01:53",
+    "updated_at": "2025-11-17 14:01:53",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 61,
+    "kommun": "Göteborg - Nordost",
+    "foretag_count": 8331,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%B6teborgs-kommun-Nordost",
+    "created_at": "2025-11-17 14:01:54",
+    "updated_at": "2025-11-17 14:01:54",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 62,
+    "kommun": "Göteborg - Väster",
+    "foretag_count": 16913,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%B6teborgs-kommun-V%C3%A4ster",
+    "created_at": "2025-11-17 14:01:54",
+    "updated_at": "2025-11-17 14:01:54",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 63,
+    "kommun": "Göteborg - Öster",
+    "foretag_count": 13340,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%B6teborgs-kommun-%C3%96ster",
+    "created_at": "2025-11-17 14:01:55",
+    "updated_at": "2025-11-17 14:01:55",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 64,
+    "kommun": "Götene kommun",
+    "foretag_count": 1980,
+    "ratsit_link": "https://www.ratsit.se/foretag/G%C3%B6tene-kommun",
+    "created_at": "2025-11-17 14:01:55",
+    "updated_at": "2025-11-17 14:01:55",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 65,
+    "kommun": "Habo kommun",
+    "foretag_count": 1722,
+    "ratsit_link": "https://www.ratsit.se/foretag/Habo-kommun",
+    "created_at": "2025-11-17 14:01:56",
+    "updated_at": "2025-11-17 14:01:56",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 66,
+    "kommun": "Hagfors kommun",
+    "foretag_count": 1960,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hagfors-kommun",
+    "created_at": "2025-11-17 14:01:56",
+    "updated_at": "2025-11-17 14:01:56",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 67,
+    "kommun": "Hallsbergs kommun",
+    "foretag_count": 1957,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hallsbergs-kommun",
+    "created_at": "2025-11-17 14:01:56",
+    "updated_at": "2025-11-17 14:01:56",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 68,
+    "kommun": "Hallstahammars kommun",
+    "foretag_count": 1644,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hallstahammars-kommun",
+    "created_at": "2025-11-17 14:01:57",
+    "updated_at": "2025-11-17 14:01:57",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 69,
+    "kommun": "Halmstads kommun",
+    "foretag_count": 13630,
+    "ratsit_link": "https://www.ratsit.se/foretag/Halmstads-kommun",
+    "created_at": "2025-11-17 14:01:57",
+    "updated_at": "2025-11-17 14:01:57",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 70,
+    "kommun": "Hammarö kommun",
+    "foretag_count": 1766,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hammar%C3%B6-kommun",
+    "created_at": "2025-11-17 14:01:58",
+    "updated_at": "2025-11-17 14:01:58",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 71,
+    "kommun": "Haninge kommun",
+    "foretag_count": 11065,
+    "ratsit_link": "https://www.ratsit.se/foretag/Haninge-kommun",
+    "created_at": "2025-11-17 14:01:58",
+    "updated_at": "2025-11-17 14:01:58",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 72,
+    "kommun": "Haparanda kommun",
+    "foretag_count": 1455,
+    "ratsit_link": "https://www.ratsit.se/foretag/Haparanda-kommun",
+    "created_at": "2025-11-17 14:01:59",
+    "updated_at": "2025-11-17 14:01:59",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 73,
+    "kommun": "Heby kommun",
+    "foretag_count": 1949,
+    "ratsit_link": "https://www.ratsit.se/foretag/Heby-kommun",
+    "created_at": "2025-11-17 14:01:59",
+    "updated_at": "2025-11-17 14:01:59",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 74,
+    "kommun": "Hedemora kommun",
+    "foretag_count": 2621,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hedemora-kommun",
+    "created_at": "2025-11-17 14:01:59",
+    "updated_at": "2025-11-17 14:01:59",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 75,
+    "kommun": "Helsingborgs kommun",
+    "foretag_count": 19680,
+    "ratsit_link": "https://www.ratsit.se/foretag/Helsingborgs-kommun",
+    "created_at": "2025-11-17 14:02:00",
+    "updated_at": "2025-11-17 14:02:00",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 76,
+    "kommun": "Herrljunga kommun",
+    "foretag_count": 1824,
+    "ratsit_link": "https://www.ratsit.se/foretag/Herrljunga-kommun",
+    "created_at": "2025-11-17 14:02:00",
+    "updated_at": "2025-11-17 14:02:00",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 77,
+    "kommun": "Hjo kommun",
+    "foretag_count": 1318,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hjo-kommun",
+    "created_at": "2025-11-17 14:02:01",
+    "updated_at": "2025-11-17 14:02:01",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 78,
+    "kommun": "Hofors kommun",
+    "foretag_count": 985,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hofors-kommun",
+    "created_at": "2025-11-17 14:02:01",
+    "updated_at": "2025-11-17 14:02:01",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 79,
+    "kommun": "Huddinge kommun",
+    "foretag_count": 14356,
+    "ratsit_link": "https://www.ratsit.se/foretag/Huddinge-kommun",
+    "created_at": "2025-11-17 14:02:02",
+    "updated_at": "2025-11-17 14:02:02",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 80,
+    "kommun": "Hudiksvalls kommun",
+    "foretag_count": 5774,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hudiksvalls-kommun",
+    "created_at": "2025-11-17 14:02:02",
+    "updated_at": "2025-11-17 14:02:02",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 81,
+    "kommun": "Hultsfreds kommun",
+    "foretag_count": 1904,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hultsfreds-kommun",
+    "created_at": "2025-11-17 14:02:02",
+    "updated_at": "2025-11-17 14:02:02",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 82,
+    "kommun": "Hylte kommun",
+    "foretag_count": 1715,
+    "ratsit_link": "https://www.ratsit.se/foretag/Hylte-kommun",
+    "created_at": "2025-11-17 14:02:03",
+    "updated_at": "2025-11-17 14:02:03",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 83,
+    "kommun": "Håbo kommun",
+    "foretag_count": 2953,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%A5bo-kommun",
+    "created_at": "2025-11-17 14:02:03",
+    "updated_at": "2025-11-17 14:02:03",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 84,
+    "kommun": "Hällefors kommun",
+    "foretag_count": 843,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%A4llefors-kommun",
+    "created_at": "2025-11-17 14:02:04",
+    "updated_at": "2025-11-17 14:02:04",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 85,
+    "kommun": "Härjedalens kommun",
+    "foretag_count": 1048,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%A4rjedalens-kommun",
+    "created_at": "2025-11-17 14:02:04",
+    "updated_at": "2025-11-17 14:02:04",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 86,
+    "kommun": "Härnösands kommun",
+    "foretag_count": 3172,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%A4rn%C3%B6sands-kommun",
+    "created_at": "2025-11-17 14:02:04",
+    "updated_at": "2025-11-17 14:02:04",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 87,
+    "kommun": "Härryda kommun",
+    "foretag_count": 5792,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%A4rryda-kommun",
+    "created_at": "2025-11-17 14:02:05",
+    "updated_at": "2025-11-17 14:02:05",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 88,
+    "kommun": "Hässleholms kommun",
+    "foretag_count": 7571,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%A4ssleholms-kommun",
+    "created_at": "2025-11-17 14:02:05",
+    "updated_at": "2025-11-17 14:02:05",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 89,
+    "kommun": "Höganäs kommun",
+    "foretag_count": 4378,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%B6gan%C3%A4s-kommun",
+    "created_at": "2025-11-17 14:02:06",
+    "updated_at": "2025-11-17 14:02:06",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 90,
+    "kommun": "Högsby kommun",
+    "foretag_count": 537,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%B6gsby-kommun",
+    "created_at": "2025-11-17 14:02:06",
+    "updated_at": "2025-11-17 14:02:06",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 91,
+    "kommun": "Hörby kommun",
+    "foretag_count": 2826,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%B6rby-kommun",
+    "created_at": "2025-11-17 14:02:07",
+    "updated_at": "2025-11-17 14:02:07",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 92,
+    "kommun": "Höörs kommun",
+    "foretag_count": 2636,
+    "ratsit_link": "https://www.ratsit.se/foretag/H%C3%B6%C3%B6rs-kommun",
+    "created_at": "2025-11-17 14:02:07",
+    "updated_at": "2025-11-17 14:02:07",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 93,
+    "kommun": "Jokkmokks kommun",
+    "foretag_count": 1085,
+    "ratsit_link": "https://www.ratsit.se/foretag/Jokkmokks-kommun",
+    "created_at": "2025-11-17 14:02:07",
+    "updated_at": "2025-11-17 14:02:07",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 94,
+    "kommun": "Järfälla kommun",
+    "foretag_count": 8848,
+    "ratsit_link": "https://www.ratsit.se/foretag/J%C3%A4rf%C3%A4lla-kommun",
+    "created_at": "2025-11-17 14:02:08",
+    "updated_at": "2025-11-17 14:02:08",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 95,
+    "kommun": "Jönköpings kommun",
+    "foretag_count": 19663,
+    "ratsit_link": "https://www.ratsit.se/foretag/J%C3%B6nk%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:02:08",
+    "updated_at": "2025-11-17 14:02:08",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 96,
+    "kommun": "Kalix kommun",
+    "foretag_count": 2864,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kalix-kommun",
+    "created_at": "2025-11-17 14:02:09",
+    "updated_at": "2025-11-17 14:02:09",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 97,
+    "kommun": "Kalmar kommun",
+    "foretag_count": 9109,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kalmar-kommun",
+    "created_at": "2025-11-17 14:02:09",
+    "updated_at": "2025-11-17 14:02:09",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 98,
+    "kommun": "Karlsborgs kommun",
+    "foretag_count": 1100,
+    "ratsit_link": "https://www.ratsit.se/foretag/Karlsborgs-kommun",
+    "created_at": "2025-11-17 14:02:09",
+    "updated_at": "2025-11-17 14:02:09",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 99,
+    "kommun": "Karlshamns kommun",
+    "foretag_count": 3851,
+    "ratsit_link": "https://www.ratsit.se/foretag/Karlshamns-kommun",
+    "created_at": "2025-11-17 14:02:10",
+    "updated_at": "2025-11-17 14:02:10",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 100,
+    "kommun": "Karlskoga kommun",
+    "foretag_count": 3033,
+    "ratsit_link": "https://www.ratsit.se/foretag/Karlskoga-kommun",
+    "created_at": "2025-11-17 14:02:10",
+    "updated_at": "2025-11-17 14:02:10",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 101,
+    "kommun": "Karlskrona kommun",
+    "foretag_count": 7753,
+    "ratsit_link": "https://www.ratsit.se/foretag/Karlskrona-kommun",
+    "created_at": "2025-11-17 14:02:11",
+    "updated_at": "2025-11-17 14:02:11",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 102,
+    "kommun": "Karlstads kommun",
+    "foretag_count": 13464,
+    "ratsit_link": "https://www.ratsit.se/foretag/Karlstads-kommun",
+    "created_at": "2025-11-17 14:02:11",
+    "updated_at": "2025-11-17 14:02:11",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 103,
+    "kommun": "Katrineholms kommun",
+    "foretag_count": 3742,
+    "ratsit_link": "https://www.ratsit.se/foretag/Katrineholms-kommun",
+    "created_at": "2025-11-17 14:02:11",
+    "updated_at": "2025-11-17 14:02:11",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 104,
+    "kommun": "Kils kommun",
+    "foretag_count": 2037,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kils-kommun",
+    "created_at": "2025-11-17 14:02:12",
+    "updated_at": "2025-11-17 14:02:12",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 105,
+    "kommun": "Kinda kommun",
+    "foretag_count": 1848,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kinda-kommun",
+    "created_at": "2025-11-17 14:02:12",
+    "updated_at": "2025-11-17 14:02:12",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 106,
+    "kommun": "Kiruna kommun",
+    "foretag_count": 3174,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kiruna-kommun",
+    "created_at": "2025-11-17 14:02:13",
+    "updated_at": "2025-11-17 14:02:13",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 107,
+    "kommun": "Klippans kommun",
+    "foretag_count": 2387,
+    "ratsit_link": "https://www.ratsit.se/foretag/Klippans-kommun",
+    "created_at": "2025-11-17 14:02:13",
+    "updated_at": "2025-11-17 14:02:13",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 108,
+    "kommun": "Knivsta kommun",
+    "foretag_count": 2870,
+    "ratsit_link": "https://www.ratsit.se/foretag/Knivsta-kommun",
+    "created_at": "2025-11-17 14:02:13",
+    "updated_at": "2025-11-17 14:02:13",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 109,
+    "kommun": "Kramfors kommun",
+    "foretag_count": 2165,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kramfors-kommun",
+    "created_at": "2025-11-17 14:02:14",
+    "updated_at": "2025-11-17 14:02:14",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 110,
+    "kommun": "Kristianstads kommun",
+    "foretag_count": 11103,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kristianstads-kommun",
+    "created_at": "2025-11-17 14:02:14",
+    "updated_at": "2025-11-17 14:02:14",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 111,
+    "kommun": "Kristinehamns kommun",
+    "foretag_count": 2906,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kristinehamns-kommun",
+    "created_at": "2025-11-17 14:02:15",
+    "updated_at": "2025-11-17 14:02:15",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 112,
+    "kommun": "Krokoms kommun",
+    "foretag_count": 3384,
+    "ratsit_link": "https://www.ratsit.se/foretag/Krokoms-kommun",
+    "created_at": "2025-11-17 14:02:15",
+    "updated_at": "2025-11-17 14:02:15",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 113,
+    "kommun": "Kumla kommun",
+    "foretag_count": 2349,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kumla-kommun",
+    "created_at": "2025-11-17 14:02:16",
+    "updated_at": "2025-11-17 14:02:16",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 114,
+    "kommun": "Kungsbacka kommun",
+    "foretag_count": 14939,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kungsbacka-kommun",
+    "created_at": "2025-11-17 14:02:16",
+    "updated_at": "2025-11-17 14:02:16",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 115,
+    "kommun": "Kungsörs kommun",
+    "foretag_count": 1007,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kungs%C3%B6rs-kommun",
+    "created_at": "2025-11-17 14:02:16",
+    "updated_at": "2025-11-17 14:02:16",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 116,
+    "kommun": "Kungälvs kommun",
+    "foretag_count": 7497,
+    "ratsit_link": "https://www.ratsit.se/foretag/Kung%C3%A4lvs-kommun",
+    "created_at": "2025-11-17 14:02:17",
+    "updated_at": "2025-11-17 14:02:17",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 117,
+    "kommun": "Kävlinge kommun",
+    "foretag_count": 4119,
+    "ratsit_link": "https://www.ratsit.se/foretag/K%C3%A4vlinge-kommun",
+    "created_at": "2025-11-17 14:02:17",
+    "updated_at": "2025-11-17 14:02:17",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 118,
+    "kommun": "Köpings kommun",
+    "foretag_count": 2918,
+    "ratsit_link": "https://www.ratsit.se/foretag/K%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:02:18",
+    "updated_at": "2025-11-17 14:02:18",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 119,
+    "kommun": "Laholms kommun",
+    "foretag_count": 4468,
+    "ratsit_link": "https://www.ratsit.se/foretag/Laholms-kommun",
+    "created_at": "2025-11-17 14:02:18",
+    "updated_at": "2025-11-17 14:02:18",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 120,
+    "kommun": "Landskrona kommun",
+    "foretag_count": 4962,
+    "ratsit_link": "https://www.ratsit.se/foretag/Landskrona-kommun",
+    "created_at": "2025-11-17 14:02:18",
+    "updated_at": "2025-11-17 14:02:18",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 121,
+    "kommun": "Laxå kommun",
+    "foretag_count": 854,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lax%C3%A5-kommun",
+    "created_at": "2025-11-17 14:02:19",
+    "updated_at": "2025-11-17 14:02:19",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 122,
+    "kommun": "Lekebergs kommun",
+    "foretag_count": 1507,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lekebergs-kommun",
+    "created_at": "2025-11-17 14:02:19",
+    "updated_at": "2025-11-17 14:02:19",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 123,
+    "kommun": "Leksands kommun",
+    "foretag_count": 3822,
+    "ratsit_link": "https://www.ratsit.se/foretag/Leksands-kommun",
+    "created_at": "2025-11-17 14:02:20",
+    "updated_at": "2025-11-17 14:02:20",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 124,
+    "kommun": "Lerums kommun",
+    "foretag_count": 6101,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lerums-kommun",
+    "created_at": "2025-11-17 14:02:20",
+    "updated_at": "2025-11-17 14:02:20",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 125,
+    "kommun": "Lessebo kommun",
+    "foretag_count": 1089,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lessebo-kommun",
+    "created_at": "2025-11-17 14:02:20",
+    "updated_at": "2025-11-17 14:02:20",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 126,
+    "kommun": "Lidingö kommun",
+    "foretag_count": 10551,
+    "ratsit_link": "https://www.ratsit.se/foretag/Liding%C3%B6-kommun",
+    "created_at": "2025-11-17 14:02:21",
+    "updated_at": "2025-11-17 14:02:21",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 127,
+    "kommun": "Lidköpings kommun",
+    "foretag_count": 5259,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lidk%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:02:21",
+    "updated_at": "2025-11-17 14:02:21",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 128,
+    "kommun": "Lilla Edets kommun",
+    "foretag_count": 1792,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lilla-Edets-kommun",
+    "created_at": "2025-11-17 14:02:22",
+    "updated_at": "2025-11-17 14:02:22",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 129,
+    "kommun": "Lindesbergs kommun",
+    "foretag_count": 3224,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lindesbergs-kommun",
+    "created_at": "2025-11-17 14:02:22",
+    "updated_at": "2025-11-17 14:02:22",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 130,
+    "kommun": "Linköpings kommun",
+    "foretag_count": 17169,
+    "ratsit_link": "https://www.ratsit.se/foretag/Link%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:02:23",
+    "updated_at": "2025-11-17 14:02:23",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 131,
+    "kommun": "Ljungby kommun",
+    "foretag_count": 4965,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ljungby-kommun",
+    "created_at": "2025-11-17 14:02:23",
+    "updated_at": "2025-11-17 14:02:23",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 132,
+    "kommun": "Ljusdals kommun",
+    "foretag_count": 4199,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ljusdals-kommun",
+    "created_at": "2025-11-17 14:02:24",
+    "updated_at": "2025-11-17 14:02:24",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 133,
+    "kommun": "Ljusnarsbergs kommun",
+    "foretag_count": 724,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ljusnarsbergs-kommun",
+    "created_at": "2025-11-17 14:02:24",
+    "updated_at": "2025-11-17 14:02:24",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 134,
+    "kommun": "Lomma kommun",
+    "foretag_count": 3708,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lomma-kommun",
+    "created_at": "2025-11-17 14:02:25",
+    "updated_at": "2025-11-17 14:02:25",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 135,
+    "kommun": "Ludvika kommun",
+    "foretag_count": 2963,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ludvika-kommun",
+    "created_at": "2025-11-17 14:02:25",
+    "updated_at": "2025-11-17 14:02:25",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 136,
+    "kommun": "Luleå kommun",
+    "foretag_count": 12228,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lule%C3%A5-kommun",
+    "created_at": "2025-11-17 14:02:26",
+    "updated_at": "2025-11-17 14:02:26",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 137,
+    "kommun": "Lunds kommun",
+    "foretag_count": 21724,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lunds-kommun",
+    "created_at": "2025-11-17 14:02:26",
+    "updated_at": "2025-11-17 14:02:26",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 138,
+    "kommun": "Lycksele kommun",
+    "foretag_count": 2283,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lycksele-kommun",
+    "created_at": "2025-11-17 14:02:27",
+    "updated_at": "2025-11-17 14:02:27",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 139,
+    "kommun": "Lysekils kommun",
+    "foretag_count": 2021,
+    "ratsit_link": "https://www.ratsit.se/foretag/Lysekils-kommun",
+    "created_at": "2025-11-17 14:02:27",
+    "updated_at": "2025-11-17 14:02:27",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 140,
+    "kommun": "Malmö kommun",
+    "foretag_count": 46569,
+    "ratsit_link": "https://www.ratsit.se/foretag/Malm%C3%B6-kommun",
+    "created_at": "2025-11-17 14:02:28",
+    "updated_at": "2025-11-17 14:02:28",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 141,
+    "kommun": "Malmö - Väster",
+    "foretag_count": 16507,
+    "ratsit_link": "https://www.ratsit.se/foretag/Malm%C3%B6-kommun-V%C3%A4ster",
+    "created_at": "2025-11-17 14:02:28",
+    "updated_at": "2025-11-17 14:02:28",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 142,
+    "kommun": "Malmö - Öster",
+    "foretag_count": 30062,
+    "ratsit_link": "https://www.ratsit.se/foretag/Malm%C3%B6-kommun-%C3%96ster",
+    "created_at": "2025-11-17 14:02:28",
+    "updated_at": "2025-11-17 14:02:28",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 143,
+    "kommun": "Malung-Sälens kommun",
+    "foretag_count": 2981,
+    "ratsit_link": "https://www.ratsit.se/foretag/Malung-S%C3%A4lens-kommun",
+    "created_at": "2025-11-17 14:02:29",
+    "updated_at": "2025-11-17 14:02:29",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 144,
+    "kommun": "Malå kommun",
+    "foretag_count": 743,
+    "ratsit_link": "https://www.ratsit.se/foretag/Mal%C3%A5-kommun",
+    "created_at": "2025-11-17 14:02:30",
+    "updated_at": "2025-11-17 14:02:30",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 145,
+    "kommun": "Mariestads kommun",
+    "foretag_count": 2639,
+    "ratsit_link": "https://www.ratsit.se/foretag/Mariestads-kommun",
+    "created_at": "2025-11-17 14:02:30",
+    "updated_at": "2025-11-17 14:02:30",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 146,
+    "kommun": "Markaryds kommun",
+    "foretag_count": 1611,
+    "ratsit_link": "https://www.ratsit.se/foretag/Markaryds-kommun",
+    "created_at": "2025-11-17 14:02:30",
+    "updated_at": "2025-11-17 14:02:30",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 147,
+    "kommun": "Marks kommun",
+    "foretag_count": 5872,
+    "ratsit_link": "https://www.ratsit.se/foretag/Marks-kommun",
+    "created_at": "2025-11-17 14:02:31",
+    "updated_at": "2025-11-17 14:02:31",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 148,
+    "kommun": "Melleruds kommun",
+    "foretag_count": 1883,
+    "ratsit_link": "https://www.ratsit.se/foretag/Melleruds-kommun",
+    "created_at": "2025-11-17 14:02:31",
+    "updated_at": "2025-11-17 14:02:31",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 149,
+    "kommun": "Mjölby kommun",
+    "foretag_count": 2609,
+    "ratsit_link": "https://www.ratsit.se/foretag/Mj%C3%B6lby-kommun",
+    "created_at": "2025-11-17 14:02:32",
+    "updated_at": "2025-11-17 14:02:32",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 150,
+    "kommun": "Mora kommun",
+    "foretag_count": 4880,
+    "ratsit_link": "https://www.ratsit.se/foretag/Mora-kommun",
+    "created_at": "2025-11-17 14:02:32",
+    "updated_at": "2025-11-17 14:02:32",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 151,
+    "kommun": "Motala kommun",
+    "foretag_count": 3623,
+    "ratsit_link": "https://www.ratsit.se/foretag/Motala-kommun",
+    "created_at": "2025-11-17 14:02:32",
+    "updated_at": "2025-11-17 14:02:32",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 152,
+    "kommun": "Mullsjö kommun",
+    "foretag_count": 954,
+    "ratsit_link": "https://www.ratsit.se/foretag/Mullsj%C3%B6-kommun",
+    "created_at": "2025-11-17 14:02:33",
+    "updated_at": "2025-11-17 14:02:33",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 153,
+    "kommun": "Munkedals kommun",
+    "foretag_count": 1885,
+    "ratsit_link": "https://www.ratsit.se/foretag/Munkedals-kommun",
+    "created_at": "2025-11-17 14:02:33",
+    "updated_at": "2025-11-17 14:02:33",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 154,
+    "kommun": "Munkfors kommun",
+    "foretag_count": 520,
+    "ratsit_link": "https://www.ratsit.se/foretag/Munkfors-kommun",
+    "created_at": "2025-11-17 14:02:34",
+    "updated_at": "2025-11-17 14:02:34",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 155,
+    "kommun": "Mölndals kommun",
+    "foretag_count": 9351,
+    "ratsit_link": "https://www.ratsit.se/foretag/M%C3%B6lndals-kommun",
+    "created_at": "2025-11-17 14:02:34",
+    "updated_at": "2025-11-17 14:02:34",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 156,
+    "kommun": "Mönsterås kommun",
+    "foretag_count": 1719,
+    "ratsit_link": "https://www.ratsit.se/foretag/M%C3%B6nster%C3%A5s-kommun",
+    "created_at": "2025-11-17 14:02:35",
+    "updated_at": "2025-11-17 14:02:35",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 157,
+    "kommun": "Mörbylånga kommun",
+    "foretag_count": 2613,
+    "ratsit_link": "https://www.ratsit.se/foretag/M%C3%B6rbyl%C3%A5nga-kommun",
+    "created_at": "2025-11-17 14:02:35",
+    "updated_at": "2025-11-17 14:02:35",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 158,
+    "kommun": "Nacka kommun",
+    "foretag_count": 20844,
+    "ratsit_link": "https://www.ratsit.se/foretag/Nacka-kommun",
+    "created_at": "2025-11-17 14:02:35",
+    "updated_at": "2025-11-17 14:02:35",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 159,
+    "kommun": "Nora kommun",
+    "foretag_count": 1623,
+    "ratsit_link": "https://www.ratsit.se/foretag/Nora-kommun",
+    "created_at": "2025-11-17 14:02:36",
+    "updated_at": "2025-11-17 14:02:36",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 160,
+    "kommun": "Norbergs kommun",
+    "foretag_count": 735,
+    "ratsit_link": "https://www.ratsit.se/foretag/Norbergs-kommun",
+    "created_at": "2025-11-17 14:02:36",
+    "updated_at": "2025-11-17 14:02:36",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 161,
+    "kommun": "Nordanstigs kommun",
+    "foretag_count": 2105,
+    "ratsit_link": "https://www.ratsit.se/foretag/Nordanstigs-kommun",
+    "created_at": "2025-11-17 14:02:37",
+    "updated_at": "2025-11-17 14:02:37",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 162,
+    "kommun": "Nordmalings kommun",
+    "foretag_count": 1531,
+    "ratsit_link": "https://www.ratsit.se/foretag/Nordmalings-kommun",
+    "created_at": "2025-11-17 14:02:37",
+    "updated_at": "2025-11-17 14:02:37",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 163,
+    "kommun": "Norrköpings kommun",
+    "foretag_count": 15865,
+    "ratsit_link": "https://www.ratsit.se/foretag/Norrk%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:02:38",
+    "updated_at": "2025-11-17 14:02:38",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 164,
+    "kommun": "Norrtälje kommun",
+    "foretag_count": 11478,
+    "ratsit_link": "https://www.ratsit.se/foretag/Norrt%C3%A4lje-kommun",
+    "created_at": "2025-11-17 14:02:38",
+    "updated_at": "2025-11-17 14:02:38",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 165,
+    "kommun": "Norsjö kommun",
+    "foretag_count": 961,
+    "ratsit_link": "https://www.ratsit.se/foretag/Norsj%C3%B6-kommun",
+    "created_at": "2025-11-17 14:02:38",
+    "updated_at": "2025-11-17 14:02:38",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 166,
+    "kommun": "Nybro kommun",
+    "foretag_count": 2586,
+    "ratsit_link": "https://www.ratsit.se/foretag/Nybro-kommun",
+    "created_at": "2025-11-17 14:02:39",
+    "updated_at": "2025-11-17 14:02:39",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 167,
+    "kommun": "Nykvarns kommun",
+    "foretag_count": 1461,
+    "ratsit_link": "https://www.ratsit.se/foretag/Nykvarns-kommun",
+    "created_at": "2025-11-17 14:02:39",
+    "updated_at": "2025-11-17 14:02:39",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 168,
+    "kommun": "Nyköpings kommun",
+    "foretag_count": 7337,
+    "ratsit_link": "https://www.ratsit.se/foretag/Nyk%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:02:40",
+    "updated_at": "2025-11-17 14:02:40",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 169,
+    "kommun": "Nynäshamns kommun",
+    "foretag_count": 3718,
+    "ratsit_link": "https://www.ratsit.se/foretag/Nyn%C3%A4shamns-kommun",
+    "created_at": "2025-11-17 14:02:40",
+    "updated_at": "2025-11-17 14:02:40",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 170,
+    "kommun": "Nässjö kommun",
+    "foretag_count": 4202,
+    "ratsit_link": "https://www.ratsit.se/foretag/N%C3%A4ssj%C3%B6-kommun",
+    "created_at": "2025-11-17 14:02:40",
+    "updated_at": "2025-11-17 14:02:40",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 171,
+    "kommun": "Ockelbo kommun",
+    "foretag_count": 1201,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ockelbo-kommun",
+    "created_at": "2025-11-17 14:02:41",
+    "updated_at": "2025-11-17 14:02:41",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 172,
+    "kommun": "Olofströms kommun",
+    "foretag_count": 1591,
+    "ratsit_link": "https://www.ratsit.se/foretag/Olofstr%C3%B6ms-kommun",
+    "created_at": "2025-11-17 14:02:41",
+    "updated_at": "2025-11-17 14:02:41",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 173,
+    "kommun": "Orsa kommun",
+    "foretag_count": 1560,
+    "ratsit_link": "https://www.ratsit.se/foretag/Orsa-kommun",
+    "created_at": "2025-11-17 14:02:42",
+    "updated_at": "2025-11-17 14:02:42",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 174,
+    "kommun": "Orust kommun",
+    "foretag_count": 3324,
+    "ratsit_link": "https://www.ratsit.se/foretag/Orust-kommun",
+    "created_at": "2025-11-17 14:02:42",
+    "updated_at": "2025-11-17 14:02:42",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 175,
+    "kommun": "Osby kommun",
+    "foretag_count": 1924,
+    "ratsit_link": "https://www.ratsit.se/foretag/Osby-kommun",
+    "created_at": "2025-11-17 14:02:42",
+    "updated_at": "2025-11-17 14:02:42",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 176,
+    "kommun": "Oskarshamns kommun",
+    "foretag_count": 2751,
+    "ratsit_link": "https://www.ratsit.se/foretag/Oskarshamns-kommun",
+    "created_at": "2025-11-17 14:02:43",
+    "updated_at": "2025-11-17 14:02:43",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 177,
+    "kommun": "Ovanåkers kommun",
+    "foretag_count": 2067,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ovan%C3%A5kers-kommun",
+    "created_at": "2025-11-17 14:02:43",
+    "updated_at": "2025-11-17 14:02:43",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 178,
+    "kommun": "Oxelösunds kommun",
+    "foretag_count": 814,
+    "ratsit_link": "https://www.ratsit.se/foretag/Oxel%C3%B6sunds-kommun",
+    "created_at": "2025-11-17 14:02:44",
+    "updated_at": "2025-11-17 14:02:44",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 179,
+    "kommun": "Pajala kommun",
+    "foretag_count": 1140,
+    "ratsit_link": "https://www.ratsit.se/foretag/Pajala-kommun",
+    "created_at": "2025-11-17 14:02:44",
+    "updated_at": "2025-11-17 14:02:44",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 180,
+    "kommun": "Partille kommun",
+    "foretag_count": 5147,
+    "ratsit_link": "https://www.ratsit.se/foretag/Partille-kommun",
+    "created_at": "2025-11-17 14:02:44",
+    "updated_at": "2025-11-17 14:02:44",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 181,
+    "kommun": "Perstorps kommun",
+    "foretag_count": 795,
+    "ratsit_link": "https://www.ratsit.se/foretag/Perstorps-kommun",
+    "created_at": "2025-11-17 14:02:45",
+    "updated_at": "2025-11-17 14:02:45",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 182,
+    "kommun": "Piteå kommun",
+    "foretag_count": 7128,
+    "ratsit_link": "https://www.ratsit.se/foretag/Pite%C3%A5-kommun",
+    "created_at": "2025-11-17 14:02:45",
+    "updated_at": "2025-11-17 14:02:45",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 183,
+    "kommun": "Ragunda kommun",
+    "foretag_count": 1473,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ragunda-kommun",
+    "created_at": "2025-11-17 14:02:46",
+    "updated_at": "2025-11-17 14:02:46",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 184,
+    "kommun": "Robertsfors kommun",
+    "foretag_count": 1707,
+    "ratsit_link": "https://www.ratsit.se/foretag/Robertsfors-kommun",
+    "created_at": "2025-11-17 14:02:46",
+    "updated_at": "2025-11-17 14:02:46",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 185,
+    "kommun": "Ronneby kommun",
+    "foretag_count": 3303,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ronneby-kommun",
+    "created_at": "2025-11-17 14:02:47",
+    "updated_at": "2025-11-17 14:02:47",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 186,
+    "kommun": "Rättviks kommun",
+    "foretag_count": 2568,
+    "ratsit_link": "https://www.ratsit.se/foretag/R%C3%A4ttviks-kommun",
+    "created_at": "2025-11-17 14:02:47",
+    "updated_at": "2025-11-17 14:02:47",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 187,
+    "kommun": "Sala kommun",
+    "foretag_count": 3578,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sala-kommun",
+    "created_at": "2025-11-17 14:02:47",
+    "updated_at": "2025-11-17 14:02:47",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 188,
+    "kommun": "Salems kommun",
+    "foretag_count": 1824,
+    "ratsit_link": "https://www.ratsit.se/foretag/Salems-kommun",
+    "created_at": "2025-11-17 14:02:48",
+    "updated_at": "2025-11-17 14:02:48",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 189,
+    "kommun": "Sandvikens kommun",
+    "foretag_count": 4472,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sandvikens-kommun",
+    "created_at": "2025-11-17 14:02:48",
+    "updated_at": "2025-11-17 14:02:48",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 190,
+    "kommun": "Sigtuna kommun",
+    "foretag_count": 6917,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sigtuna-kommun",
+    "created_at": "2025-11-17 14:02:49",
+    "updated_at": "2025-11-17 14:02:49",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 191,
+    "kommun": "Simrishamns kommun",
+    "foretag_count": 3833,
+    "ratsit_link": "https://www.ratsit.se/foretag/Simrishamns-kommun",
+    "created_at": "2025-11-17 14:02:49",
+    "updated_at": "2025-11-17 14:02:49",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 192,
+    "kommun": "Sjöbo kommun",
+    "foretag_count": 3225,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sj%C3%B6bo-kommun",
+    "created_at": "2025-11-17 14:02:49",
+    "updated_at": "2025-11-17 14:02:49",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 193,
+    "kommun": "Skara kommun",
+    "foretag_count": 2495,
+    "ratsit_link": "https://www.ratsit.se/foretag/Skara-kommun",
+    "created_at": "2025-11-17 14:02:50",
+    "updated_at": "2025-11-17 14:02:50",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 194,
+    "kommun": "Skellefteå kommun",
+    "foretag_count": 13101,
+    "ratsit_link": "https://www.ratsit.se/foretag/Skellefte%C3%A5-kommun",
+    "created_at": "2025-11-17 14:02:50",
+    "updated_at": "2025-11-17 14:02:50",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 195,
+    "kommun": "Skinnskattebergs kommun",
+    "foretag_count": 621,
+    "ratsit_link": "https://www.ratsit.se/foretag/Skinnskattebergs-kommun",
+    "created_at": "2025-11-17 14:02:51",
+    "updated_at": "2025-11-17 14:02:51",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 196,
+    "kommun": "Skurups kommun",
+    "foretag_count": 2474,
+    "ratsit_link": "https://www.ratsit.se/foretag/Skurups-kommun",
+    "created_at": "2025-11-17 14:02:51",
+    "updated_at": "2025-11-17 14:02:51",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 197,
+    "kommun": "Skövde kommun",
+    "foretag_count": 4372,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sk%C3%B6vde-kommun",
+    "created_at": "2025-11-17 14:02:52",
+    "updated_at": "2025-11-17 14:02:52",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 198,
+    "kommun": "Smedjebackens kommun",
+    "foretag_count": 1559,
+    "ratsit_link": "https://www.ratsit.se/foretag/Smedjebackens-kommun",
+    "created_at": "2025-11-17 14:02:52",
+    "updated_at": "2025-11-17 14:02:52",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 199,
+    "kommun": "Sollefteå kommun",
+    "foretag_count": 2686,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sollefte%C3%A5-kommun",
+    "created_at": "2025-11-17 14:02:52",
+    "updated_at": "2025-11-17 14:02:52",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 200,
+    "kommun": "Sollentuna kommun",
+    "foretag_count": 11236,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sollentuna-kommun",
+    "created_at": "2025-11-17 14:02:53",
+    "updated_at": "2025-11-17 14:02:53",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 201,
+    "kommun": "Solna kommun",
+    "foretag_count": 14943,
+    "ratsit_link": "https://www.ratsit.se/foretag/Solna-kommun",
+    "created_at": "2025-11-17 14:02:53",
+    "updated_at": "2025-11-17 14:02:53",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 202,
+    "kommun": "Sorsele kommun",
+    "foretag_count": 827,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sorsele-kommun",
+    "created_at": "2025-11-17 14:02:54",
+    "updated_at": "2025-11-17 14:02:54",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 203,
+    "kommun": "Sotenäs kommun",
+    "foretag_count": 1834,
+    "ratsit_link": "https://www.ratsit.se/foretag/Soten%C3%A4s-kommun",
+    "created_at": "2025-11-17 14:02:54",
+    "updated_at": "2025-11-17 14:02:54",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 204,
+    "kommun": "Staffanstorps kommun",
+    "foretag_count": 3141,
+    "ratsit_link": "https://www.ratsit.se/foretag/Staffanstorps-kommun",
+    "created_at": "2025-11-17 14:02:54",
+    "updated_at": "2025-11-17 14:02:54",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 205,
+    "kommun": "Stenungsunds kommun",
+    "foretag_count": 4171,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stenungsunds-kommun",
+    "created_at": "2025-11-17 14:02:55",
+    "updated_at": "2025-11-17 14:02:55",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 206,
+    "kommun": "Stockholms kommun",
+    "foretag_count": 213058,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun",
+    "created_at": "2025-11-17 14:02:55",
+    "updated_at": "2025-11-17 14:02:55",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 207,
+    "kommun": "Stockholm - Bandhagen mfl",
+    "foretag_count": 13443,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun-Bandhagen-mfl",
+    "created_at": "2025-11-17 14:02:56",
+    "updated_at": "2025-11-17 14:02:56",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 208,
+    "kommun": "Stockholm - Bromma",
+    "foretag_count": 14693,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun-Bromma",
+    "created_at": "2025-11-17 14:02:56",
+    "updated_at": "2025-11-17 14:02:56",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 209,
+    "kommun": "Stockholm - Essingeöarna mm",
+    "foretag_count": 16267,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun-Essinge%C3%B6arna-mm",
+    "created_at": "2025-11-17 14:02:57",
+    "updated_at": "2025-11-17 14:02:57",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 210,
+    "kommun": "Stockholm - Farsta mfl",
+    "foretag_count": 12744,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun-Farsta-mfl",
+    "created_at": "2025-11-17 14:02:57",
+    "updated_at": "2025-11-17 14:02:57",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 211,
+    "kommun": "Stockholm - Hägersten mfl",
+    "foretag_count": 20014,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun-H%C3%A4gersten-mfl",
+    "created_at": "2025-11-17 14:02:57",
+    "updated_at": "2025-11-17 14:02:57",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 212,
+    "kommun": "Stockholm - Norrmalm mm",
+    "foretag_count": 80553,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun-Norrmalm-mm",
+    "created_at": "2025-11-17 14:02:58",
+    "updated_at": "2025-11-17 14:02:58",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 213,
+    "kommun": "Stockholm - Spånga mfl",
+    "foretag_count": 18662,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun-Sp%C3%A5nga-mfl",
+    "created_at": "2025-11-17 14:02:58",
+    "updated_at": "2025-11-17 14:02:58",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 214,
+    "kommun": "Stockholm - Södermalm mm",
+    "foretag_count": 36682,
+    "ratsit_link": "https://www.ratsit.se/foretag/Stockholms-kommun-S%C3%B6dermalm-mm",
+    "created_at": "2025-11-17 14:02:59",
+    "updated_at": "2025-11-17 14:02:59",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 215,
+    "kommun": "Storfors kommun",
+    "foretag_count": 582,
+    "ratsit_link": "https://www.ratsit.se/foretag/Storfors-kommun",
+    "created_at": "2025-11-17 14:02:59",
+    "updated_at": "2025-11-17 14:02:59",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 216,
+    "kommun": "Storumans kommun",
+    "foretag_count": 1169,
+    "ratsit_link": "https://www.ratsit.se/foretag/Storumans-kommun",
+    "created_at": "2025-11-17 14:02:59",
+    "updated_at": "2025-11-17 14:02:59",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 217,
+    "kommun": "Strängnäs kommun",
+    "foretag_count": 5629,
+    "ratsit_link": "https://www.ratsit.se/foretag/Str%C3%A4ngn%C3%A4s-kommun",
+    "created_at": "2025-11-17 14:03:00",
+    "updated_at": "2025-11-17 14:03:00",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 218,
+    "kommun": "Strömstads kommun",
+    "foretag_count": 2469,
+    "ratsit_link": "https://www.ratsit.se/foretag/Str%C3%B6mstads-kommun",
+    "created_at": "2025-11-17 14:03:00",
+    "updated_at": "2025-11-17 14:03:00",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 219,
+    "kommun": "Strömsunds kommun",
+    "foretag_count": 2672,
+    "ratsit_link": "https://www.ratsit.se/foretag/Str%C3%B6msunds-kommun",
+    "created_at": "2025-11-17 14:03:01",
+    "updated_at": "2025-11-17 14:03:01",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 220,
+    "kommun": "Sundbybergs kommun",
+    "foretag_count": 7495,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sundbybergs-kommun",
+    "created_at": "2025-11-17 14:03:01",
+    "updated_at": "2025-11-17 14:03:01",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 221,
+    "kommun": "Sundsvalls kommun",
+    "foretag_count": 19432,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sundsvalls-kommun",
+    "created_at": "2025-11-17 14:03:02",
+    "updated_at": "2025-11-17 14:03:02",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 222,
+    "kommun": "Sunne kommun",
+    "foretag_count": 3846,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sunne-kommun",
+    "created_at": "2025-11-17 14:03:02",
+    "updated_at": "2025-11-17 14:03:02",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 223,
+    "kommun": "Surahammars kommun",
+    "foretag_count": 627,
+    "ratsit_link": "https://www.ratsit.se/foretag/Surahammars-kommun",
+    "created_at": "2025-11-17 14:03:02",
+    "updated_at": "2025-11-17 14:03:02",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 224,
+    "kommun": "Svalövs kommun",
+    "foretag_count": 2212,
+    "ratsit_link": "https://www.ratsit.se/foretag/Sval%C3%B6vs-kommun",
+    "created_at": "2025-11-17 14:03:03",
+    "updated_at": "2025-11-17 14:03:03",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 225,
+    "kommun": "Svedala kommun",
+    "foretag_count": 2754,
+    "ratsit_link": "https://www.ratsit.se/foretag/Svedala-kommun",
+    "created_at": "2025-11-17 14:03:03",
+    "updated_at": "2025-11-17 14:03:03",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 226,
+    "kommun": "Svenljunga kommun",
+    "foretag_count": 2227,
+    "ratsit_link": "https://www.ratsit.se/foretag/Svenljunga-kommun",
+    "created_at": "2025-11-17 14:03:04",
+    "updated_at": "2025-11-17 14:03:04",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 227,
+    "kommun": "Säffle kommun",
+    "foretag_count": 2812,
+    "ratsit_link": "https://www.ratsit.se/foretag/S%C3%A4ffle-kommun",
+    "created_at": "2025-11-17 14:03:04",
+    "updated_at": "2025-11-17 14:03:04",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 228,
+    "kommun": "Säters kommun",
+    "foretag_count": 1513,
+    "ratsit_link": "https://www.ratsit.se/foretag/S%C3%A4ters-kommun",
+    "created_at": "2025-11-17 14:03:04",
+    "updated_at": "2025-11-17 14:03:04",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 229,
+    "kommun": "Sävsjö kommun",
+    "foretag_count": 2122,
+    "ratsit_link": "https://www.ratsit.se/foretag/S%C3%A4vsj%C3%B6-kommun",
+    "created_at": "2025-11-17 14:03:05",
+    "updated_at": "2025-11-17 14:03:05",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 230,
+    "kommun": "Söderhamns kommun",
+    "foretag_count": 3469,
+    "ratsit_link": "https://www.ratsit.se/foretag/S%C3%B6derhamns-kommun",
+    "created_at": "2025-11-17 14:03:05",
+    "updated_at": "2025-11-17 14:03:05",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 231,
+    "kommun": "Söderköpings kommun",
+    "foretag_count": 2288,
+    "ratsit_link": "https://www.ratsit.se/foretag/S%C3%B6derk%C3%B6pings-kommun",
+    "created_at": "2025-11-17 14:03:06",
+    "updated_at": "2025-11-17 14:03:06",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 232,
+    "kommun": "Södertälje kommun",
+    "foretag_count": 11333,
+    "ratsit_link": "https://www.ratsit.se/foretag/S%C3%B6dert%C3%A4lje-kommun",
+    "created_at": "2025-11-17 14:03:06",
+    "updated_at": "2025-11-17 14:03:06",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 233,
+    "kommun": "Sölvesborgs kommun",
+    "foretag_count": 2412,
+    "ratsit_link": "https://www.ratsit.se/foretag/S%C3%B6lvesborgs-kommun",
+    "created_at": "2025-11-17 14:03:06",
+    "updated_at": "2025-11-17 14:03:06",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 234,
+    "kommun": "Tanums kommun",
+    "foretag_count": 3264,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tanums-kommun",
+    "created_at": "2025-11-17 14:03:07",
+    "updated_at": "2025-11-17 14:03:07",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 235,
+    "kommun": "Tibro kommun",
+    "foretag_count": 1549,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tibro-kommun",
+    "created_at": "2025-11-17 14:03:07",
+    "updated_at": "2025-11-17 14:03:07",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 236,
+    "kommun": "Tidaholms kommun",
+    "foretag_count": 1658,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tidaholms-kommun",
+    "created_at": "2025-11-17 14:03:08",
+    "updated_at": "2025-11-17 14:03:08",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 237,
+    "kommun": "Tierps kommun",
+    "foretag_count": 3290,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tierps-kommun",
+    "created_at": "2025-11-17 14:03:08",
+    "updated_at": "2025-11-17 14:03:08",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 238,
+    "kommun": "Timrå kommun",
+    "foretag_count": 2225,
+    "ratsit_link": "https://www.ratsit.se/foretag/Timr%C3%A5-kommun",
+    "created_at": "2025-11-17 14:03:09",
+    "updated_at": "2025-11-17 14:03:09",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 239,
+    "kommun": "Tingsryds kommun",
+    "foretag_count": 2672,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tingsryds-kommun",
+    "created_at": "2025-11-17 14:03:09",
+    "updated_at": "2025-11-17 14:03:09",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 240,
+    "kommun": "Tjörns kommun",
+    "foretag_count": 3134,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tj%C3%B6rns-kommun",
+    "created_at": "2025-11-17 14:03:09",
+    "updated_at": "2025-11-17 14:03:09",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 241,
+    "kommun": "Tomelilla kommun",
+    "foretag_count": 2307,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tomelilla-kommun",
+    "created_at": "2025-11-17 14:03:10",
+    "updated_at": "2025-11-17 14:03:10",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 242,
+    "kommun": "Torsby kommun",
+    "foretag_count": 3353,
+    "ratsit_link": "https://www.ratsit.se/foretag/Torsby-kommun",
+    "created_at": "2025-11-17 14:03:10",
+    "updated_at": "2025-11-17 14:03:10",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 243,
+    "kommun": "Torsås kommun",
+    "foretag_count": 1321,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tors%C3%A5s-kommun",
+    "created_at": "2025-11-17 14:03:11",
+    "updated_at": "2025-11-17 14:03:11",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 244,
+    "kommun": "Tranemo kommun",
+    "foretag_count": 2203,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tranemo-kommun",
+    "created_at": "2025-11-17 14:03:11",
+    "updated_at": "2025-11-17 14:03:11",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 245,
+    "kommun": "Tranås kommun",
+    "foretag_count": 2498,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tran%C3%A5s-kommun",
+    "created_at": "2025-11-17 14:03:11",
+    "updated_at": "2025-11-17 14:03:11",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 246,
+    "kommun": "Trelleborg kommun",
+    "foretag_count": 5499,
+    "ratsit_link": "https://www.ratsit.se/foretag/Trelleborg-kommun",
+    "created_at": "2025-11-17 14:03:12",
+    "updated_at": "2025-11-17 14:03:12",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 247,
+    "kommun": "Trollhättans kommun",
+    "foretag_count": 5850,
+    "ratsit_link": "https://www.ratsit.se/foretag/Trollh%C3%A4ttans-kommun",
+    "created_at": "2025-11-17 14:03:12",
+    "updated_at": "2025-11-17 14:03:12",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 248,
+    "kommun": "Trosa kommun",
+    "foretag_count": 2197,
+    "ratsit_link": "https://www.ratsit.se/foretag/Trosa-kommun",
+    "created_at": "2025-11-17 14:03:13",
+    "updated_at": "2025-11-17 14:03:13",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 249,
+    "kommun": "Tyresö kommun",
+    "foretag_count": 6474,
+    "ratsit_link": "https://www.ratsit.se/foretag/Tyres%C3%B6-kommun",
+    "created_at": "2025-11-17 14:03:13",
+    "updated_at": "2025-11-17 14:03:13",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 250,
+    "kommun": "Täby kommun",
+    "foretag_count": 12560,
+    "ratsit_link": "https://www.ratsit.se/foretag/T%C3%A4by-kommun",
+    "created_at": "2025-11-17 14:03:13",
+    "updated_at": "2025-11-17 14:03:13",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 251,
+    "kommun": "Töreboda kommun",
+    "foretag_count": 1249,
+    "ratsit_link": "https://www.ratsit.se/foretag/T%C3%B6reboda-kommun",
+    "created_at": "2025-11-17 14:03:14",
+    "updated_at": "2025-11-17 14:03:14",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 252,
+    "kommun": "Uddevalla kommun",
+    "foretag_count": 8399,
+    "ratsit_link": "https://www.ratsit.se/foretag/Uddevalla-kommun",
+    "created_at": "2025-11-17 14:03:14",
+    "updated_at": "2025-11-17 14:03:14",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 253,
+    "kommun": "Ulricehamn kommun",
+    "foretag_count": 4161,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ulricehamn-kommun",
+    "created_at": "2025-11-17 14:03:15",
+    "updated_at": "2025-11-17 14:03:15",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 254,
+    "kommun": "Umeå kommun",
+    "foretag_count": 21807,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ume%C3%A5-kommun",
+    "created_at": "2025-11-17 14:03:15",
+    "updated_at": "2025-11-17 14:03:15",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 255,
+    "kommun": "Upplands-Bro kommun",
+    "foretag_count": 3323,
+    "ratsit_link": "https://www.ratsit.se/foretag/Upplands-Bro-kommun",
+    "created_at": "2025-11-17 14:03:16",
+    "updated_at": "2025-11-17 14:03:16",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 256,
+    "kommun": "Upplands Väsby kommun",
+    "foretag_count": 5458,
+    "ratsit_link": "https://www.ratsit.se/foretag/Upplands-V%C3%A4sby-kommun",
+    "created_at": "2025-11-17 14:03:16",
+    "updated_at": "2025-11-17 14:03:16",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 257,
+    "kommun": "Uppsala kommun",
+    "foretag_count": 30740,
+    "ratsit_link": "https://www.ratsit.se/foretag/Uppsala-kommun",
+    "created_at": "2025-11-17 14:03:16",
+    "updated_at": "2025-11-17 14:03:16",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 258,
+    "kommun": "Uppvidinge kommun",
+    "foretag_count": 1643,
+    "ratsit_link": "https://www.ratsit.se/foretag/Uppvidinge-kommun",
+    "created_at": "2025-11-17 14:03:17",
+    "updated_at": "2025-11-17 14:03:17",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 259,
+    "kommun": "Vadstena kommun",
+    "foretag_count": 1349,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vadstena-kommun",
+    "created_at": "2025-11-17 14:03:17",
+    "updated_at": "2025-11-17 14:03:17",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 260,
+    "kommun": "Vaggeryds kommun",
+    "foretag_count": 2001,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vaggeryds-kommun",
+    "created_at": "2025-11-17 14:03:18",
+    "updated_at": "2025-11-17 14:03:18",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 261,
+    "kommun": "Valdemarsviks kommun",
+    "foretag_count": 1287,
+    "ratsit_link": "https://www.ratsit.se/foretag/Valdemarsviks-kommun",
+    "created_at": "2025-11-17 14:03:18",
+    "updated_at": "2025-11-17 14:03:18",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 262,
+    "kommun": "Vallentuna kommun",
+    "foretag_count": 5116,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vallentuna-kommun",
+    "created_at": "2025-11-17 14:03:18",
+    "updated_at": "2025-11-17 14:03:18",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 263,
+    "kommun": "Vansbro kommun",
+    "foretag_count": 1538,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vansbro-kommun",
+    "created_at": "2025-11-17 14:03:19",
+    "updated_at": "2025-11-17 14:03:19",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 264,
+    "kommun": "Vara kommun",
+    "foretag_count": 3139,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vara-kommun",
+    "created_at": "2025-11-17 14:03:19",
+    "updated_at": "2025-11-17 14:03:19",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 265,
+    "kommun": "Varbergs kommun",
+    "foretag_count": 11111,
+    "ratsit_link": "https://www.ratsit.se/foretag/Varbergs-kommun",
+    "created_at": "2025-11-17 14:03:20",
+    "updated_at": "2025-11-17 14:03:20",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 266,
+    "kommun": "Vaxholms kommun",
+    "foretag_count": 7026,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vaxholms-kommun",
+    "created_at": "2025-11-17 14:03:20",
+    "updated_at": "2025-11-17 14:03:20",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 267,
+    "kommun": "Vellinge kommun",
+    "foretag_count": 7208,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vellinge-kommun",
+    "created_at": "2025-11-17 14:03:21",
+    "updated_at": "2025-11-17 14:03:21",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 268,
+    "kommun": "Vetlanda kommun",
+    "foretag_count": 4729,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vetlanda-kommun",
+    "created_at": "2025-11-17 14:03:21",
+    "updated_at": "2025-11-17 14:03:21",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 269,
+    "kommun": "Vilhelmina kommun",
+    "foretag_count": 1641,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vilhelmina-kommun",
+    "created_at": "2025-11-17 14:03:22",
+    "updated_at": "2025-11-17 14:03:22",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 270,
+    "kommun": "Vimmerby kommun",
+    "foretag_count": 2774,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vimmerby-kommun",
+    "created_at": "2025-11-17 14:03:22",
+    "updated_at": "2025-11-17 14:03:22",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 271,
+    "kommun": "Vindelns kommun",
+    "foretag_count": 1341,
+    "ratsit_link": "https://www.ratsit.se/foretag/Vindelns-kommun",
+    "created_at": "2025-11-17 14:03:23",
+    "updated_at": "2025-11-17 14:03:23",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 272,
+    "kommun": "Vingåkers kommun",
+    "foretag_count": 1214,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ving%C3%A5kers-kommun",
+    "created_at": "2025-11-17 14:03:24",
+    "updated_at": "2025-11-17 14:03:24",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 273,
+    "kommun": "Vårgårda kommun",
+    "foretag_count": 2212,
+    "ratsit_link": "https://www.ratsit.se/foretag/V%C3%A5rg%C3%A5rda-kommun",
+    "created_at": "2025-11-17 14:03:24",
+    "updated_at": "2025-11-17 14:03:24",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 274,
+    "kommun": "Vänersborgs kommun",
+    "foretag_count": 4735,
+    "ratsit_link": "https://www.ratsit.se/foretag/V%C3%A4nersborgs-kommun",
+    "created_at": "2025-11-17 14:03:25",
+    "updated_at": "2025-11-17 14:03:25",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 275,
+    "kommun": "Vännäs kommun",
+    "foretag_count": 1684,
+    "ratsit_link": "https://www.ratsit.se/foretag/V%C3%A4nn%C3%A4s-kommun",
+    "created_at": "2025-11-17 14:03:25",
+    "updated_at": "2025-11-17 14:03:25",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 276,
+    "kommun": "Värmdö kommun",
+    "foretag_count": 8353,
+    "ratsit_link": "https://www.ratsit.se/foretag/V%C3%A4rmd%C3%B6-kommun",
+    "created_at": "2025-11-17 14:03:25",
+    "updated_at": "2025-11-17 14:03:25",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 277,
+    "kommun": "Värnamo kommun",
+    "foretag_count": 5621,
+    "ratsit_link": "https://www.ratsit.se/foretag/V%C3%A4rnamo-kommun",
+    "created_at": "2025-11-17 14:03:26",
+    "updated_at": "2025-11-17 14:03:26",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 278,
+    "kommun": "Västerviks kommun",
+    "foretag_count": 4101,
+    "ratsit_link": "https://www.ratsit.se/foretag/V%C3%A4sterviks-kommun",
+    "created_at": "2025-11-17 14:03:26",
+    "updated_at": "2025-11-17 14:03:26",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 279,
+    "kommun": "Västerås kommun",
+    "foretag_count": 18919,
+    "ratsit_link": "https://www.ratsit.se/foretag/V%C3%A4ster%C3%A5s-kommun",
+    "created_at": "2025-11-17 14:03:27",
+    "updated_at": "2025-11-17 14:03:27",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 280,
+    "kommun": "Växjö kommun",
+    "foretag_count": 14869,
+    "ratsit_link": "https://www.ratsit.se/foretag/V%C3%A4xj%C3%B6-kommun",
+    "created_at": "2025-11-17 14:03:27",
+    "updated_at": "2025-11-17 14:03:27",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 281,
+    "kommun": "Ydre kommun",
+    "foretag_count": 270,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ydre-kommun",
+    "created_at": "2025-11-17 14:03:28",
+    "updated_at": "2025-11-17 14:03:28",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 282,
+    "kommun": "Ystads kommun",
+    "foretag_count": 4807,
+    "ratsit_link": "https://www.ratsit.se/foretag/Ystads-kommun",
+    "created_at": "2025-11-17 14:03:28",
+    "updated_at": "2025-11-17 14:03:28",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 283,
+    "kommun": "Åmåls kommun",
+    "foretag_count": 1903,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%85m%C3%A5ls-kommun",
+    "created_at": "2025-11-17 14:03:29",
+    "updated_at": "2025-11-17 14:03:29",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 284,
+    "kommun": "Ånge kommun",
+    "foretag_count": 1315,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%85nge-kommun",
+    "created_at": "2025-11-17 14:03:29",
+    "updated_at": "2025-11-17 14:03:29",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 285,
+    "kommun": "Åre kommun",
+    "foretag_count": 3729,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%85re-kommun",
+    "created_at": "2025-11-17 14:03:30",
+    "updated_at": "2025-11-17 14:03:30",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 286,
+    "kommun": "Årjängs kommun",
+    "foretag_count": 2379,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%85rj%C3%A4ngs-kommun",
+    "created_at": "2025-11-17 14:03:30",
+    "updated_at": "2025-11-17 14:03:30",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 287,
+    "kommun": "Åsele kommun",
+    "foretag_count": 793,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%85sele-kommun",
+    "created_at": "2025-11-17 14:03:30",
+    "updated_at": "2025-11-17 14:03:30",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 288,
+    "kommun": "Åstorps kommun",
+    "foretag_count": 1687,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%85storps-kommun",
+    "created_at": "2025-11-17 14:03:31",
+    "updated_at": "2025-11-17 14:03:31",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 289,
+    "kommun": "Åtvidabergs kommun",
+    "foretag_count": 1489,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%85tvidabergs-kommun",
+    "created_at": "2025-11-17 14:03:31",
+    "updated_at": "2025-11-17 14:03:31",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 290,
+    "kommun": "Älmhults kommun",
+    "foretag_count": 2751,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%84lmhults-kommun",
+    "created_at": "2025-11-17 14:03:32",
+    "updated_at": "2025-11-17 14:03:32",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 291,
+    "kommun": "Älvdalens kommun",
+    "foretag_count": 1347,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%84lvdalens-kommun",
+    "created_at": "2025-11-17 14:03:32",
+    "updated_at": "2025-11-17 14:03:32",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 292,
+    "kommun": "Älvkarleby kommun",
+    "foretag_count": 808,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%84lvkarleby-kommun",
+    "created_at": "2025-11-17 14:03:32",
+    "updated_at": "2025-11-17 14:03:32",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 293,
+    "kommun": "Älvsbyns kommun",
+    "foretag_count": 1578,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%84lvsbyns-kommun",
+    "created_at": "2025-11-17 14:03:33",
+    "updated_at": "2025-11-17 14:03:33",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 294,
+    "kommun": "Ängelholms kommun",
+    "foretag_count": 6643,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%84ngelholms-kommun",
+    "created_at": "2025-11-17 14:03:33",
+    "updated_at": "2025-11-17 14:03:33",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 295,
+    "kommun": "Öckerö kommun",
+    "foretag_count": 2178,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96cker%C3%B6-kommun",
+    "created_at": "2025-11-17 14:03:34",
+    "updated_at": "2025-11-17 14:03:34",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 296,
+    "kommun": "Ödeshögs kommun",
+    "foretag_count": 922,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96desh%C3%B6gs-kommun",
+    "created_at": "2025-11-17 14:03:34",
+    "updated_at": "2025-11-17 14:03:34",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 297,
+    "kommun": "Örebro kommun",
+    "foretag_count": 19873,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96rebro-kommun",
+    "created_at": "2025-11-17 14:03:35",
+    "updated_at": "2025-11-17 14:03:35",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 298,
+    "kommun": "Örkelljunga kommun",
+    "foretag_count": 1605,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96rkelljunga-kommun",
+    "created_at": "2025-11-17 14:03:35",
+    "updated_at": "2025-11-17 14:03:35",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 299,
+    "kommun": "Örnsköldsviks kommun",
+    "foretag_count": 9177,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96rnsk%C3%B6ldsviks-kommun",
+    "created_at": "2025-11-17 14:03:35",
+    "updated_at": "2025-11-17 14:03:35",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 300,
+    "kommun": "Östersunds kommun",
+    "foretag_count": 11418,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96stersunds-kommun",
+    "created_at": "2025-11-17 14:03:36",
+    "updated_at": "2025-11-17 14:03:36",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 301,
+    "kommun": "Österåkers kommun",
+    "foretag_count": 7628,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96ster%C3%A5kers-kommun",
+    "created_at": "2025-11-17 14:03:36",
+    "updated_at": "2025-11-17 14:03:36",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 302,
+    "kommun": "Östhammars kommun",
+    "foretag_count": 3358,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96sthammars-kommun",
+    "created_at": "2025-11-17 14:03:37",
+    "updated_at": "2025-11-17 14:03:37",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 303,
+    "kommun": "Östra Göinge kommun",
+    "foretag_count": 1838,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96stra-G%C3%B6inge-kommun",
+    "created_at": "2025-11-17 14:03:37",
+    "updated_at": "2025-11-17 14:03:37",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 304,
+    "kommun": "Överkalix kommun",
+    "foretag_count": 830,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96verkalix-kommun",
+    "created_at": "2025-11-17 14:03:38",
+    "updated_at": "2025-11-17 14:03:38",
+    "foretag_postort_saved": 0
+  },
+  {
+    "id": 305,
+    "kommun": "Övertorneå kommun",
+    "foretag_count": 1122,
+    "ratsit_link": "https://www.ratsit.se/foretag/%C3%96vertorne%C3%A5-kommun",
+    "created_at": "2025-11-17 14:03:38",
+    "updated_at": "2025-11-17 14:03:38",
+    "foretag_postort_saved": 0
+  }
+]

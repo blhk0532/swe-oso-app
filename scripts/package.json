@@ -1,0 +1,13 @@
+{
+    "name": "ratsit-kommuner-scraper",
+    "version": "1.0.0",
+    "description": "Scrapes Ratsit municipality data",
+    "type": "module",
+    "main": "ratsit_kommuner_playwright.mjs",
+    "scripts": {
+        "start": "node ratsit_kommuner_playwright.mjs"
+    },
+    "dependencies": {
+        "playwright": "^1.40.0"
+    }
+}

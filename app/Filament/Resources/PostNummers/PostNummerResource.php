@@ -27,7 +27,9 @@ class PostNummerResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Post Nummer DB';
 
-    protected static UnitEnum | string | null $navigationGroup = 'POST NUMMER';
+    protected static ?int $navigationSort = 3;
+
+    // protected static UnitEnum | string | null $navigationGroup = 'POST NUMMER';
 
     public static function getNavigationBadge(): ?string
     {
